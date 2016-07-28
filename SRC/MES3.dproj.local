@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899/12/30 00:00:00.000.453,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.500,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.392,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Cesta.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.549,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.090,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.893,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\ComPort.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.348,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\StavadloObjekty.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.400,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\OKCANCL2.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.772,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\OKCANCL2.pas=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\DratotahDialog.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.467,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\WebModuleUnit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.548,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\OKCANCL2.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.714,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.pas=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\LogikaNemsova.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.319,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\synapse\source\lib\synaser.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.842,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\OKCANCL2.pas=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\DiagDialog.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.834,=C:\Users\HP\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.772,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\OKCANCL2.dfm=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\DratotahDialog.dfm</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.842,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\OKCANCL2.dfm=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\DiagDialog.dfm</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.016,=C:\Users\HP\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.269,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\GUI1.pas=C:\Users\HP\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.983,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\MES3.dproj=C:\Users\HP\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.670,=C:\Users\HP\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.105,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.405,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.156,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.269,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\GUI1.dfm=C:\Users\HP\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.342,=C:\Users\HP\Documents\Embarcadero\Studio\Projects\FormUnit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.714,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.dfm=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\LogikaNemsova.dfm</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.893,C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\Unit1.dfm=C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\ComPort.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

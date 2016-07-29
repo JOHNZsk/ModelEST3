@@ -1,7 +1,7 @@
 unit LoadConfig;
 
 interface
-  test2
+  test3
 
 implementation
 

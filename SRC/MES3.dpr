@@ -9,7 +9,8 @@ uses
   LogikaNemsova in 'LogikaNemsova.pas' {DataModule1: TDataModule},
   StavadloObjekty in 'StavadloObjekty.pas',
   Cesta in 'Cesta.pas',
-  synaser in '..\synapse\source\lib\synaser.pas';
+  synaser in '..\synapse\source\lib\synaser.pas',
+  LoadConfig in 'LoadConfig.pas';
 
 {$R *.res}
 

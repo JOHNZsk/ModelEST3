@@ -104,14 +104,14 @@
             <Form>OKRightDlg</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="LogikaNemsova.pas">
-            <Form>DataModule1</Form>
+        <DCCReference Include="LogikaStavadlo.pas">
+            <Form>LogikaES</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="StavadloObjekty.pas"/>
         <DCCReference Include="Cesta.pas"/>
-        <DCCReference Include="..\synapse\source\lib\synaser.pas"/>
+        <DCCReference Include="..\..\synapse\source\lib\synaser.pas"/>
         <DCCReference Include="LoadConfig.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

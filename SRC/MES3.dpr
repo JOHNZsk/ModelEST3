@@ -6,10 +6,10 @@ uses
   ComPort in 'ComPort.pas' {CPort: TDataModule},
   DiagDialog in 'DiagDialog.pas' {DiagDlg},
   DratotahDialog in 'DratotahDialog.pas' {OKRightDlg},
-  LogikaNemsova in 'LogikaNemsova.pas' {DataModule1: TDataModule},
+  LogikaStavadlo in 'LogikaStavadlo.pas' {LogikaES: TDataModule},
   StavadloObjekty in 'StavadloObjekty.pas',
   Cesta in 'Cesta.pas',
-  synaser in '..\synapse\source\lib\synaser.pas',
+  synaser in '..\..\synapse\source\lib\synaser.pas',
   LoadConfig in 'LoadConfig.pas';
 
 {$R *.res}
@@ -21,6 +21,6 @@ begin
   Application.CreateForm(TCPort, CPort);
   Application.CreateForm(TDiagDlg, DiagDlg);
   Application.CreateForm(TOKRightDlg, OKRightDlg);
-  Application.CreateForm(TDataModule1, DataModule1);
+  Application.CreateForm(TLogikaES, LogikaES);
   Application.Run;
 end.

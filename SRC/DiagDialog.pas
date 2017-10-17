@@ -52,7 +52,7 @@ var
   DiagDlg: TDiagDlg;
 
 implementation
-  uses LogikaNemsova, GUI1;
+  uses GUI1;
 
 {$R *.dfm}
 
@@ -65,7 +65,15 @@ begin
   text:='Loconet '+CPort.PortCislo+' ';
   if Button1.Enabled then text:=text+'odpojený' else text:=text+'pripojený';
   text:=text+', povelov vo fronte: '+IntToStr(Cport.DajPocetPovelov);
-  SimPripoj.Checked:=CPort.JeSimulacia;
+
+  if CPort.JeSimulacia then
+  begin
+    SimPripoj.Checked:=True;
+    text:='POZOR SIMULÁTOR! '+text;
+  end
+  else SimPripoj.Checked:=False;
+
+
 
   Form1.VLoconet.Caption:=text;
 end;

@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, StavadloObjekty, Generics.Collections,
-  Graphics, ExtCtrls, Types, Cesta;
+  Graphics, ExtCtrls, Types, Cesta, GR32_Image, GR32;
 
 type
   THitBox=record
@@ -13,6 +13,14 @@ type
   end;
 
   function HitBox(p_rect: TRect; p_objekt: TStavadloObjekt): THitBox;
+
+type TPorucha=record
+  Cas: TDateTime;
+  Dopravna: TDopravna;
+  Text: string;
+end;
+
+function Porucha(p_cas: TDateTime; p_dopravna: TDopravna; p_text: string): TPorucha;
 
 type
   TLogikaES = class(TDataModule)
@@ -24,30 +32,40 @@ type
     procedure VolbaTimerTimer(Sender: TObject);
   private
     { Private declarations }
+    t_dopravne: TList<TDopravna>;
     t_plan: TList<TStavadloObjekt>;
     t_hitboxy: TList<THitBox>;
 
-    t_zdroj,t_ciel,t_druhy_zdroj,t_druhy_ciel: TStavadloObjekt;
+    t_nazvy_dopravni: Boolean;
+    t_plan_vyska,t_plan_sirka: Integer;
+    t_plan_nazov: string;
 
-    t_chyba: string;
-    t_posun: Boolean;
+    t_volby: TList<TPair<TStavadloObjekt,Boolean>>;
+
+    t_poruchy: TList<TPorucha>;
     t_zaverovka: TList<TCesta>;
+    t_zlozene: TList<TZlozenaCesta>;
 
     t_stavana_cesta: TCesta;
     t_postavene_cesty: TDictionary<TStavadloObjekt,TCesta>;
 
-    function DajObjekt(p_kod_jednotky: TKodJednotky; p_c_jednotky: Integer): TStavadloObjekt;
+    t_volat_dratotah: Boolean;
+
     function DajKolajCiara(p_c_jednotky: Integer): TKolajCiara;
     function DajVyhybka(p_c_jednotky: Integer): TVyhybka;
+
     function SkontrolujConfig: Boolean;
-    procedure OtocPlan;
 
-    procedure AktualizujSpodPanel;
+    procedure AktualizujPanely;
 
-    procedure VykresliHitBox(p_ciel: TCanvas; p_objekt: TStavadloObjekt);
+    function JeZaciatokCesty(p_objekt: TStavadloObjekt; p_posun: Boolean): Boolean;
   public
     { Public declarations }
-    procedure VykresliPlan(p_ciel: TPAintBox);
+    property SirkaPlanu: Integer read t_plan_sirka;
+    property VyskaPlanu: Integer read t_plan_vyska;
+    property NazovPlanu: string read t_plan_nazov;
+    property NazvyDopravni: Boolean read t_nazvy_dopravni;
+
     procedure VyberJednotku(p_x,p_y: Integer; p_shift: TShiftState; p_stredne: Boolean);
     procedure VyberZrusenie(p_x,p_y: Integer; p_shift: TShiftState);
 
@@ -55,13 +73,46 @@ type
     procedure SpracujSpravuBCB4(p_adresa: Integer; p_smer: Boolean);
 
     procedure OtestujVyhybky;
+    procedure OtestujNavestidla;
+    procedure ResetujVyhybky(p_potvrd: Boolean);
+    procedure ResetujNavestidla(p_potvrd: Boolean);
+
+    procedure AktualizujVolnoznak(p_navestidlo: TNavestidlo);
+
+    function DajObjekt(p_kod_jednotky: TKodJednotky; p_c_jednotky: Integer): TStavadloObjekt;
+    function DajCestu(p_cislo: Integer): TCesta;
+
+    procedure DajVyhybky(p_pole: TList<TVyhybka>);
+    procedure DajNavestidla(p_pole: TList<TNavestidlo>);
+
+    procedure PridajDopravnu(p_dopravna: TDopravna);
+    procedure PridajObjekt(p_objekt: TStavadloObjekt);
+    procedure PridajHitBox(p_hitbox: THitBox);
+    procedure PridajCestu(p_cesta: TCesta);
+    procedure PridajZlozenu(p_cesta: TZlozenaCesta);
+
+    procedure NastavParametre(p_vyska,p_sirka: Integer; p_nazov: string; p_nazvy_dopravni: Boolean);
+
+    procedure PovolDratotah;
+    procedure ZakazDratotah;
+
+    procedure VytvorPoruchu(p_cas: TDateTime; p_dopravna: TDopravna; p_text: string);
+    function DajPoruchu(p_index: Integer): TPorucha;
+    function PocetPoruch: Integer;
+
+    function DajObjekty: TList<TStavadloObjekt>;
+    function DajVolby: TList<TPair<TStavadloObjekt,Boolean>>;
+    function DajHitBox(p_objekt: TStavadloObjekt): THitBox;
+
+    procedure SpracujKlavesu(p_klavesta: Word; p_shift: TShiftState);
   end;
 
 var
   LogikaES: TLogikaES;
 
 implementation
-  uses GUI1, DiagDialog, ComPort, IniFiles, Forms, LoadConfig;
+  uses GUI1, DiagDialog, ComPort, IniFiles, Forms, LoadConfig, DratotahDialog,
+  DateUtils, Winapi.Windows;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -73,6 +124,15 @@ begin
   Result.Objekt:=p_objekt;
 end;
 
+//****************************************************************************//
+
+function Porucha(p_cas: TDateTime; p_dopravna: TDopravna; p_text: string): TPorucha;
+begin
+  Result.Cas:=p_cas;
+  Result.Dopravna:=p_dopravna;
+  Result.Text:=p_text;
+end;
+
 ////////////////////////////////////////////////////////////////////////////////
 
 procedure TLogikaES.DataModuleCreate(Sender: TObject);
@@ -80,34 +140,72 @@ var
   subor: TIniFile;
   nazov: string;
   config: TConfigLoader;
+  fullscreen: Boolean;
 begin
+  t_dopravne:=TList<TDopravna>.Create;
   t_plan:=TList<TStavadloObjekt>.Create;
   t_hitboxy:=TList<THitBox>.Create;
   t_zaverovka:=TList<TCesta>.Create;
+  t_zlozene:=TList<TZlozenaCesta>.Create;
 
-  t_zdroj:=nil;
-  t_ciel:=nil;
-  t_druhy_zdroj:=nil;
-  t_druhy_ciel:=nil;
+  t_volby:=TList<TPair<TStavadloObjekt,Boolean>>.Create;
 
-  t_chyba:='';
-  t_posun:=False;
+  t_poruchy:=TList<TPorucha>.Create;
+
   t_stavana_cesta:=nil;
   t_postavene_cesty:=TDictionary<TStavadloObjekt,TCesta>.Create;
 
-  subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'\conf.ini');
+  t_volat_dratotah:=False;
+
+  subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini');
   try
     nazov:=subor.ReadString('Plan','Subor','plan.xml');
+    fullscreen:=subor.ReadBool('Plan','Fulscreen',False);
   finally
     subor.Free;
   end;
 
   config:=TConfigLoader.Create(nazov);
   try
-    config.NacitajKonfiguraciu;
+    if config.NacitajKonfiguraciu(self) then
+    begin;
+      SkontrolujConfig;
+    end
   finally
     config.Free;
   end;
+
+  if not fullscreen then
+  begin
+    Form1.WindowState:=wsNormal;
+    Form1.BorderStyle:=bsSizeable;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.NastavParametre(p_vyska,p_sirka: Integer; p_nazov: string; p_nazvy_dopravni: Boolean);
+begin
+  t_plan_vyska:=p_vyska;
+  t_plan_sirka:=p_sirka;
+  t_plan_nazov:=p_nazov;
+  t_nazvy_dopravni:=p_nazvy_dopravni;
+
+  Form1.Caption:=p_nazov+' [modelK]';
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.PovolDratotah;
+begin
+  t_volat_dratotah:=True;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ZakazDratotah;
+begin
+  t_volat_dratotah:=False;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +220,30 @@ end;
 function TLogikaES.DajVyhybka(p_c_jednotky: Integer): TVyhybka;
 begin
   Result:=DajObjekt(KJ_VYHYBKA,p_c_jednotky) as TVyhybka;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.DajVyhybky(p_pole: TList<TVyhybka>);
+var
+  objekt: TStavadloObjekt;
+begin
+  for objekt in t_plan do
+  begin
+    if objekt is TVyhybka then p_pole.Add(objekt as TVyhybka);
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.DajNavestidla(p_pole: TList<TNavestidlo>);
+var
+  objekt: TStavadloObjekt;
+begin
+  for objekt in t_plan do
+  begin
+    if objekt is TNavestidlo then p_pole.Add(objekt as TNavestidlo);
+  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,52 +266,17 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-procedure TLogikaES.DataModuleDestroy(Sender: TObject);
+function TLogikaES.DajCestu(p_cislo: Integer): TCesta;
 var
-  i: TObject;
+  objekt: TCesta;
 begin
-  for i in t_plan do i.Free;
-  t_plan.Free;
-  t_hitboxy.Free;
-  t_postavene_cesty.Free;
-end;
+  Result:=nil;
 
-procedure TLogikaES.Timer1Timer(Sender: TObject);
-begin
-  Form1.PaintBox1.Invalidate;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-
-procedure TLogikaES.VykresliHitBox(p_ciel: TCanvas; p_objekt: TStavadloObjekt);
-var
-  hitbox: THitBox;
-  x_zac,y_zac,x_kon,y_kon: Integer;
-begin
-  for hitbox in t_hitboxy do
+  for objekt in t_zaverovka do
   begin
-    if hitbox.Objekt=p_objekt then
+    if (objekt.Cislo=p_cislo) then
     begin
-//      x_zac:=((110-hitbox.Poloha.Left)*Form1.PaintBox1.Width) div 110;
-//      x_kon:=((110-hitbox.Poloha.Top)*Form1.PaintBox1.Width) div 110;
-      x_zac:=(hitbox.Poloha.Left*Form1.PaintBox1.Width) div 110;
-      x_kon:=(hitbox.Poloha.Top*Form1.PaintBox1.Width) div 110;
-//      y_zac:=((70-hitbox.Poloha.Right)*Form1.PaintBox1.Height) div 110;
-//      y_kon:=((70-hitbox.Poloha.Bottom)*Form1.PaintBox1.Height) div 110;
-      y_zac:=(hitbox.Poloha.Right*Form1.PaintBox1.Height) div 110;
-      y_kon:=(hitbox.Poloha.Bottom*Form1.PaintBox1.Height) div 110;
-
-      if t_posun then p_ciel.Pen.Color:=clWhite
-      else p_ciel.Pen.COlor:=clLime;
-
-      p_ciel.Pen.Width:=2;
-      p_ciel.Brush.Style:=bsClear;
-      try
-        p_ciel.Rectangle(x_kon,y_kon,x_zac,y_zac);
-      finally
-        p_ciel.Brush.Style:=bsSolid;
-      end;
-
+      Result:=objekt;
       break;
     end;
   end;
@@ -197,37 +284,79 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-procedure TLogikaES.VykresliPlan(p_ciel: TPaintBox);
-var
-  objekt: TStavadloObjekt;
-  bitmap: TBitmap;
+procedure TLogikaES.PridajDopravnu(p_dopravna: TDopravna);
 begin
-  bitmap:=TBitmap.Create;
-  try
-    bitmap.SetSize(p_ciel.Width,p_ciel.Height);
+  t_dopravne.Add(p_dopravna);
+end;
 
-    bitmap.Canvas.Pen.Color:=clBlack;
-    bitmap.Canvas.Brush.Color:=clBlack;
-    bitmap.Canvas.Rectangle(0,0,p_ciel.Width,p_ciel.Height);
+////////////////////////////////////////////////////////////////////////////////
 
-    for objekt in t_plan do objekt.Vykresli(bitmap.Canvas,0,p_ciel.Width,0,p_ciel.Height);
+procedure TLogikaES.PridajObjekt(p_objekt: TStavadloObjekt);
+begin
+  t_plan.Add(p_objekt);
+end;
 
-    if(t_zdroj<>nil) then VykresliHitBox(bitmap.Canvas,t_zdroj);
-    if(t_ciel<>nil) then VykresliHitBox(bitmap.Canvas,t_ciel);
-    if(t_druhy_zdroj<>nil) then VykresliHitBox(bitmap.Canvas,t_druhy_zdroj);
-    if(t_druhy_ciel<>nil) then VykresliHitBox(bitmap.Canvas,t_druhy_ciel);
+////////////////////////////////////////////////////////////////////////////////
 
-    p_ciel.Canvas.Draw(0,0,bitmap);
-  finally
-    bitmap.Free;
+procedure TLogikaES.PridajHitBox(p_hitbox: THitBox);
+begin
+  t_hitboxy.Add(p_hitbox);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.PridajCestu(p_cesta: TCesta);
+begin
+  t_zaverovka.Add(p_cesta);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.PridajZlozenu(p_cesta: TZlozenaCesta);
+begin
+  t_zlozene.Add(p_cesta);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.DataModuleDestroy(Sender: TObject);
+var
+  i: TObject;
+begin
+  for i in t_plan do i.Free;
+  t_plan.Free;
+  for i in t_dopravne do i.Free;
+  t_dopravne.Free;
+  t_volby.Free;
+  t_hitboxy.Free;
+  t_postavene_cesty.Free;
+  t_poruchy.Free;
+
+  for i in t_zaverovka do i.Free;
+  t_zaverovka.Free;
+
+  for i in t_zlozene do i.Free;
+  t_zlozene.Free;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.AktualizujVolnoznak(p_navestidlo: TNavestidlo);
+var
+  cesta: TPair<TStavadloObjekt,TCesta>;
+begin
+  for cesta in t_postavene_cesty do
+  begin
+    if (cesta.Value.Dalsie=p_navestidlo) then cesta.Value.AktualizujVolnoznak(False);
   end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-procedure TLogikaES.OtocPlan;
+procedure TLogikaES.Timer1Timer(Sender: TObject);
 begin
-
+  Form1.PaintBox1.Invalidate;
+  Form1.PaintBoxPoruchy.Invalidate;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -236,6 +365,9 @@ function TLogikaES.SkontrolujConfig: Boolean;
 var
   jednotky: TList<TJednotka>;
   objekt: TStavadloObjekt;
+
+  cesty: TDictionary<Integer,TCesta>;
+  cesta: TCesta;
 begin
   Result:=True;
 
@@ -253,6 +385,24 @@ begin
   finally
     jednotky.Free;
   end;
+
+  if Result then
+  begin
+    cesty:=TDictionary<Integer,TCesta>.Create;
+    try
+      for cesta in t_zaverovka do
+      begin
+        if not cesty.ContainsKey(cesta.Cislo) then cesty.Add(cesta.Cislo,cesta)
+        else
+        begin
+          DiagDlg.Memo1.Lines.Insert(0,'DuplicitnÌ cesta: '+IntToStr(cesta.Cislo));
+          Result:=False;
+        end;
+      end;
+    finally
+      cesty.Free;
+    end;
+  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -260,11 +410,14 @@ end;
 procedure TLogikaES.VolbaTimerTimer(Sender: TObject);
 var
   cesta: TCesta;
+  zcesta: TZlozenaCesta;
   najdena: Boolean;
+  zdroj,ciel: TStavadloObjekt;
+  posun: Boolean;
 begin
   if(t_stavana_cesta<>nil) then
   begin
-    if t_stavana_cesta.VolnoZnak then t_stavana_cesta:=nil
+    if t_stavana_cesta.VolnoZnak(False) then t_stavana_cesta:=nil
     else if t_stavana_cesta.Postavena then
     begin
       t_stavana_cesta.Zapevni;
@@ -273,47 +426,72 @@ begin
   end
   else
   begin
-    najdena:=True;
-
-    if (t_zdroj<>nil) and (t_ciel<>nil) then
+    if t_volby.Count>=2 then
     begin
+      zdroj:=t_volby[0].Key;
+      ciel:=t_volby[1].Key;
+      posun:=t_volby[0].Value;
+
       najdena:=False;
 
-      for cesta in t_zaverovka do
+      //overenie zlozenych ciest
+      for zcesta in t_zlozene do
       begin
-        najdena:=cesta.OverVolbu(t_posun,t_zdroj,t_ciel);
+        najdena:=zcesta.OverVolbu(posun,zdroj,ciel);
 
         if najdena then
         begin
-          if cesta.Zavri(t_posun,t_zdroj) then
-          begin
-            t_stavana_cesta:=cesta;
-            cesta.Postav;
-            t_postavene_cesty.Add(t_zdroj,t_stavana_cesta);
-            t_zdroj.NastavJeZdroj(t_posun);
-          end
-          else t_chyba:='Nelze postavit';
+          t_volby.Delete(0);
+          t_volby.Delete(0);
+
+          zcesta.PridajVolbu(posun,t_volby);
 
           break;
         end;
       end;
 
-      if not najdena then
+      if(najdena) then
       begin
-        t_chyba:='Cesta nenalezena';
-//        t_druha_volba_zdroj:=nil;
-//        t_druha_volba_ciel:=nil;
+        najdena:=False;
+
+        zdroj:=t_volby[0].Key;
+        ciel:=t_volby[1].Key;
+        posun:=t_volby[0].Value;
       end;
 
-      t_zdroj:=nil;
-      t_ciel:=nil;
+      //overenie jednoduchych ciest - vyber volby na postavenie
+      for cesta in t_zaverovka do
+      begin
+        najdena:=cesta.OverVolbu(posun,zdroj,ciel);
+
+        if najdena then
+        begin
+          if cesta.Zavri(posun,zdroj) then
+          begin
+            t_stavana_cesta:=cesta;
+            cesta.Postav;
+            t_postavene_cesty.Add(zdroj,t_stavana_cesta);
+            zdroj.NastavJeZdroj(posun);
+          end
+          else VytvorPoruchu(Now,zdroj.Dopravna,'Cestu nejde navoliù');
+
+          break;
+        end;
+      end;
+
+      if not najdena then VytvorPoruchu(Now,zdroj.Dopravna,'Cesta neexistuje');
+
+      //zmazanie volieb
+      t_volby.Delete(0);
+      t_volby.Delete(0);
     end;
-    
-    if t_stavana_cesta=nil then VolbaTimer.Enabled:=False;
+
+    if (t_stavana_cesta=nil) and (t_volby.Count<2) then VolbaTimer.Enabled:=False;
   end;
 
-  AktualizujSpodPanel;
+  AktualizujPanely;
   Form1.PaintBox1.Invalidate;
+  if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -323,17 +501,20 @@ var
   perc_x,perc_y: Integer;
   hitbox: THitBox;
   vysledok: TStavadloObjekt;
+  povely: TList<TPair<Integer,Boolean>>;
+  povel: TPair<Integer,Boolean>;
+  volba: TPair<TStavadloObjekt,Boolean>;
+  posun: Boolean;
+  cesta: TCesta;
 begin
-//  perc_x:=109-((p_x*110) div Form1.PaintBox1.Width);
-//  perc_y:=69-((p_y*110) div Form1.PaintBox1.Height);
-  perc_x:=((p_x*110) div Form1.PaintBox1.Width);
-  perc_y:=((p_y*110) div Form1.PaintBox1.Height);
+  perc_x:=((p_x*SirkaPlanu) div Form1.PaintBox1.Width);
+  perc_y:=((p_y*VyskaPlanu) div Form1.PaintBox1.Height);
 
   vysledok:=nil;
 
   for hitbox in t_hitboxy do
   begin
-    if (perc_x>=hitbox.Poloha.Left) and (perc_x<hitbox.Poloha.Top) and (perc_y>=hitbox.Poloha.Right) and (perc_y<hitbox.Poloha.Bottom) then
+    if (perc_x>=hitbox.Poloha.Left) and (perc_x<hitbox.Poloha.Right) and (perc_y>=hitbox.Poloha.Top) and (perc_y<hitbox.Poloha.Bottom) then
     begin
        vysledok:=hitbox.Objekt;
        break;
@@ -342,17 +523,51 @@ begin
 
   if vysledok<>nil then
   begin
-    if(not (vysledok is TVyhybka)) and (t_stavana_cesta=nil) then
+    if(vysledok is TNavestidloHlavne) and (ssAlt in p_shift) and (ssShift in p_shift) then
     begin
-      if t_zdroj=nil then
+      povely:=TList<TPair<Integer,Boolean>>.Create;
+      try
+        if (vysledok as TNavestidloHlavne).Navest[False]=CN_PRIVOLAVACKA then (vysledok as TNavestidloHlavne).RozsvietNavest(CN_STOJ,povely)
+        else if (vysledok as TNavestidloHlavne).Navest[False] in [CN_STOJ,CN_NEZNAMA] then (vysledok as TNavestidloHlavne).RozsvietNavest(CN_PRIVOLAVACKA,povely);
+
+        for povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
+      finally
+        povely.Free;
+      end;
+    end
+    else if(vysledok is TNavestidlo) and (t_postavene_cesty.TryGetValue(vysledok,cesta)) then
+    begin
+      if ((vysledok as TNavestidloHlavne).Navest[False]<>CN_STOJ) then cesta.ZrusVolnoznak
+      else cesta.AktualizujVolnoznak(True);
+    end
+    else  if(not (vysledok is TVyhybka)) and ((not (ssAlt in p_shift)) or (not (ssShift in p_shift))) then
+    begin
+      if (t_volby.Count mod 2=0) then
       begin
-        t_zdroj:=vysledok;
-        t_posun:=(ssCtrl in p_shift) or (p_stredne) or (t_zdroj is TNavestidloZriadovacie) or (t_zdroj is TKolajCiara);
+        posun:=(ssCtrl in p_shift) or (p_stredne) or (vysledok is TNavestidloZriadovacie) or (vysledok is TKolajCiara);
+
+        if JeZaciatokCesty(vysledok,posun) then
+        begin
+          volba.Key:=vysledok;
+          volba.Value:=posun;
+          t_volby.Add(volba);
+        end;
       end
-      else if t_ciel=nil then
+      else if (t_volby.Count mod 2=1) then
       begin
-        t_ciel:=vysledok;
-        VolbaTimer.Enabled:=True;
+        volba.Key:=vysledok;
+        volba.Value:=t_volby.Last.Value;
+        t_volby.Add(volba);
+
+        posun:=(ssCtrl in p_shift) or (p_stredne) or (vysledok is TNavestidloZriadovacie) or (vysledok is TKolajCiara);
+
+        if (vysledok is TNavestidlo) and JeZaciatokCesty(vysledok,posun) then
+        begin
+          volba.Value:=posun;
+          t_volby.Add(volba);
+        end;
+
+        if not VolbaTimer.Enabled then VolbaTimer.Enabled:=True;
       end;
     end
     else if(vysledok is TVyhybka) then
@@ -366,7 +581,8 @@ begin
   end;
 
   Form1.PaintBox1.Invalidate;
-  AktualizujSpodPanel;
+  AktualizujPanely;
+  if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -376,29 +592,39 @@ var
   perc_x,perc_y: Integer;
   hitbox: THitBox;
   vysledok: TStavadloObjekt;
+  povel: TPair<Integer,Boolean>;
+  povely: TList<TPair<Integer,Boolean>>;
   cesta: TCesta;
 begin
-  if t_ciel<>nil then t_ciel:=nil
-  else if t_zdroj<>nil then t_zdroj:=nil
+  if t_volby.Count>0 then t_volby.Remove(t_volby.Last)
   else
   begin
-//    perc_x:=109-((p_x*110) div Form1.PaintBox1.Width);
-//    perc_y:=69-((p_y*110) div Form1.PaintBox1.Height);
-    perc_x:=((p_x*110) div Form1.PaintBox1.Width);
-    perc_y:=((p_y*110) div Form1.PaintBox1.Height);
+    perc_x:=((p_x*SirkaPlanu) div Form1.PaintBox1.Width);
+    perc_y:=((p_y*VyskaPlanu) div Form1.PaintBox1.Height);
 
     vysledok:=nil;
 
     for hitbox in t_hitboxy do
     begin
-      if (perc_x>=hitbox.Poloha.Left) and (perc_x<=hitbox.Poloha.Top) and (perc_y>=hitbox.Poloha.Right) and (perc_y<=hitbox.Poloha.Bottom) then
+      if (perc_x>=hitbox.Poloha.Left) and (perc_x<hitbox.Poloha.Right) and (perc_y>=hitbox.Poloha.Top) and (perc_y<hitbox.Poloha.Bottom) then
       begin
          vysledok:=hitbox.Objekt;
          break;
       end;
     end;
 
-    if (vysledok<>nil) and (t_postavene_cesty.TryGetValue(vysledok,cesta)) then
+    if(vysledok<>nil) and (vysledok is TNavestidloHlavne) and ((vysledok as TNavestidloHlavne).Navest[False]=CN_PRIVOLAVACKA) then
+    begin
+      povely:=TList<TPair<Integer,Boolean>>.Create;
+      try
+        (vysledok as TNavestidloHlavne).RozsvietNavest(CN_STOJ,povely);
+        for povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
+      finally
+        povely.Free;
+      end;
+
+    end
+    else if (vysledok<>nil) and (t_postavene_cesty.TryGetValue(vysledok,cesta)) then
     begin
       cesta.Zrus;
       t_postavene_cesty.Remove(vysledok);
@@ -408,33 +634,31 @@ begin
   end;
 
   Form1.PaintBox1.Invalidate;
-  AktualizujSpodPanel;
+  AktualizujPanely;
+  if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-procedure TLogikaES.AktualizujSpodPanel;
+procedure TLogikaES.AktualizujPanely;
 var
   text: string;
 begin
-  if t_zdroj<>nil then
+  if t_volby.Count>0 then
   begin
-    text:=t_zdroj.Nazov;
+    text:=t_volby[0].Key.Nazov[True,True];
 
-    if(t_ciel<>nil) then
+    if(t_volby.Count>1) then
     begin
       text:=text+' -> ';
-      text:=text+t_ciel.Nazov;
+      text:=text+t_volby[1].Key.Nazov[True,True];
     end;
-  end
-  else if t_chyba<>'' then
-  begin
-    text:=t_chyba;
-    t_chyba:='';
   end
   else text:='';
 
   Form1.VJednotka.Caption:=text;
+  Form1.PaintBoxPoruchy.Invalidate;
+  Form1.PaintBoxRizika.Invalidate;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -446,9 +670,11 @@ begin
   for objekt in t_plan do
   begin
     if (objekt is TVyhybka) and ((objekt as TVyhybka).Adresa=p_adresa) then (objekt as TVyhybka).NastavPolohuCentrala(p_smer,True);
+    if (objekt is TNavestidlo) and ((objekt as TNavestidlo).ObsahujeAdresu(p_adresa)) then (objekt as TNavestidlo).NastavPolohu(p_adresa,p_smer);
   end;
 
   Form1.PaintBox1.Invalidate;
+  if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -460,9 +686,11 @@ begin
   for objekt in t_plan do
   begin
     if (objekt is TVyhybka) and ((objekt as TVyhybka).Adresa=p_adresa) then (objekt as TVyhybka).NastavPolohuCentrala(p_smer,False);
+    if (objekt is TNavestidlo) and ((objekt as TNavestidlo).ObsahujeAdresu(p_adresa)) then (objekt as TNavestidlo).NastavPolohu(p_adresa,p_smer);
   end;
 
   Form1.PaintBox1.Invalidate;
+  if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -478,6 +706,165 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.OtestujNavestidla;
+var
+  objekt: TStavadloObjekt;
+  adresy: TList<Integer>;
+  adresa: Integer;
+begin
+  for objekt in t_plan do
+  begin
+    if (objekt is TNavestidlo) then
+    begin
+      adresy:=TList<Integer>.Create;
+      try
+        (objekt as TNavestidlo).DajAdresy(adresy);
+        for adresa in adresy do CPort.VydajPovelBC(adresa);
+      finally
+        adresy.Free;
+      end;
+    end;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ResetujVyhybky(p_potvrd: Boolean);
+var
+  objekt: TStavadloObjekt;
+begin
+  if p_potvrd then
+  begin
+    for objekt in t_plan do
+    begin
+      if (objekt is TVyhybka) then
+      begin
+        if (objekt as TVyhybka).Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0((objekt as TVyhybka).Adresa,(objekt as TVyhybka).OtocitPolaritu)
+        else if (objekt as TVyhybka).Pozicia in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0((objekt as TVyhybka).Adresa,not (objekt as TVyhybka).OtocitPolaritu);
+      end;
+    end;
+
+    if t_volat_dratotah then DratotahDlg.Obnov;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ResetujNavestidla(p_potvrd: Boolean);
+var
+  objekt: TStavadloObjekt;
+  povely: TList<TPair<Integer,Boolean>>;
+  povel: TPair<Integer,Boolean>;
+begin
+  if p_potvrd then
+  begin
+    for objekt in t_plan do
+    begin
+      if (objekt is TNavestidlo) then
+      begin
+        povely:=TList<TPair<Integer,Boolean>>.Create;
+        try
+          (objekt as TNavestidlo).Reset(povely);
+          for povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
+        finally
+          povely.Free;
+        end;
+      end;
+    end;
+
+    if t_volat_dratotah then DratotahDlg.Obnov;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+function TLogikaES.JeZaciatokCesty(p_objekt: TStavadloObjekt; p_posun: Boolean): Boolean;
+var
+  cesta: TCesta;
+begin
+  Result:=False;
+
+  for cesta in t_zaverovka do
+  begin
+    if cesta.OverZdroj(p_objekt,p_posun) then
+    begin
+      Result:=True;
+      break;
+    end;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+function TLogikaES.DajPoruchu(p_index: Integer): TPorucha;
+begin
+  if (p_index>=0) and (p_index<t_poruchy.Count) then Result:=t_poruchy[p_index];
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+function TLogikaES.PocetPoruch: Integer;
+begin
+  Result:=t_poruchy.Count;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.VytvorPoruchu(p_cas: TDateTime; p_dopravna: TDopravna; p_text: string);
+begin
+  t_poruchy.Add(Porucha(p_cas,p_dopravna,p_text));
+  Form1.PaintBoxPoruchy.Invalidate;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+function TLogikaES.DajObjekty: TList<TStavadloObjekt>;
+begin
+  Result:=t_plan;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+function TLogikaES.DajVolby: TList<TPair<TStavadloObjekt,Boolean>>;
+begin
+  Result:=t_volby;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+function TLogikaES.DajHitBox(p_objekt: TStavadloObjekt): THitBox;
+var
+  hitbox: THitBox;
+begin
+  Result.Objekt:=nil;
+  Result.Poloha:=Rect(0,0,0,0);
+
+  for hitbox in t_hitboxy do
+  begin
+    if hitbox.Objekt=p_objekt then
+    begin
+      Result:=hitbox;
+      break;
+    end;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.SpracujKlavesu(p_klavesta: Word; p_shift: TShiftState);
+begin
+  case p_klavesta of
+    VK_RETURN:
+    begin
+      if t_poruchy.Count>0 then
+      begin
+        t_poruchy.Delete(0);
+        Form1.PaintBoxPoruchy.Invalidate;
+      end;
+    end;
+  end;
+end;
 
 
 end.

@@ -31,6 +31,7 @@ type
     t_rychlost: Cardinal;
     t_hwflow: Boolean;
     t_simulacia: Boolean;
+    t_reset_navestidiel: Boolean;
 
     t_simbuffer: TBytes;
 
@@ -45,6 +46,8 @@ type
     procedure SpracujSpravu;
     procedure PreverOdpoved;
     procedure DiscardniSpravu(p_vypis: Boolean);
+
+    procedure NasimulujB4(p_povel: TByteDynPoleW);
 
     procedure PridajBajt(p_bajt: Byte);
     procedure VydajPovel(p_povel: TBytes);
@@ -68,7 +71,7 @@ var
   CPort: TCPort;
 
 implementation
-  uses DiagDialog, Types, MMSystem, LogikaNemsova, Forms;
+  uses DiagDialog, Types, MMSystem, LogikaStavadlo, Forms;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -105,6 +108,7 @@ begin
   t_rychlost:=115200;
   t_hwflow:=False;
   t_simulacia:=False;
+  t_reset_navestidiel:=False;
   SetLength(t_simbuffer,0);
 
   subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'\conf.ini');
@@ -113,6 +117,7 @@ begin
     t_rychlost:=subor.ReadInteger('Main','Rychlost',115200);
     t_hwflow:=subor.ReadBool('Main','HWFlow',False);
     t_simulacia:=subor.ReadBool('Main','Simulacia',False);
+    t_reset_navestidiel:=subor.ReadBool('Main','ResetNavestidiel',False);
   finally
     subor.Free;
   end;
@@ -152,7 +157,8 @@ begin
 
   DiagDlg.Button1.Enabled:=False;
 
-  DataModule1.OtestujVyhybky;
+  LogikaES.OtestujVyhybky;
+  if t_reset_navestidiel then LogikaES.ResetujNavestidla(True);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -190,7 +196,7 @@ begin
   if smer then smertext:='Nahodené' else smertext:='Zhodené';
   if stav then stavtext:='ZAP' else stavtext:='VYP';
 
-  DataModule1.SpracujSpravuB0(adresa,smer);
+  LogikaES.SpracujSpravuB0(adresa,smer);
 
   DiagDlg.Memo1.Lines.Insert(0,'Spracovaná správa B0, adr: '+IntToStr(adresa)+', smer: '+smertext+', stav: '+stavtext);
 end;
@@ -226,7 +232,7 @@ begin
 
   if (ack_opkod=$BC) and (t_posl_ziadost_adresa>0) then
   begin
-    DataModule1.SpracujSpravuBCB4(t_posl_ziadost_adresa,ack<>$50);
+    LogikaES.SpracujSpravuBCB4(t_posl_ziadost_adresa,ack<>$50);
     t_posl_ziadost_adresa:=0;
   end;
 end;
@@ -236,7 +242,7 @@ end;
 
 procedure TCPort.Timer1Timer(Sender: TObject);
 var
-  buf: array[0..15] of Byte;
+  buf: array[0..64] of Byte;
   output: Integer;
   i: Integer;
   text: string;
@@ -246,7 +252,7 @@ begin
   Timer1.Enabled:=False;
 
   try
-    if not t_simulacia then output:=t_port.RecvBufferEx(@buf,15,50)
+    if not t_simulacia then output:=t_port.RecvBufferEx(@buf,64,30)
     else
     begin
       for i:=Low(t_simbuffer) to High(t_simbuffer) do
@@ -277,6 +283,9 @@ begin
   except
     on e: Exception do DiscardniSpravu(True);
   end;
+
+  if (t_povely.Count>2) then Timer1.Interval:=10
+  else Timer1.Interval:=70;
 
   Timer1.Enabled:=True;
 end;
@@ -484,6 +493,23 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+procedure TCPort.NasimulujB4(p_povel: TByteDynPoleW);
+var
+  v_pole: array[0..3] of Byte;
+begin
+  v_pole[0]:=$B4;
+  v_pole[1]:=p_povel.Pole[0] and $7F;
+  v_pole[2]:=0;
+  v_pole[3]:=$FF xor v_pole[0] xor v_pole[1] xor v_pole[2];
+
+  SetLength(t_simbuffer,Length(t_simbuffer)+4);
+  t_simbuffer[Length(t_simbuffer)-4]:=v_pole[0];
+  t_simbuffer[Length(t_simbuffer)-3]:=v_pole[1];
+  t_simbuffer[Length(t_simbuffer)-2]:=v_pole[2];
+  t_simbuffer[Length(t_simbuffer)-1]:=v_pole[3];
+end;
+
+
 procedure TCPort.ZapisPovel(p_povel: TByteDynPoleW);
 var
   text: string;
@@ -508,6 +534,8 @@ begin
   begin
     SetLength(t_simbuffer,Length(p_povel.Pole));
     t_simbuffer:=Copy(p_povel.Pole,0,Length(p_povel.Pole));
+
+    if(p_povel.Pole[0]=$BC) then NasimulujB4(p_povel);
   end;
 
   prvy:=True;

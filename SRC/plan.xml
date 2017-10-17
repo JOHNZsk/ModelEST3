@@ -1,140 +1,143 @@
-	<Konfiguracia stanica="Nemsova">
+<?xml version="1.0" encoding="windows-1250"?>
+	<Konfiguracia nazov="Nemšová" vyska="110" sirka="110" nazvydopravni="True">
 		<Plan>
-			<!--zahlavie tepla -->
-			<KolajCiara xzac="0" xkon="5" yzac="40" ykon="40" cislo="TR" cjednotky="1" />
-			<NavestidloVchodove xzac="5" xkon="8" yzac="37" ykon="43" cislo="L" cervena="0" hornazlta="0" hornazltakmit="0" zelena="0" bielakmit="0" dolnazlta="0" predvestzlta="0" predvestzltakmit="0" prevestzelena="0" cjednotky="1" />
-			<KolajCiara xzac="8" xkon="12" yzac="40" ykon="40" cislo="TR-01K" cjednotky="2" />
-			<NavestidloZriadovacie xzac="12" xkon="15" yzac="37" ykon="43" cislo="Se1" biela="0" modra="0" cjednotky="1" />
+			<Dopravna nazov="Nemšová" skratka="NEM" lcislo="1">				
+				<!--zahlavie tepla -->
+				<KolajCiara xzac="0" xkon="5" yzac="40" ykon="40" cislo="TR" cjednotky="1" />
+				<NavestidloVchodove xzac="5" xkon="8" yzac="37" ykon="43" cislo="L" cervena="201" hornazlta="202" hornazltakmit="203" zelena="204" bielakmit="205" dolnazlta="206" predvestzlta="207" predvestzltakmit="208" predvestzelena="209" cjednotky="1" />
+				<KolajCiara xzac="8" xkon="12" yzac="40" ykon="40" cislo="TR-01K" cjednotky="2" />
+				<NavestidloZriadovacie xzac="12" xkon="15" yzac="37" ykon="43" cislo="Se1" biela="210" modra="211" cjednotky="1" />
 
-			<!--zhlavie tepla -->
-			<KolajCiara xzac="15" xkon="19" yzac="40" ykon="40" cislo="" cjednotky="3" />
-			<KolajCiara xzac="25" xkon="29" yzac="37" ykon="30" cislo="" cjednotky="4" />
-			<KolajCiara xzac="21" xkon="23" yzac="40" ykon="40" cislo="" cjednotky="5" />
-			<KolajCiara xzac="25" xkon="37" yzac="40" ykon="40" cislo="" cjednotky="6" />
-			<KolajCiara xzac="21" xkon="25" yzac="43" ykon="50" cislo="" cjednotky="7" />
-			<KolajCiara xzac="27" xkon="37" yzac="50" ykon="50" cislo="" cjednotky="8" />
-			<KolajCiara xzac="27" xkon="31" yzac="53" ykon="60" cislo="" cjednotky="9" />
-			<KolajCiara xzac="29" xkon="37" yzac="30" ykon="30" cislo="" cjednotky="10" />
-			<KolajCiara xzac="31" xkon="37" yzac="60" ykon="60" cislo="" cjednotky="11" />
+				<!--zhlavie tepla -->
+				<KolajCiara xzac="15" xkon="19" yzac="40" ykon="40" cislo="" cjednotky="3" />
+				<KolajCiara xzac="25" xkon="29" yzac="37" ykon="30" cislo="" cjednotky="4" />
+				<KolajCiara xzac="21" xkon="23" yzac="40" ykon="40" cislo="" cjednotky="5" />
+				<KolajCiara xzac="25" xkon="37" yzac="40" ykon="40" cislo="" cjednotky="6" />
+				<KolajCiara xzac="21" xkon="25" yzac="43" ykon="50" cislo="" cjednotky="7" />
+				<KolajCiara xzac="27" xkon="37" yzac="50" ykon="50" cislo="" cjednotky="8" />
+				<KolajCiara xzac="27" xkon="31" yzac="53" ykon="60" cislo="" cjednotky="9" />
+				<KolajCiara xzac="29" xkon="37" yzac="30" ykon="30" cislo="" cjednotky="10" />
+				<KolajCiara xzac="31" xkon="37" yzac="60" ykon="60" cislo="" cjednotky="11" />
+					
+				<Vyhybka xhrot="19" yhrot="40" xrovno="21" yrovno="40" xodboc="21" yodboc="43" cislo="1" adresa="101" invertovat="False" kolajhrot="3" kolajrovno="5" kolajodboc="7" cjednotky="1" />
+				<Vyhybka xhrot="23" yhrot="40" xrovno="25" yrovno="40" xodboc="25" yodboc="37" cislo="2" adresa="102" invertovat="False" kolajhrot="5" kolajrovno="6" kolajodboc="4" cjednotky="2" />
+				<Vyhybka xhrot="25" yhrot="50" xrovno="27" yrovno="50" xodboc="27" yodboc="53" cislo="3" adresa="103" invertovat="True" kolajhrot="7" kolajrovno="8" kolajodboc="9" cjednotky="3" />
+
+				<!--Odchodove tepla-->
+				<NavestidloOdchodove xzac="40" xkon="37" yzac="27" ykon="33" cislo="S3" cervena="220" zelena="221" dolnazlta="222" biela="223" bielakmit="224" cjednotky="1" spojitzelenu="True" />
+				<NavestidloOdchodove xzac="40" xkon="37" yzac="37" ykon="43" cislo="S1" cervena="230" zelena="231" dolnazlta="232" biela="233" bielakmit="234" cjednotky="2" bezzltej="True" />
+				<NavestidloOdchodove xzac="40" xkon="37" yzac="47" ykon="53" cislo="S2" cervena="240" zelena="241" dolnazlta="242" biela="243" bielakmit="244" cjednotky="3" spojitzelenu="True" />
+				<NavestidloOdchodove xzac="40" xkon="37" yzac="57" ykon="63" cislo="S4" cervena="250" zelena="251" dolnazlta="252" biela="253" bielakmit="254" cjednotky="4" spojitzelenu="True" />
+
+				<!--rozdelena kolaj 3-->
+				<KolajCiara xzac="40" xkon="45" yzac="30" ykon="30" cislo="3ASK" cjednotky="12" />
+				<KolajCiara xzac="47" xkon="52" yzac="30" ykon="30" cislo="3SK" cjednotky="13" />
+				<KolajCiara xzac="54" xkon="65" yzac="30" ykon="30" cislo="3BSK" cjednotky="14" />
+
+				<!--vlecka na tratovku-->
+				<KolajCiara xzac="41" xkon="45" yzac="20" ykon="27" cislo="VTSK" cjednotky="15" />
+				<Vyhybka xhrot="47" yhrot="30" xrovno="45" yrovno="30" xodboc="45" yodboc="27" cislo="4" adresa="104" invertovat="True" kolajhrot="13" kolajrovno="12" kolajodboc="15" cjednotky="4" />
+
+				<!--kolaj pri nakladisku-->
+				<KolajCiara xzac="54" xkon="58" yzac="27" ykon="20" cislo="" cjednotky="16" />
+				<KolajCiara xzac="58" xkon="64" yzac="20" ykon="20" cislo="5SK" cjednotky="17" />
+				<KolajCiara xzac="66" xkon="70" yzac="20" ykon="27" cislo="" cjednotky="180" />
+				<Vyhybka xhrot="52" yhrot="30" xrovno="54" yrovno="30" xodboc="54" yodboc="27" cislo="5" adresa="105" invertovat="False" kolajhrot="13" kolajrovno="14" kolajodboc="16" cjednotky="5" />
+				<KolajCiara xzac="48" xkon="60" yzac="10" ykon="10" cislo="7SK" cjednotky="170" />
+				<KolajCiara xzac="60" xkon="64" yzac="10" ykon="17" cislo="" cjednotky="171" />
+				<Vyhybka xhrot="66" yhrot="20" xrovno="64" yrovno="20" xodboc="64" yodboc="17" cislo="6" adresa="106" invertovat="True" kolajhrot="180" kolajrovno="17" kolajodboc="171" cjednotky="6" />
+
+				<!--ostatne stanicne kolaje-->
+				<KolajCiara xzac="40" xkon="65" yzac="40" ykon="40" cislo="1SK" cjednotky="18" />
+				<KolajCiara xzac="40" xkon="65" yzac="50" ykon="50" cislo="2SK" cjednotky="19" />
+				<KolajCiara xzac="40" xkon="65" yzac="60" ykon="60" cislo="4SK" cjednotky="20" />
+
+				<!--navestidla srnie-->
+				<NavestidloOdchodove xzac="65" xkon="68" yzac="27" ykon="33" cislo="L3" cervena="260" zelena="261" dolnazlta="262" biela="263" bielakmit="264" cjednotky="5" spojitzelenu="True" />
+				<NavestidloOdchodove xzac="65" xkon="68" yzac="37" ykon="43" cislo="L1" cervena="270" zelena="271" dolnazlta="272" biela="273" bielakmit="274" cjednotky="6" />
+				<NavestidloOdchodove xzac="65" xkon="68" yzac="47" ykon="53" cislo="L2" cervena="280" zelena="281" dolnazlta="282" biela="283" bielakmit="284" cjednotky="7" spojitzelenu="True" />
+				<NavestidloOdchodove xzac="65" xkon="68" yzac="57" ykon="63" cislo="L4" cervena="290" zelena="291" dolnazlta="292" biela="293" bielakmit="294" cjednotky="8" spojitzelenu="True" />
+
+				<!--zhlavnie Srnie-->
+				<KolajCiara xzac="68" xkon="70" yzac="30" ykon="30" cislo="" cjednotky="21" />
+				<KolajCiara xzac="68" xkon="70" yzac="60" ykon="60" cislo="" cjednotky="22" />
+				<KolajCiara xzac="68" xkon="76" yzac="40" ykon="40" cislo="" cjednotky="23" />
+				<KolajCiara xzac="68" xkon="76" yzac="50" ykon="50" cislo="" cjednotky="24" />
+
+				<KolajCiara xzac="72" xkon="76" yzac="30" ykon="37" cislo="" cjednotky="25" />
+				<KolajCiara xzac="72" xkon="76" yzac="57" ykon="53" cislo="" cjednotky="26" />
+
+				<Vyhybka xhrot="72" yhrot="30" xrovno="70" yrovno="30" xodboc="70" yodboc="27" cislo="7" adresa="107" invertovat="True" kolajhrot="25" kolajrovno="21" kolajodboc="180" cjednotky="7" />
+
+				<!--vojenska vlecka-->
+				<KolajCiara xzac="72" xkon="78" yzac="60" ykon="60" cislo="" cjednotky="27" />
+				<NavestidloZriadovacie xzac="81" xkon="78" yzac="57" ykon="63" cislo="Se2" biela="300" modra="301" cjednotky="2" />
+				<KolajCiara xzac="81" xkon="108" yzac="60" ykon="60" cislo="VVSK" cjednotky="270" />
+
+				<!--zhlavie srnie-->
+				<KolajCiara xzac="78" xkon="80" yzac="50" ykon="50" cislo="" cjednotky="28" />
+				<KolajCiara xzac="78" xkon="80" yzac="40" ykon="40" cislo="" cjednotky="29" />
+
+				<Vyhybka xhrot="70" yhrot="60" xrovno="72" yrovno="60" xodboc="72" yodboc="57" cislo="9/10" adresa="109" invertovat="False" kolajhrot="22" kolajrovno="27" kolajodboc="26" cjednotky="8" />
+				<Vyhybka xhrot="78" yhrot="50" xrovno="76" yrovno="50" xodboc="76" yodboc="53" cislo="9/10" adresa="109" invertovat="False" kolajhrot="28" kolajrovno="24" kolajodboc="26" cjednotky="9" />
+				<Vyhybka xhrot="78" yhrot="40" xrovno="76" yrovno="40" xodboc="76" yodboc="37" cislo="8" adresa="108" invertovat="False" kolajhrot="29" kolajrovno="23" kolajodboc="25" cjednotky="10" />
+
+				<KolajCiara xzac="82" xkon="86" yzac="40" ykon="40" cislo="" cjednotky="30" />
+				<KolajCiara xzac="82" xkon="86" yzac="50" ykon="50" cislo="" cjednotky="31" />
+				<KolajCiara xzac="82" xkon="86" yzac="43" ykon="47" cislo="" cjednotky="32" />
+				<KolajCiara xzac="82" xkon="86" yzac="47" ykon="43" cislo="" cjednotky="33" />
+
+				<Vyhybka xhrot="80" yhrot="40" xrovno="82" yrovno="40" xodboc="82" yodboc="43" cislo="11/12" adresa="111" invertovat="True" kolajhrot="29" kolajrovno="30" kolajodboc="32" cjednotky="11" />
+				<Vyhybka xhrot="80" yhrot="50" xrovno="82" yrovno="50" xodboc="82" yodboc="47" cislo="13/14" adresa="113" invertovat="True" kolajhrot="28" kolajrovno="31" kolajodboc="33" cjednotky="12" />
+
+				<!--zahlavie Srnie + vlecka-->
+				<KolajCiara xzac="88" xkon="90" yzac="40" ykon="40" cislo="" cjednotky="34" />
+				<KolajCiara xzac="92" xkon="100" yzac="40" ykon="40" cislo="HS01K" cjednotky="35" />
+				<KolajCiara xzac="103" xkon="110" yzac="40" ykon="40" cislo="HS" cjednotky="36" />
+
+				<!--zahlavie Rovne-->
+				<KolajCiara xzac="88" xkon="90" yzac="50" ykon="50" cislo="" cjednotky="37" />
+				<KolajCiara xzac="93" xkon="100" yzac="50" ykon="50" cislo="LR01K" cjednotky="38" />
+				<KolajCiara xzac="103" xkon="110" yzac="50" ykon="50" cislo="LR" cjednotky="39" />
+				<NavestidloZriadovacie xzac="93" xkon="90" yzac="47" ykon="53" cislo="Se3" biela="311" modra="312" cjednotky="3" />
+				<Vyhybka xhrot="88" yhrot="40" xrovno="86" yrovno="40" xodboc="86" yodboc="43" cislo="13/14" adresa="113" invertovat="True" kolajhrot="34" kolajrovno="30" kolajodboc="33" cjednotky="13" />
+				<Vyhybka xhrot="88" yhrot="50" xrovno="86" yrovno="50" xodboc="86" yodboc="47" cislo="11/12" adresa="111" invertovat="True" kolajhrot="37" kolajrovno="31" kolajodboc="32" cjednotky="14" />
+
+				<NavestidloVchodove xzac="103" xkon="100" yzac="37" ykon="43" cislo="S" cervena="320" hornazlta="321" hornazltakmit="322" zelena="323" bielakmit="324" dolnazlta="325" predvestzlta="326" predvestzltakmit="327" predvestzelena="328" cjednotky="2" />
+				<NavestidloVchodove xzac="103" xkon="100" yzac="47" ykon="53" cislo="PS" cervena="330" hornazlta="331" hornazltakmit="332" zelena="333" bielakmit="334" dolnazlta="335" predvestzlta="336" predvestzltakmit="337" predvestzelena="338" cjednotky="3" />
+
+				<!--vlecka-->
+				<KolajCiara xzac="92" xkon="96" yzac="37" ykon="33" cislo="" cjednotky="40" />
+				<KolajCiara xzac="98" xkon="100" yzac="30" ykon="30" cislo="" cjednotky="41" />
+				<KolajCiara xzac="103" xkon="108" yzac="30" ykon="30" cislo="VSASK" cjednotky="42" />
+				<KolajCiara xzac="90" xkon="96" yzac="30" ykon="30" cislo="" cjednotky="43" />
+				<KolajCiara xzac="80" xkon="87" yzac="30" ykon="30" cislo="VSBSK" cjednotky="44" />
+
+				<KolajCiara xzac="108" xkon="108" yzac="28" ykon="32" cislo="" cjednotky="45" />
+				<KolajCiara xzac="80" xkon="80" yzac="28" ykon="32" cislo="" cjednotky="46" />
+
+				<Vyhybka xhrot="98" yhrot="30" xrovno="96" yrovno="30" xodboc="96" yodboc="33" cislo="16" adresa="116" invertovat="True" kolajhrot="41" kolajrovno="43" kolajodboc="40" cjednotky="16" />
+				<Vyhybka xhrot="90" yhrot="40" xrovno="92" yrovno="40" xodboc="92" yodboc="37" cislo="15" adresa="115" invertovat="True" kolajhrot="34" kolajrovno="35" kolajodboc="40" cjednotky="15" />
 				
-			<Vyhybka xhrot="19" yhrot="40" xrovno="21" yrovno="40" xhrot="21" yhrot="43" cislo="1" adresa="101" invertovat="False" kolajhrot="30" kolajrovno="31" kolajodboc="32" cjednotky="33" />
-			<Vyhybka xhrot="23" yhrot="40" xrovno="25" yrovno="40" xhrot="25" yhrot="37" cislo="2" adresa="102" invertovat="False" kolajhrot="50" kolajrovno="51" kolajodboc="52" cjednotky="53" />
-			<Vyhybka xhrot="25" yhrot="50" xrovno="27" yrovno="50" xhrot="27" yhrot="53" cislo="3" adresa="103" invertovat="True" kolajhrot="70" kolajrovno="71" kolajodboc="72" cjednotky="73" />
+				<NavestidloZriadovacie xzac="87" xkon="90" yzac="27" ykon="33" cislo="Se4" biela="340" modra="341" cjednotky="4" />
+				<NavestidloZriadovacie xzac="103" xkon="100" yzac="27" ykon="33" cislo="Se5" biela="350" modra="351" cjednotky="5" />
 
-			<!--Odchodove tepla-->
-			<NavestidloOdchodove xzac="40" xkon="37" yzac="27" ykon="33" cislo="S3" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="1" />
-			<NavestidloOdchodove xzac="40" xkon="37" yzac="37" ykon="43" cislo="S1" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="2" />
-			<NavestidloOdchodove xzac="40" xkon="37" yzac="47" ykon="53" cislo="S2" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="3" />
-			<NavestidloOdchodove xzac="40" xkon="37" yzac="57" ykon="63" cislo="S4" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="4" />
+				<Text xzac="55" yzac="80" text="Nemšová" velkost="40" nastred="True" cjednotky="1" />
+				<Text xzac="03" yzac="33" text="Tr. Teplá" velkost="20" nastred="False" cjednotky="3" />
+				<Text xzac="98" yzac="33" text="Horné Srnie" velkost="20" nastred="False" cjednotky="4" />
+				<Text xzac="98" yzac="53" text="Lednické Rovne" velkost="20" nastred="False" cjednotky="5" />
 
-			<!--rozdelena kolaj 3-->
-			<KolajCiara xzac="40" xkon="45" yzac="30" ykon="30" cislo="3ASK" cjednotky="12" />
-			<KolajCiara xzac="47" xkon="52" yzac="30" ykon="30" cislo="3SK" cjednotky="13" />
-			<KolajCiara xzac="54" xkon="65" yzac="30" ykon="30" cislo="3BSK" cjednotky="14" />
+				<Text xzac="49" yzac="60" text="4" velkost="15" nastred="True" cjednotky="6" />
+				<Text xzac="49" yzac="50" text="2" velkost="15" nastred="True" cjednotky="7" />
+				<Text xzac="49" yzac="40" text="1" velkost="15" nastred="True" cjednotky="8" />
+				<Text xzac="49" yzac="30" text="3" velkost="15" nastred="True" cjednotky="9" />
+				<Text xzac="60" yzac="20" text="5" velkost="15" nastred="True" cjednotky="10" />
+				<Text xzac="49" yzac="10" text="7" velkost="15" nastred="True" cjednotky="11" />
+				<Text xzac="43" yzac="30" text="3A" velkost="15" nastred="True" cjednotky="12" />
+				<Text xzac="60" yzac="30" text="3B" velkost="15" nastred="True" cjednotky="13" />
 
-			<!--vlecka na tratovku-->
-			<KolajCiara xzac="41" xkon="45" yzac="20" ykon="27" cislo="VTSK" cjednotky="15" />
-			<Vyhybka xhrot="47" yhrot="30" xrovno="45" yrovno="30" xhrot="45" yhrot="27" cislo="4" adresa="104" invertovat="True" kolajhrot="120" kolajrovno="121" kolajodboc="122" cjednotky="123" />
-
-			<!--kolaj pri nakladisku-->
-			<KolajCiara xzac="54" xkon="58" yzac="27" ykon="20" cislo="" cjednotky="16" />
-			<KolajCiara xzac="58" xkon="64" yzac="20" ykon="20" cislo="5SK" cjednotky="17" />
-			<KolajCiara xzac="66" xkon="70" yzac="20" ykon="27" cislo="" cjednotky="180" />
-			<Vyhybka xhrot="52" yhrot="30" xrovno="54" yrovno="30" xhrot="54" yhrot="27" cislo="5" adresa="105" invertovat="False" kolajhrot="130" kolajrovno="131" kolajodboc="132" cjednotky="133" />
-			<KolajCiara xzac="48" xkon="60" yzac="10" ykon="10" cislo="7SK" cjednotky="170" />
-			<KolajCiara xzac="60" xkon="64" yzac="10" ykon="17" cislo="" cjednotky="171" />
-			<Vyhybka xhrot="66" yhrot="20" xrovno="64" yrovno="20" xhrot="64" yhrot="17" cislo="6" adresa="106" invertovat="True" kolajhrot="1800" kolajrovno="1801" kolajodboc="1802" cjednotky="1803" />
-
-			<!--ostatne stanicne kolaje-->
-			<KolajCiara xzac="40" xkon="65" yzac="40" ykon="40" cislo="1SK" cjednotky="18" />
-			<KolajCiara xzac="40" xkon="65" yzac="50" ykon="50" cislo="2SK" cjednotky="19" />
-			<KolajCiara xzac="40" xkon="65" yzac="60" ykon="60" cislo="4SK" cjednotky="20" />
-
-			<!--navestidla srnie-->
-			<NavestidloOdchodove xzac="65" xkon="68" yzac="27" ykon="33" cislo="L3" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="5" />
-			<NavestidloOdchodove xzac="65" xkon="68" yzac="37" ykon="43" cislo="L1" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="6" />
-			<NavestidloOdchodove xzac="65" xkon="68" yzac="47" ykon="53" cislo="L2" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="7" />
-			<NavestidloOdchodove xzac="65" xkon="68" yzac="57" ykon="63" cislo="L4" cervena="0" zelena="0" dolnazlta="0" biela="0" bialakmit="0" cjednotky="8" />
-
-			<!--zhlavnie Srnie-->
-			<KolajCiara xzac="68" xkon="70" yzac="30" ykon="30" cislo="" cjednotky="21" />
-			<KolajCiara xzac="68" xkon="70" yzac="60" ykon="60" cislo="" cjednotky="22" />
-			<KolajCiara xzac="68" xkon="76" yzac="40" ykon="40" cislo="" cjednotky="23" />
-			<KolajCiara xzac="68" xkon="76" yzac="50" ykon="50" cislo="" cjednotky="24" />
-
-			<KolajCiara xzac="72" xkon="76" yzac="30" ykon="37" cislo="" cjednotky="25" />
-			<KolajCiara xzac="72" xkon="76" yzac="57" ykon="53" cislo="" cjednotky="26" />
-
-			<Vyhybka xhrot="72" yhrot="30" xrovno="70" yrovno="30" xhrot="70" yhrot="27" cislo="7" adresa="107" invertovat="True" kolajhrot="250" kolajrovno="251" kolajodboc="252" cjednotky="253" />
-
-			<!--vojenska vlecka-->
-			<KolajCiara xzac="72" xkon="78" yzac="60" ykon="60" cislo="" cjednotky="27" />
-			<NavestidloZriadovacie xzac="81" xkon="78" yzac="57" ykon="63" cislo="Se2" biela="0" modra="0" cjednotky="2" />
-			<KolajCiara xzac="81" xkon="108" yzac="60" ykon="60" cislo="VVSK" cjednotky="270" />
-
-			<!--zhlavie srnie-->
-			<KolajCiara xzac="78" xkon="80" yzac="50" ykon="50" cislo="" cjednotky="28" />
-			<KolajCiara xzac="78" xkon="80" yzac="40" ykon="40" cislo="" cjednotky="29" />
-
-			<Vyhybka xhrot="70" yhrot="60" xrovno="72" yrovno="60" xhrot="72" yhrot="57" cislo="9/10" adresa="109" invertovat="False" kolajhrot="200" kolajrovno="201" kolajodboc="202" cjednotky="203" />
-			<Vyhybka xhrot="78" yhrot="50" xrovno="76" yrovno="50" xhrot="76" yhrot="53" cislo="9/10" adresa="109" invertovat="False" kolajhrot="280" kolajrovno="281" kolajodboc="282" cjednotky="283" />
-			<Vyhybka xhrot="78" yhrot="40" xrovno="76" yrovno="40" xhrot="76" yhrot="37" cislo="8" adresa="108" invertovat="False" kolajhrot="290" kolajrovno="291" kolajodboc="292" cjednotky="293" />
-
-			<KolajCiara xzac="82" xkon="86" yzac="40" ykon="40" cislo="" cjednotky="30" />
-			<KolajCiara xzac="82" xkon="86" yzac="50" ykon="50" cislo="" cjednotky="31" />
-			<KolajCiara xzac="82" xkon="86" yzac="43" ykon="47" cislo="" cjednotky="32" />
-			<KolajCiara xzac="82" xkon="86" yzac="47" ykon="43" cislo="" cjednotky="33" />
-
-			<Vyhybka xhrot="80" yhrot="40" xrovno="82" yrovno="40" xhrot="82" yhrot="43" cislo="11/12" adresa="111" invertovat="False" kolajhrot="290" kolajrovno="291" kolajodboc="292" cjednotky="293" />
-			<Vyhybka xhrot="80" yhrot="50" xrovno="82" yrovno="50" xhrot="82" yhrot="47" cislo="13/14" adresa="113" invertovat="False" kolajhrot="280" kolajrovno="281" kolajodboc="282" cjednotky="283" />
-
-			<!--zahlavie Srnie + vlecka-->
-			<KolajCiara xzac="88" xkon="90" yzac="40" ykon="40" cislo="" cjednotky="34" />
-			<KolajCiara xzac="92" xkon="100" yzac="40" ykon="40" cislo="HS01K" cjednotky="35" />
-			<KolajCiara xzac="103" xkon="110" yzac="40" ykon="40" cislo="HS" cjednotky="36" />
-
-			<!--zahlavie Rovne-->
-			<KolajCiara xzac="88" xkon="90" yzac="50" ykon="50" cislo="" cjednotky="37" />
-			<KolajCiara xzac="93" xkon="100" yzac="50" ykon="50" cislo="LR01K" cjednotky="38" />
-			<KolajCiara xzac="103" xkon="110" yzac="50" ykon="50" cislo="LR" cjednotky="39" />
-  		    <NavestidloZriadovacie xzac="93" xkon="90" yzac="47" ykon="53" cislo="Se3" biela="0" modra="0" cjednotky="3" />
-		    <Vyhybka xhrot="88" yhrot="40" xrovno="86" yrovno="40" xhrot="86" yhrot="43" cislo="13/14" adresa="113" invertovat="False" kolajhrot="340" kolajrovno="341" kolajodboc="342" cjednotky="343" />
-			<Vyhybka xhrot="88" yhrot="50" xrovno="86" yrovno="50" xhrot="86" yhrot="47" cislo="11/12" adresa="111" invertovat="False" kolajhrot="370" kolajrovno="371" kolajodboc="372" cjednotky="373" />
-
-			<NavestidloVchodove xzac="103" xkon="100" yzac="37" ykon="43" cislo="S" cervena="0" hornazlta="0" hornazltakmit="0" zelena="0" bielakmit="0" dolnazlta="0" predvestzlta="0" predvestzltakmit="0" prevestzelena="0" cjednotky="2" />
-			<NavestidloVchodove xzac="103" xkon="100" yzac="47" ykon="53" cislo="PS" cervena="0" hornazlta="0" hornazltakmit="0" zelena="0" bielakmit="0" dolnazlta="0" predvestzlta="0" predvestzltakmit="0" prevestzelena="0" cjednotky="3" />
-
-			<!--vlecka-->
-			<KolajCiara xzac="92" xkon="96" yzac="37" ykon="33" cislo="" cjednotky="40" />
-			<KolajCiara xzac="98" xkon="100" yzac="30" ykon="30" cislo="" cjednotky="41" />
-			<KolajCiara xzac="103" xkon="108" yzac="30" ykon="30" cislo="VSASK" cjednotky="42" />
-			<KolajCiara xzac="90" xkon="96" yzac="30" ykon="30" cislo="" cjednotky="43" />
-			<KolajCiara xzac="80" xkon="87" yzac="30" ykon="30" cislo="VSBSK" cjednotky="44" />
-
-			<KolajCiara xzac="108" xkon="108" yzac="28" ykon="32" cislo="" cjednotky="45" />
-			<KolajCiara xzac="80" xkon="80" yzac="28" ykon="32" cislo="" cjednotky="46" />
-
-			<Vyhybka xhrot="90" yhrot="40" xrovno="92" yrovno="40" xhrot="92" yhrot="37" cislo="15" adresa="115" invertovat="False" kolajhrot="340" kolajrovno="341" kolajodboc="342" cjednotky="343" />
-			<Vyhybka xhrot="98" yhrot="30" xrovno="96" yrovno="30" xhrot="96" yhrot="33" cislo="16" adresa="116" invertovat="True" kolajhrot="410" kolajrovno="411" kolajodboc="412" cjednotky="413" />
-
-			<NavestidloZriadovacie xzac="87" xkon="90" yzac="27" ykon="33" cislo="Se4" biela="0" modra="0" cjednotky="4" />
-			<NavestidloZriadovacie xzac="103" xkon="100" yzac="27" ykon="33" cislo="Se5" biela="0" modra="0" cjednotky="5" />
-
-			<Text xzac="55" yzac="80" text="Nemšová" velkost="40" nastred="True" cjednotky="1" />
-			<Text xzac="98" yzac="33" text="Tr. Teplá" velkost="10" nastred="False" cjednotky="3" />
-			<Text xzac="03" yzac="33" text="Horné Srnie" velkost="10" nastred="False" cjednotky="4" />
-			<Text xzac="03" yzac="13" text="Lednické Rovne" velkost="10" nastred="False" cjednotky="5" />
-
-			<Text xzac="60" yzac="10" text="4" velkost="15" nastred="True" cjednotky="6" />
-			<Text xzac="60" yzac="20" text="2" velkost="15" nastred="True" cjednotky="7" />
-			<Text xzac="60" yzac="30" text="1" velkost="15" nastred="True" cjednotky="8" />
-			<Text xzac="60" yzac="40" text="3" velkost="15" nastred="True" cjednotky="9" />
-			<Text xzac="49" yzac="50" text="5" velkost="15" nastred="True" cjednotky="10" />
-			<Text xzac="56" yzac="60" text="7" velkost="15" nastred="True" cjednotky="11" />
-			<Text xzac="67" yzac="40" text="3A" velkost="15" nastred="True" cjednotky="12" />
-			<Text xzac="49" yzac="40" text="3B" velkost="15" nastred="True" cjednotky="13" />
-
-			<Sulibrk x="101" y="05" cjednotky="1" />
+				<Sulibrk x="35" y="80" cjednotky="1" />
+			</Dopravna>
 		</Plan>
 
 		<HitBoxy>
@@ -170,7 +173,7 @@
 			<HitBox xzac="58" xkon="64" yzac="17" ykon="23" kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 			<HitBox xzac="52" xkon="54" yzac="27" ykon="33" kodjednotky="KJ_VYHYBKA" cjednotky="5" />
 			<HitBox xzac="48" xkon="60" yzac="07" ykon="13" kodjednotky="KJ_KOLAJCIARA" cjednotky="170" />
-			<HitBox xzac="64" xkon="66" yzac="17" ykon="23" kodjednotky="KJ_VYHYBKA" cjednotky="16" />
+			<HitBox xzac="64" xkon="66" yzac="17" ykon="23" kodjednotky="KJ_VYHYBKA" cjednotky="6" />
 
 			<!--ostatne stanicne kolaje-->
 			<HitBox xzac="40" xkon="65" yzac="37" ykon="43" kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
@@ -183,19 +186,19 @@
 			<HitBox xzac="65" xkon="68" yzac="57" ykon="63" kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 
 			<!--zhlavnie Srnie-->
-			<HitBox xzac="70" xkon="72" yzac="27" ykon="33" kodjednotky="KJ_VYHYBKA" cjednotky="6" />
+			<HitBox xzac="70" xkon="72" yzac="27" ykon="33" kodjednotky="KJ_VYHYBKA" cjednotky="7" />
 
 			<!--vojenska vlecka-->
 			<HitBox xzac="78" xkon="81" yzac="57" ykon="63" kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="2" />
 			<HitBox xzac="81" xkon="108" yzac="57" ykon="63" kodjednotky="KJ_KOLAJCIARA" cjednotky="270" />
 
 			<!--zhlavie srnie-->
-			<HitBox xzac="70" xkon="72" yzac="57" ykon="63" kodjednotky="KJ_VYHYBKA" cjednotky="7" />
-			<HitBox xzac="76" xkon="78" yzac="47" ykon="53" kodjednotky="KJ_VYHYBKA" cjednotky="8" />
-			<HitBox xzac="76" xkon="78" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="9" />
+			<HitBox xzac="70" xkon="72" yzac="57" ykon="63" kodjednotky="KJ_VYHYBKA" cjednotky="8" />
+			<HitBox xzac="76" xkon="78" yzac="47" ykon="53" kodjednotky="KJ_VYHYBKA" cjednotky="9" />
+			<HitBox xzac="76" xkon="78" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="10" />
 
-			<HitBox xzac="80" xkon="82" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="10" />
-			<HitBox xzac="80" xkon="82" yzac="47" ykon="53" kodjednotky="KJ_VYHYBKA" cjednotky="11" />
+			<HitBox xzac="80" xkon="82" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="11" />
+			<HitBox xzac="80" xkon="82" yzac="47" ykon="53" kodjednotky="KJ_VYHYBKA" cjednotky="12" />
 
 			<!--zahlavie Srnie + vlecka-->
 			<HitBox xzac="92" xkon="100" yzac="37" ykon="43" kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
@@ -207,8 +210,8 @@
 
 			<HitBox xzac="90" xkon="93" yzac="47" ykon="53" kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="3" />
 
-			<HitBox xzac="86" xkon="88" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="12" />
-			<HitBox xzac="86" xkon="88" yzac="47" ykon="53" kodjednotky="KJ_VYHYBKA" cjednotky="13" />
+			<HitBox xzac="86" xkon="88" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="13" />
+			<HitBox xzac="86" xkon="88" yzac="47" ykon="53" kodjednotky="KJ_VYHYBKA" cjednotky="14" />
 
 			<HitBox xzac="100" xkon="103" yzac="37" ykon="43" kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="2" />
 			<HitBox xzac="100" xkon="103" yzac="47" ykon="53" kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="3" />
@@ -217,19 +220,21 @@
 			<HitBox xzac="103" xkon="108" yzac="27" ykon="33" kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
 			<HitBox xzac="80" xkon="87" yzac="27" ykon="33" kodjednotky="KJ_KOLAJCIARA" cjednotky="44" />
 
-			<HitBox xzac="90" xkon="92" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="14" />
-			<HitBox xzac="96" xkon="98" yzac="27" ykon="33" kodjednotky="KJ_VYHYBKA" cjednotky="15" />
+			<HitBox xzac="90" xkon="92" yzac="37" ykon="43" kodjednotky="KJ_VYHYBKA" cjednotky="15" />
+			<HitBox xzac="96" xkon="98" yzac="27" ykon="33" kodjednotky="KJ_VYHYBKA" cjednotky="16" />
 
 			<HitBox xzac="87" xkon="90" yzac="27" ykon="33" kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="4" />
 			<HitBox xzac="100" xkon="103" yzac="27" ykon="33" kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 		</HitBoxy>
 		<Zaverovka>
+			<!-- /////////// TEPLA ////////////-->
 			<!--TeplA - kolaj 3-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="1" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="5">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="5" />
 
 				<Kolaj cjednotky="2" presah="False" />
 				<Kolaj cjednotky="3" presah="False" />
@@ -245,7 +250,7 @@
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="2" vlakova="True" posunova="False" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
@@ -260,12 +265,11 @@
 				<Vyhybka cjednotky="2" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 
-			<!-- /////////// TEPLA ////////////-->
-
 			<!--Tepla - kolaj 1-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_TRATOVA">
+			<Cesta cislo="3" vlakova="True" posunova="False" znak="CZ_TRATOVA" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="6">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="6" />
 
 				<Kolaj cjednotky="2" presah="False" />
 				<Kolaj cjednotky="3" presah="False" />
@@ -276,7 +280,7 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="2" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="4" vlakova="True" posunova="False" znak="CZ_TRATOVA">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="2" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
@@ -290,9 +294,10 @@
 				<Vyhybka cjednotky="2" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Tepla - kolaj 2-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="5" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="7">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="19" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="7" />
 
 				<Kolaj cjednotky="2" presah="False" />
 				<Kolaj cjednotky="3" presah="False" />
@@ -303,7 +308,7 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="3" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="6" vlakova="True" posunova="False" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
@@ -317,9 +322,10 @@
 				<Vyhybka cjednotky="3" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Tepla - kolaj 4-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="7" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="8">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 
 				<Kolaj cjednotky="2" presah="False" />
 				<Kolaj cjednotky="3" presah="False" />
@@ -331,7 +337,7 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="3" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta  cislo="8" vlakova="True" posunova="False" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="4" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
@@ -346,7 +352,7 @@
 				<Vyhybka cjednotky="3" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Tepla ZR - kolaj 3-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="9" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 
@@ -358,7 +364,7 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="2" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="10" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
 
@@ -371,7 +377,7 @@
 				<Vyhybka cjednotky="2" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Tepla ZR - kolaj 1-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="11" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
 
@@ -382,7 +388,7 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="2" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="12" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="2" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
 
@@ -394,7 +400,7 @@
 				<Vyhybka cjednotky="2" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Tepla ZR - kolaj 2-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="13" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="19" />
 
@@ -405,7 +411,7 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="3" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="14" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
 
@@ -417,7 +423,7 @@
 				<Vyhybka cjednotky="3" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Tepla ZR - kolaj 4-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="15" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="1" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
 
@@ -429,7 +435,7 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="3" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="16" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="4" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
 
@@ -441,9 +447,9 @@
 				<Vyhybka cjednotky="1" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="3" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<!--<!-- Kolaj 3 <!--<!--<!--//////////////-->-->-->-->-->
+			<!--Kolaj 3 -->
 			<!-- Kolaj 3B - Kolaj 3A-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="17" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 
@@ -452,7 +458,7 @@
 
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />    
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="18" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 
@@ -462,7 +468,7 @@
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />
 			</Cesta>  
 			<!-- Kolaj 3B - vlecka Tratovky-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="19" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="15" />
 
@@ -471,7 +477,7 @@
 
 				<Vyhybka cjednotky="4" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="20" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="15" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 
@@ -481,7 +487,7 @@
 				<Vyhybka cjednotky="4" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Kolaj 3B - Kolaj 3C-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="21" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 
@@ -490,7 +496,7 @@
 
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="22" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 
@@ -500,7 +506,7 @@
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Kolaj 3B - Kolaj 5-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="23" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 
@@ -510,7 +516,7 @@
 
 				<Vyhybka cjednotky="5" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="24" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 
@@ -521,7 +527,7 @@
 				<Vyhybka cjednotky="5" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--3A - 3C-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="25" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 
@@ -532,7 +538,7 @@
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="26" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 
@@ -544,7 +550,7 @@
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--3C - vlecka tratovky-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="27" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="15" />
 
@@ -555,7 +561,7 @@
 				<Vyhybka cjednotky="4" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="28" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="15" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 
@@ -567,7 +573,7 @@
 				<Vyhybka cjednotky="5" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--kolaj 3A - kolaj 5-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="29" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 
@@ -579,7 +585,7 @@
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="5" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40"> 
+			<Cesta cislo="30" vlakova="False" posunova="True" znak="CZ_40"> 
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 
@@ -591,13 +597,14 @@
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="5" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<!--<!-- SRNIE <!--<!--<!--//////////////-->-->-->-->-->
+			<!--SRNIE -->
 			<!--Srnie - kolaj 3-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="31" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="1">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="2" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="1" />
 
 				<Kolaj cjednotky="34" presah="False" />
 				<Kolaj cjednotky="35" presah="False" />
@@ -610,16 +617,16 @@
 				<Kolaj cjednotky="13" presah="False" />
 				<Kolaj cjednotky="14" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="32" vlakova="True" posunova="False" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="5" />
 
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
@@ -633,17 +640,18 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Srnie - kolaj 1-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="33" vlakova="True" posunova="False" znak="CZ_TRATOVA" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="2">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="2" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="2" />
 
 				<Kolaj cjednotky="35" presah="False" />
 				<Kolaj cjednotky="34" presah="False" />
@@ -653,13 +661,13 @@
 
 				<Kolaj cjednotky="18" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="34" vlakova="True" posunova="False" znak="CZ_TRATOVA">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="6" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="36" />
@@ -671,16 +679,17 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Srnie - kolaj 2-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="35" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="3">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="2" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="19" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="3" />
 
 				<Kolaj cjednotky="34" presah="False" />
 				<Kolaj cjednotky="35" presah="False" />
@@ -691,12 +700,12 @@
 
 				<Kolaj cjednotky="19" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="36" vlakova="True" posunova="False" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="7" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="36" />
@@ -709,15 +718,16 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Srnie - kolaj 4-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="37" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="4">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="2" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="4" />
 
 				<Kolaj cjednotky="35" presah="False" />
 
@@ -730,12 +740,12 @@
 
 				<Kolaj cjednotky="20" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">			 
+			<Cesta cislo="38" vlakova="True" posunova="False" znak="CZ_40">			 
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="36" />
@@ -749,13 +759,13 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Srnie ZR - kolaj 7-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">			  
+			<Cesta cislo="39" vlakova="False" posunova="True" znak="CZ_40">			  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="170" />
 
@@ -769,15 +779,15 @@
 				<Kolaj cjednotky="170" presah="False" />
 				<Kolaj cjednotky="171" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="40" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="170" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 
@@ -791,16 +801,16 @@
 				<Kolaj cjednotky="170" presah="False" />
 				<Kolaj cjednotky="171" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Srnie ZR - Kolaj 5-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="41" vlakova="False" posunova="True" znak="CZ_40">
 			  	<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 
@@ -813,15 +823,15 @@
 				<Kolaj cjednotky="180" presah="False" />
 				<Kolaj cjednotky="17" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="42" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 
@@ -834,16 +844,16 @@
 				<Kolaj cjednotky="180" presah="False" />
 				<Kolaj cjednotky="17" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Srnie ZR - Kolaj 3-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="43" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 				
@@ -854,14 +864,14 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">			  
+			<Cesta cislo="44" vlakova="False" posunova="True" znak="CZ_40">			  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 
@@ -872,15 +882,15 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Srnie ZR - Kolaj 1-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">			 
+			<Cesta cislo="45" vlakova="False" posunova="True" znak="CZ_40">			 
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
 
@@ -890,13 +900,13 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="46" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="6" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 
@@ -906,14 +916,14 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Srnie ZR - Kolaj 2-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">			  
+			<Cesta cislo="47" vlakova="False" posunova="True" znak="CZ_40">			  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="19" />
 
@@ -924,12 +934,12 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">			  
+			<Cesta cislo="48" vlakova="False" posunova="True" znak="CZ_40">			  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="7" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 
@@ -940,13 +950,13 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Srnie ZR - Kolaj 4-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="49" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
 
@@ -958,12 +968,12 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="50" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
 
@@ -975,18 +985,19 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<!--<!-- Rovne <!--<!--<!--////////////////-->-->-->-->-->
+			<!--Rovne -->
 			<!--Rovne - Kolaj 3-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="51" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="1">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="12" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="13" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="1" />
 
 				<Kolaj cjednotky="38" presah="False" />
 
@@ -1001,13 +1012,13 @@
 				<Kolaj cjednotky="13" presah="False" />
 				<Kolaj cjednotky="14" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="4" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="5" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="52" vlakova="True" posunova="False" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="39" />
@@ -1020,14 +1031,15 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Rovne - Kolaj 1-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">			  
+			<Cesta cislo="53" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="2">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="2" />
 
 				<Kolaj cjednotky="37" presah="False" />
 				<Kolaj cjednotky="38" presah="False" />
@@ -1038,10 +1050,10 @@
 
 				<Kolaj cjednotky="18" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="54" vlakova="True" posunova="False" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="6" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="39" />
@@ -1054,13 +1066,14 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Rovne - Kolaj 2-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="55" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="3">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="19" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="3" />
 
 				<Kolaj cjednotky="38" presah="False" />
 
@@ -1071,11 +1084,11 @@
 
 				<Kolaj cjednotky="19" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">
+			<Cesta cislo="56" vlakova="True" posunova="False" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="7" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="39" />
@@ -1086,14 +1099,15 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Rovne - Kolaj 4-->
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="57" vlakova="True" posunova="False" znak="CZ_40" dalsiekodjednotky="KJ_NAVESTIDLOODCHODOVE" dalsiecjednotky="4">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
+				<Ciel kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="4" />
 
 				<Kolaj cjednotky="38" presah="False" />
 
@@ -1105,11 +1119,11 @@
 
 				<Kolaj cjednotky="20" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="True" posunova="False" znak="CZ_40">  
+			<Cesta cislo="58" vlakova="True" posunova="False" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="39" />
@@ -1121,12 +1135,12 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Rovne ZR - Kolaj 7-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="59" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="170" />
 
@@ -1140,12 +1154,12 @@
 				<Kolaj cjednotky="170" presah="False" />
 				<Kolaj cjednotky="171" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="60" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="170" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 
@@ -1159,13 +1173,13 @@
 				<Kolaj cjednotky="170" presah="False" />
 				<Kolaj cjednotky="171" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Rovne ZR - Kolaj 5-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="61" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 
@@ -1178,12 +1192,12 @@
 				<Kolaj cjednotky="180" presah="False" />
 				<Kolaj cjednotky="17" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="62" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 
@@ -1196,13 +1210,13 @@
 				<Kolaj cjednotky="180" presah="False" />
 				<Kolaj cjednotky="17" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Rovne ZR - Kolaj 3-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="63" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 
@@ -1213,11 +1227,11 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="64" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 
@@ -1228,12 +1242,12 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Rovne ZR - Kolaj 1-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="65" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
 
@@ -1243,10 +1257,10 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="66" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="6" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 
@@ -1256,11 +1270,11 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Rovne ZR - Kolaj 2-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="67" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="19" />
 
@@ -1269,11 +1283,11 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="68" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="7" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 
@@ -1282,12 +1296,12 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!--Rovne ZR - Kolaj 4-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="69" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="3" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
 
@@ -1297,11 +1311,11 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="70" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
 
@@ -1311,32 +1325,32 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
 				<Vyhybka cjednotky="13" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="14" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<!--<!-- Vlecka-->-->
+			<!-- Vlecka-->
 			<!-- Vlecka A - Vlecka B-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="71" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="4" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
 
 				<Kolaj cjednotky="41" presah="False" />
 				<Kolaj cjednotky="43" presah="False" />
 
-				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="72" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="44" />
 
 				<Kolaj cjednotky="41" presah="False" />
 				<Kolaj cjednotky="43" presah="False" />
 
-				<Vyhybka cjednotky="15" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!-- Vlecka B - Kolaj 7-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="73" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="170" />
 
@@ -1351,15 +1365,15 @@
 				<Kolaj cjednotky="170" presah="False" />
 				<Kolaj cjednotky="171" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">		  
+			<Cesta cislo="74" vlakova="False" posunova="True" znak="CZ_40">		  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="170" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
 
@@ -1374,16 +1388,16 @@
 				<Kolaj cjednotky="170" presah="False" />
 				<Kolaj cjednotky="171" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!-- Vlecka B - Kolaj 5-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="75" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 
@@ -1397,15 +1411,15 @@
 				<Kolaj cjednotky="180" presah="False" />
 				<Kolaj cjednotky="17" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="76" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_KOLAJCIARA" cjednotky="17" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
 
@@ -1419,16 +1433,16 @@
 				<Kolaj cjednotky="180" presah="False" />
 				<Kolaj cjednotky="17" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="16" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!-- Vlecka B - Kolaj 3-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="77" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="14" />
 				
@@ -1440,14 +1454,14 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="78" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
 				
@@ -1459,15 +1473,15 @@
 				<Kolaj cjednotky="21" presah="False" />
 				<Kolaj cjednotky="25" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="6" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="7" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!-- VLecka B - Kolaj 1-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="79" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="18" />
 
@@ -1478,13 +1492,13 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="80" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="6" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
 
@@ -1495,14 +1509,14 @@
 				<Kolaj cjednotky="29" presah="False" />
 				<Kolaj cjednotky="23" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="11" pozicia="VPO_ROVNO" />
-				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="12" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="10" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!-- Vlecka B - Kolaj 2-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="81" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="19" />
 
@@ -1514,12 +1528,12 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">  
+			<Cesta cislo="82" vlakova="False" posunova="True" znak="CZ_40">  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="7" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
 
@@ -1531,13 +1545,13 @@
 				<Kolaj cjednotky="28" presah="False" />
 				<Kolaj cjednotky="24" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
 			<!-- Vlecka B - Kolaj 4-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="83" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="5" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
 
@@ -1550,12 +1564,12 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="84" vlakova="False" posunova="True" znak="CZ_40">
 			  
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="42" />
@@ -1569,28 +1583,64 @@
 				<Kolaj cjednotky="22" presah="False" />
 				<Kolaj cjednotky="26" presah="False" />
 
-				<Vyhybka cjednotky="14" pozicia="VPO_ODBOCKA" />
 				<Vyhybka cjednotky="15" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="12" pozicia="VPO_ODBOCKA" />
-				<Vyhybka cjednotky="8" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="16" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="13" pozicia="VPO_ODBOCKA" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ODBOCKA" />
 			</Cesta>
 			<!--Vlecka VP-->
 			<!--Vlecka VP - Kolaj 4-->
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="85" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOODCHODOVE" cjednotky="8" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="270" />
 
 				<Kolaj cjednotky="27" presah="False" />
 				<Kolaj cjednotky="22" presah="False" />
 
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
-			<Cesta vlakova="False" posunova="True" znak="CZ_40">
+			<Cesta cislo="86" vlakova="False" posunova="True" znak="CZ_40">
 				<Zdroj kodjednotky="KJ_NAVESTIDLOZRIADOVACIE" cjednotky="2" />
 				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="20" />
 
 				<Kolaj cjednotky="27" presah="False" />
 				<Kolaj cjednotky="22" presah="False" />
 
-				<Vyhybka cjednotky="8" pozicia="VPO_ROVNO" />
+				<Vyhybka cjednotky="9" pozicia="VPO_ROVNO" />
 			</Cesta>
+		</Zaverovka>
+		<Zlozene>
+			<Zlozena vlakova="True" posunova="False">
+				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="1" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="35" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="36" />
+
+				<Cesta poradie="1" cislo="3" />
+				<Cesta poradie="2" cislo="34" />
+			</Zlozena>
+			<Zlozena vlakova="True" posunova="False">
+				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="1" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="38" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="39" />
+
+				<Cesta poradie="1" cislo="3" />
+				<Cesta poradie="2" cislo="54" />
+			</Zlozena>
+			<Zlozena vlakova="True" posunova="False">
+				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="2" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="1" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
+
+				<Cesta poradie="1" cislo="3" />
+				<Cesta poradie="2" cislo="54" />
+			</Zlozena>
+			<Zlozena vlakova="True" posunova="False">
+				<Zdroj kodjednotky="KJ_NAVESTIDLOVCHODOVE" cjednotky="3" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="1" />
+				<Ciel kodjednotky="KJ_KOLAJCIARA" cjednotky="2" />
+
+				<Cesta poradie="1" cislo="3" />
+				<Cesta poradie="2" cislo="54" />
+			</Zlozena>			
+		</Zlozene>
+	</Konfiguracia>

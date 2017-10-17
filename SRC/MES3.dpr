@@ -5,7 +5,7 @@ uses
   GUI1 in 'GUI1.pas' {Form1},
   ComPort in 'ComPort.pas' {CPort: TDataModule},
   DiagDialog in 'DiagDialog.pas' {DiagDlg},
-  DratotahDialog in 'DratotahDialog.pas' {OKRightDlg},
+  DratotahDialog in 'DratotahDialog.pas' {DratotahDlg},
   LogikaStavadlo in 'LogikaStavadlo.pas' {LogikaES: TDataModule},
   StavadloObjekty in 'StavadloObjekty.pas',
   Cesta in 'Cesta.pas',
@@ -20,7 +20,7 @@ begin
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TCPort, CPort);
   Application.CreateForm(TDiagDlg, DiagDlg);
-  Application.CreateForm(TOKRightDlg, OKRightDlg);
+  Application.CreateForm(TDratotahDlg, DratotahDlg);
   Application.CreateForm(TLogikaES, LogikaES);
   Application.Run;
 end.

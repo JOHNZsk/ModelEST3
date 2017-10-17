@@ -113,7 +113,7 @@ object DiagDlg: TDiagDlg
         Width = 303
         Height = 27
         Align = alTop
-        Caption = 'Simulovat zpr'#225'vy B0'
+        Caption = 'Simulova'#357' Loconet'
         TabOrder = 1
       end
       object Button2: TButton
@@ -126,7 +126,6 @@ object DiagDlg: TDiagDlg
         Caption = 'PWR-'
         TabOrder = 2
         OnClick = Button2Click
-        ExplicitLeft = 162
       end
       object Button5: TButton
         AlignWithMargins = True
@@ -153,7 +152,6 @@ object DiagDlg: TDiagDlg
       Align = alTop
       Caption = 'Testovanie pr'#237'slu'#353'enstva'
       TabOrder = 2
-      ExplicitTop = 273
       object Button3: TButton
         AlignWithMargins = True
         Left = 5
@@ -249,7 +247,6 @@ object DiagDlg: TDiagDlg
       Align = alTop
       Caption = 'V'#253'pis'
       TabOrder = 3
-      ExplicitTop = 488
       object VypisCele: TCheckBox
         AlignWithMargins = True
         Left = 5
@@ -272,7 +269,6 @@ object DiagDlg: TDiagDlg
       Align = alTop
       Caption = 'Fronta povelov'
       TabOrder = 4
-      ExplicitTop = 423
       object Label6: TLabel
         AlignWithMargins = True
         Left = 5

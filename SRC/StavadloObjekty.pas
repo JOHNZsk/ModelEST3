@@ -180,6 +180,7 @@ interface
       t_poloha: TVyhybkaPozicia;
       t_adresa: Integer;
       t_otocit_polaritu: Boolean;
+      t_rucny_zaver: Boolean;
 
       t_kolaj_hrot,t_kolaj_rovno,t_kolaj_odboc: TKolajCiara;
 
@@ -191,6 +192,7 @@ interface
       property Adresa: Integer read t_adresa;
       property Pozicia: TVyhybkaPozicia read t_poloha;
       property OtocitPolaritu: Boolean read t_otocit_polaritu;
+      property RucnyZaver: Boolean read t_rucny_zaver;
 
       constructor Create(p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc: Integer; p_cislo: string; p_adresa: Integer; p_otocit_pohohu: Boolean; p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc: TKolajCiara; p_cjednotky: Integer; p_dopravna: TDopravna);
 
@@ -200,6 +202,8 @@ interface
       function JeVolna: Boolean;
 
       function DajStav: string; override;
+
+      function NastavRucnyZaver(p_zaver: Boolean; p_potvrd: Boolean): Boolean;
   end;
 
   //**************************************************************************//
@@ -717,7 +721,7 @@ implementation
   var
     zac_x,zac_y,kon_x,kon_y: Integer;
     v_navest: TNavest;
-    polygon: TPolygon32;
+    polygon,obal,outline: TPolygon32;
     obrys,vypln: TColor32;
   begin
     zac_x:=PercentaNaPixely(t_x_zac,p_plan_x_zac,p_plan_x_kon);
@@ -751,7 +755,24 @@ implementation
       polygon.Antialiased:=True;
       polygon.FillMode:=pfWinding;
       polygon.AntialiasMode:=am8times;
-      polygon.Draw(p_plan,obrys,vypln);
+      polygon.DrawFill(p_plan,vypln);
+
+      obal:=polygon.Outline;
+      obal.Closed:=True;
+      try
+        outline:=obal.Grow(Fixed(4*0.35),0.1);
+        try
+          outline.Antialiased:=True;
+          outline.FillMode:=pfWinding;
+          outline.AntialiasMode:=am8times;
+          outline.Closed:=False;
+          outline.DrawFill(p_plan,obrys)
+        finally
+          outline.Free;
+        end;
+      finally
+        obal.Free;
+      end;
     finally
       polygon.Free;
     end;
@@ -800,16 +821,20 @@ implementation
     rovno_y:=PercentaNaPixely(t_y_rovno,p_plan_y_zac,p_plan_y_kon);
     odboc_y:=PercentaNaPixely(t_y_odboc,p_plan_y_zac,p_plan_y_kon);
 
-    if t_poloha in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then kolaj_zaver:=t_kolaj_rovno
-    else if t_poloha in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then kolaj_zaver:=t_kolaj_odboc
-    else kolaj_zaver:=nil;
-
-    if(kolaj_zaver<>nil) and (kolaj_zaver.Zaver=ZVR_POSUNOVA) then farba:=clWhite32
-    else if(kolaj_zaver<>nil) and (kolaj_zaver.Zaver=ZVR_VLAKOVA) then farba:=clLime32
+    if t_rucny_zaver then farba:=clAqua32
     else
     begin
-      if t_poloha in [VPO_ROVNO_OTAZNIK,VPO_ODBOCKA_OTAZNIK] then farba:=clYellow32
-      else farba:=clGray32;
+      if t_poloha in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then kolaj_zaver:=t_kolaj_rovno
+      else if t_poloha in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then kolaj_zaver:=t_kolaj_odboc
+      else kolaj_zaver:=nil;
+
+      if(kolaj_zaver<>nil) and (kolaj_zaver.Zaver=ZVR_POSUNOVA) then farba:=clWhite32
+      else if(kolaj_zaver<>nil) and (kolaj_zaver.Zaver=ZVR_VLAKOVA) then farba:=clLime32
+      else
+      begin
+        if t_poloha in [VPO_ROVNO_OTAZNIK,VPO_ODBOCKA_OTAZNIK] then farba:=clYellow32
+        else farba:=clGray32;
+      end;
     end;
 
     if t_poloha in [VPO_NEZNAMA,VPO_ROVNO,VPO_ROVNO_OTAZNIK] then VykresliHrubuCiaru(p_plan,5,hrot_x,hrot_y,rovno_x,rovno_y,farba);
@@ -862,14 +887,37 @@ implementation
 
   function TVyhybka.JeVolna: Boolean;
   begin
-    Result:=((t_kolaj_hrot=nil) or (t_kolaj_hrot.JeVolna)) and ((t_kolaj_rovno=nil) or (t_kolaj_rovno.JeVolna)) and ((t_kolaj_odboc=nil) or (t_kolaj_odboc.JeVolna))
+    Result:=(not t_rucny_zaver) and ((t_kolaj_hrot=nil) or (t_kolaj_hrot.JeVolna)) and ((t_kolaj_rovno=nil) or (t_kolaj_rovno.JeVolna)) and ((t_kolaj_odboc=nil) or (t_kolaj_odboc.JeVolna))
   end;
 
   //////////////////////////////////////////////////////////////////////////////
 
   function TVyhybka.DajStav: string;
   begin
-    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha);
+    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' Ruè. záver: '+BoolToStr(t_rucny_zaver,True);
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TVyhybka.NastavRucnyZaver(p_zaver: Boolean; p_potvrd: Boolean): Boolean;
+  begin
+    Result:=True;
+
+    if p_zaver then
+    begin
+      t_rucny_zaver:=True;
+      if t_poloha=VPO_ROVNO_OTAZNIK then t_poloha:=VPO_ROVNO;
+      if t_poloha=VPO_ODBOCKA_OTAZNIK then t_poloha:=VPO_ODBOCKA;
+    end
+    else
+    begin
+      if p_potvrd then t_rucny_zaver:=False
+      else
+      begin
+
+      end;
+    end;
+
   end;
 
   //**************************************************************************//
@@ -1380,7 +1428,7 @@ implementation
   procedure TNavestidloZriadovacie.Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer);
   var
     zac_x,zac_y,kon_x,kon_y: Integer;
-    polygon: TPolygon32;
+    polygon,obal,outline: TPolygon32;
     obrys,vypln: TColor32;
     sirka: Integer;
   begin
@@ -1425,7 +1473,24 @@ implementation
       polygon.Antialiased:=True;
       polygon.FillMode:=pfAlternate;
       polygon.AntialiasMode:=am8times;
-      polygon.Draw(p_plan,obrys,vypln);
+      polygon.DrawFill(p_plan,vypln);
+
+      obal:=polygon.Outline;
+      obal.Closed:=True;
+      try
+        outline:=obal.Grow(Fixed(4*0.35),0.1);
+        try
+          outline.Antialiased:=True;
+          outline.FillMode:=pfWinding;
+          outline.AntialiasMode:=am8times;
+          outline.Closed:=False;
+          outline.DrawFill(p_plan,obrys)
+        finally
+          outline.Free;
+        end;
+      finally
+        obal.Free;
+      end;
     finally
       polygon.Free;
     end;

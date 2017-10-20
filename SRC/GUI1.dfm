@@ -24,19 +24,18 @@ object Form1: TForm1
     Left = 0
     Top = 0
     Width = 1024
-    Height = 27
+    Height = 38
     Align = alTop
     BevelOuter = bvNone
     Caption = 'HorPanel'
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 794
     object VLoconet: TLabel
       AlignWithMargins = True
-      Left = 264
+      Left = 268
       Top = 3
       Width = 75
-      Height = 21
+      Height = 32
       Align = alLeft
       Caption = 'VLoconet'
       Font.Charset = DEFAULT_CHARSET
@@ -45,24 +44,26 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 264
       ExplicitHeight = 19
     end
     object Panel1: TPanel
       Left = 0
       Top = 0
-      Width = 261
-      Height = 27
+      Width = 265
+      Height = 38
       Align = alLeft
       BevelOuter = bvNone
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 0
+      ExplicitHeight = 27
       object VJednotka: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 86
-        Height = 21
+        Height = 32
         Align = alLeft
         Caption = 'VJednotka'
         Font.Charset = DEFAULT_CHARSET
@@ -72,6 +73,45 @@ object Form1: TForm1
         Font.Style = [fsBold]
         ParentFont = False
         ExplicitHeight = 19
+      end
+    end
+    object Panel3: TPanel
+      Left = 814
+      Top = 0
+      Width = 210
+      Height = 38
+      Align = alRight
+      BevelOuter = bvNone
+      Caption = 'Panel3'
+      Color = clWhite
+      ParentBackground = False
+      ShowCaption = False
+      TabOrder = 1
+      object Cas: TLabel
+        Left = 0
+        Top = 0
+        Width = 210
+        Height = 38
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
+        Align = alClient
+        Alignment = taCenter
+        Caption = '88.88.8888 88:88:88'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -20
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Layout = tlCenter
+        ExplicitLeft = 136
+        ExplicitTop = 1
+        ExplicitWidth = 186
+        ExplicitHeight = 24
       end
     end
   end
@@ -85,7 +125,6 @@ object Form1: TForm1
     Caption = 'Panel2'
     ShowCaption = False
     TabOrder = 1
-    ExplicitWidth = 794
     object PanelRizik: TPanel
       Left = 0
       Top = 0
@@ -98,9 +137,6 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 0
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitHeight = 94
       object PaintBoxRizika: TPaintBox32
         Left = 0
         Top = 0
@@ -108,7 +144,6 @@ object Form1: TForm1
         Height = 96
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 3
       end
     end
     object PanelPoruch: TPanel
@@ -136,17 +171,15 @@ object Form1: TForm1
   end
   object PaintBox1: TPaintBox32
     Left = 0
-    Top = 27
+    Top = 38
     Width = 1024
-    Height = 343
+    Height = 332
     Align = alClient
     TabOrder = 2
     OnMouseUp = PaintBox1MouseUp
     OnPaintBuffer = PaintBox1Paint
-    ExplicitLeft = 336
-    ExplicitTop = 160
-    ExplicitWidth = 192
-    ExplicitHeight = 192
+    ExplicitTop = 27
+    ExplicitHeight = 343
   end
   object MainMenu1: TMainMenu
     Left = 136
@@ -176,6 +209,69 @@ object Form1: TForm1
     object Koniec1: TMenuItem
       Caption = 'Koniec'
       OnClick = Koniec1Click
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 416
+    Top = 248
+    object STAV1: TMenuItem
+      Caption = 'STAV'
+      OnClick = STAV1Click
+    end
+    object SSTAV: TMenuItem
+      Caption = '-'
+    end
+    object STOJ1: TMenuItem
+      Caption = 'STOJ'
+      OnClick = STAV1Click
+    end
+    object DN1: TMenuItem
+      Caption = 'DN'
+      OnClick = STAV1Click
+    end
+    object PN1: TMenuItem
+      Caption = 'PN'
+      OnClick = STAV1Click
+    end
+    object SNAV: TMenuItem
+      Caption = '-'
+    end
+    object P1: TMenuItem
+      Caption = 'P+'
+      OnClick = STAV1Click
+    end
+    object P2: TMenuItem
+      Caption = 'P-'
+      OnClick = STAV1Click
+    end
+    object SVYH: TMenuItem
+      Caption = '-'
+    end
+    object ZAV1: TMenuItem
+      Caption = 'ZAV>'
+      OnClick = STAV1Click
+    end
+    object ZAV2: TMenuItem
+      Caption = 'ZAV<'
+      OnClick = STAV1Click
+    end
+    object SZAV: TMenuItem
+      Caption = '-'
+    end
+    object STIT1: TMenuItem
+      Caption = 'STIT'
+      OnClick = STAV1Click
+    end
+    object VYL1: TMenuItem
+      Caption = 'VYL'
+      OnClick = STAV1Click
+    end
+    object SVYL: TMenuItem
+      Caption = '-'
+    end
+    object RESET1: TMenuItem
+      Caption = 'RESET'
+      OnClick = STAV1Click
     end
   end
 end

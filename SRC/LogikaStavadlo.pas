@@ -22,6 +22,8 @@ end;
 
 function Porucha(p_cas: TDateTime; p_dopravna: TDopravna; p_text: string): TPorucha;
 
+type TMenuPolozka=(MK_STAV,MK_STOJ,MK_DN,MK_PN,MK_P1,MK_P2,MK_ZAV1,MK_ZAV2,MK_STIT,MK_VYL,MK_RESET);
+
 type
   TLogikaES = class(TDataModule)
     Timer1: TTimer;
@@ -50,6 +52,7 @@ type
     t_postavene_cesty: TDictionary<TStavadloObjekt,TCesta>;
 
     t_volat_dratotah: Boolean;
+    t_menu_objekt: TStavadloObjekt;
 
     function DajKolajCiara(p_c_jednotky: Integer): TKolajCiara;
     function DajVyhybka(p_c_jednotky: Integer): TVyhybka;
@@ -76,6 +79,9 @@ type
     procedure OtestujNavestidla;
     procedure ResetujVyhybky(p_potvrd: Boolean);
     procedure ResetujNavestidla(p_potvrd: Boolean);
+    procedure ResetujVyhybku(p_vyhybka: TVyhybka; p_potvrd: Boolean);
+    procedure ResetujNavestidlo(p_navestidlo: TNavestidlo; p_potvrd: Boolean);
+    procedure Privolavacka(p_navestidlo: TNavestidlo; p_potvrd: Boolean);
 
     procedure AktualizujVolnoznak(p_navestidlo: TNavestidlo);
 
@@ -105,6 +111,8 @@ type
     function DajHitBox(p_objekt: TStavadloObjekt): THitBox;
 
     procedure SpracujKlavesu(p_klavesta: Word; p_shift: TShiftState);
+    procedure ZobrazMenu(p_x,p_y: Integer; p_objekt: TStavadloObjekt);
+    procedure SpracujMenu(p_menu: TMenuPolozka);
   end;
 
 var
@@ -156,6 +164,7 @@ begin
   t_postavene_cesty:=TDictionary<TStavadloObjekt,TCesta>.Create;
 
   t_volat_dratotah:=False;
+  t_menu_objekt:=nil;
 
   subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini');
   try
@@ -357,6 +366,7 @@ procedure TLogikaES.Timer1Timer(Sender: TObject);
 begin
   Form1.PaintBox1.Invalidate;
   Form1.PaintBoxPoruchy.Invalidate;
+  Form1.Cas.Caption:=FormatDateTime('dd.mm.yyyy hh:nn:ss',Now);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -613,7 +623,11 @@ begin
       end;
     end;
 
-    if(vysledok<>nil) and (vysledok is TNavestidloHlavne) and ((vysledok as TNavestidloHlavne).Navest[False]=CN_PRIVOLAVACKA) then
+    if(vysledok<>nil) and (ssCtrl in p_shift) and ((vysledok is TNavestidlo) or (vysledok is TKolajCiara) or (vysledok is TVyhybka)) then
+    begin
+      ZobrazMenu(p_x,p_y,vysledok);
+    end
+    else if(vysledok<>nil) and (vysledok is TNavestidloHlavne) and ((vysledok as TNavestidloHlavne).Navest[False]=CN_PRIVOLAVACKA) then
     begin
       povely:=TList<TPair<Integer,Boolean>>.Create;
       try
@@ -738,11 +752,7 @@ begin
   begin
     for objekt in t_plan do
     begin
-      if (objekt is TVyhybka) then
-      begin
-        if (objekt as TVyhybka).Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0((objekt as TVyhybka).Adresa,(objekt as TVyhybka).OtocitPolaritu)
-        else if (objekt as TVyhybka).Pozicia in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0((objekt as TVyhybka).Adresa,not (objekt as TVyhybka).OtocitPolaritu);
-      end;
+      if (objekt is TVyhybka) then ResetujVyhybku((objekt as TVyhybka),p_potvrd);
     end;
 
     if t_volat_dratotah then DratotahDlg.Obnov;
@@ -754,27 +764,47 @@ end;
 procedure TLogikaES.ResetujNavestidla(p_potvrd: Boolean);
 var
   objekt: TStavadloObjekt;
-  povely: TList<TPair<Integer,Boolean>>;
-  povel: TPair<Integer,Boolean>;
 begin
   if p_potvrd then
   begin
     for objekt in t_plan do
     begin
-      if (objekt is TNavestidlo) then
-      begin
-        povely:=TList<TPair<Integer,Boolean>>.Create;
-        try
-          (objekt as TNavestidlo).Reset(povely);
-          for povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
-        finally
-          povely.Free;
-        end;
-      end;
+      if (objekt is TNavestidlo) then ResetujNavestidlo(objekt as TNavestidlo,p_potvrd);
     end;
 
     if t_volat_dratotah then DratotahDlg.Obnov;
   end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ResetujVyhybku(p_vyhybka: TVyhybka; p_potvrd: Boolean);
+begin
+  if p_vyhybka.Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0((p_vyhybka as TVyhybka).Adresa,(p_vyhybka as TVyhybka).OtocitPolaritu)
+  else if p_vyhybka.Pozicia in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0((p_vyhybka as TVyhybka).Adresa,not (p_vyhybka as TVyhybka).OtocitPolaritu);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ResetujNavestidlo(p_navestidlo: TNavestidlo; p_potvrd: Boolean);
+var
+  povely: TList<TPair<Integer,Boolean>>;
+  povel: TPair<Integer,Boolean>;
+begin
+  povely:=TList<TPair<Integer,Boolean>>.Create;
+  try
+    (p_navestidlo as TNavestidlo).Reset(povely);
+    for povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
+  finally
+    povely.Free;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.Privolavacka(p_navestidlo: TNavestidlo; p_potvrd: Boolean);
+begin
+
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -866,5 +896,93 @@ begin
   end;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ZobrazMenu(p_x,p_y: Integer; p_objekt: TStavadloObjekt);
+begin
+  if p_objekt is TVyhybka then
+  begin
+    t_menu_objekt:=p_objekt;
+    Form1.STAV1.Visible:=True;
+    Form1.SSTAV.Visible:=True;
+    Form1.STOJ1.Visible:=False;
+    Form1.DN1.Visible:=False;
+    Form1.PN1.Visible:=False;
+    Form1.SNAV.Visible:=False;
+    Form1.P1.Visible:=(t_menu_objekt as TVyhybka).JeVolna and ((t_menu_objekt as TVyhybka).Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]);
+    Form1.P2.Visible:=(t_menu_objekt as TVyhybka).JeVolna and ((t_menu_objekt as TVyhybka).Pozicia in [VPO_NEZNAMA,VPO_ROVNO,VPO_ROVNO_OTAZNIK]);
+    Form1.SVYH.Visible:=True;
+    Form1.ZAV1.Visible:=(not (t_menu_objekt as TVyhybka).RucnyZaver) and ((t_menu_objekt as TVyhybka).Pozicia<>VPO_NEZNAMA);
+    Form1.ZAV2.Visible:=(t_menu_objekt as TVyhybka).RucnyZaver;
+    Form1.SZAV.Visible:=True;
+    Form1.STIT1.Visible:=True;
+    Form1.VYL1.Visible:=True;
+    Form1.SVYL.Visible:=True;
+    Form1.RESET1.Visible:=True;
+  end
+  else if p_objekt is TNavestidlo then
+  begin
+    t_menu_objekt:=p_objekt;
+    Form1.STAV1.Visible:=True;
+    Form1.SSTAV.Visible:=True;
+    Form1.STOJ1.Visible:=(t_menu_objekt as TNavestidlo).Navest[False]<>CN_STOJ;
+    Form1.DN1.Visible:=((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ) and ((t_menu_objekt as TNavestidlo).JeZdroj);
+    Form1.PN1.Visible:=(t_menu_objekt is TNavestidloHlavne) and ((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ);
+    Form1.SNAV.Visible:=True;
+    Form1.P1.Visible:=False;
+    Form1.P2.Visible:=False;
+    Form1.SVYH.Visible:=False;
+    Form1.ZAV1.Visible:=False;
+    Form1.ZAV2.Visible:=False;
+    Form1.SZAV.Visible:=False;
+    Form1.STIT1.Visible:=True;
+    Form1.VYL1.Visible:=False;
+    FOrm1.SVYL.Visible:=True;
+    Form1.RESET1.Visible:=True;
+  end
+  else if p_objekt is TKolajCiara then
+  begin
+    t_menu_objekt:=p_objekt;
+    Form1.STAV1.Visible:=True;
+    Form1.SSTAV.Visible:=True;
+    Form1.STOJ1.Visible:=False;
+    Form1.DN1.Visible:=False;
+    Form1.PN1.Visible:=False;
+    Form1.SNAV.Visible:=False;
+    Form1.P1.Visible:=False;
+    Form1.P2.Visible:=False;
+    Form1.SVYH.Visible:=False;
+    Form1.ZAV1.Visible:=False;
+    Form1.ZAV2.Visible:=False;
+    Form1.SZAV.Visible:=False;
+    Form1.STIT1.Visible:=True;
+    Form1.VYL1.Visible:=True;
+    FOrm1.SVYL.Visible:=True;
+    Form1.RESET1.Visible:=False;
+  end;
+
+  Form1.PopupMenu1.Popup(p_x,p_y);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.SpracujMenu(p_menu: TMenuPolozka);
+begin
+  case p_menu of
+//    MK_STAV: Form1.ZobrazStav(;
+    MK_STOJ: ;
+    MK_DN: ;
+    MK_PN: ;
+    MK_P1: if (t_menu_objekt as TVyhybka).JeVolna then CPort.VydajPovelB0((t_menu_objekt as TVyhybka).Adresa,not (t_menu_objekt as TVyhybka).OtocitPolaritu);
+    MK_P2: if (t_menu_objekt as TVyhybka).JeVolna then CPort.VydajPovelB0((t_menu_objekt as TVyhybka).Adresa,(t_menu_objekt as TVyhybka).OtocitPolaritu);
+    MK_ZAV1: (t_menu_objekt as TVyhybka).NastavRucnyZaver(True,False);
+    MK_ZAV2: (t_menu_objekt as TVyhybka).NastavRucnyZaver(False,False);
+    MK_STIT: ;
+    MK_VYL: ;
+    MK_RESET: ResetujNavestidlo(t_menu_objekt as TNavestidlo,False);
+  end;
+
+  AktualizujPanely;
+end;
 
 end.

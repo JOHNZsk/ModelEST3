@@ -299,6 +299,7 @@ implementation
   function TCesta.Zavri(p_posun: Boolean; p_zdroj: TStavadloObjekt): Boolean;
   var
     kolaj: TCestaKolaj;
+    vyhybka: TCestaVyhybka;
   begin
     assert(t_posunova or (not p_posun));
     t_aktual_posun:=p_posun;
@@ -309,6 +310,15 @@ implementation
     for kolaj in t_kolaje do
     begin
       if not kolaj.Kolaj.JeVolna then
+      begin
+        Result:=False;
+        break;
+      end;
+    end;
+
+    for vyhybka in t_vyhybky do
+    begin
+      if vyhybka.Vyhybka.RucnyZaver and (vyhybka.Vyhybka.Pozicia<>vyhybka.Poloha) then
       begin
         Result:=False;
         break;

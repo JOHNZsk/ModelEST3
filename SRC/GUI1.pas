@@ -28,6 +28,25 @@ type
     PaintBoxPoruchy: TPaintBox32;
     PaintBoxRizika: TPaintBox32;
     PaintBox1: TPaintBox32;
+    Cas: TLabel;
+    Panel3: TPanel;
+    PopupMenu1: TPopupMenu;
+    STOJ1: TMenuItem;
+    DN1: TMenuItem;
+    SNAV: TMenuItem;
+    P1: TMenuItem;
+    P2: TMenuItem;
+    SZAV: TMenuItem;
+    STIT1: TMenuItem;
+    VYL1: TMenuItem;
+    PN1: TMenuItem;
+    STAV1: TMenuItem;
+    SSTAV: TMenuItem;
+    SVYL: TMenuItem;
+    RESET1: TMenuItem;
+    ZAV1: TMenuItem;
+    ZAV2: TMenuItem;
+    SVYH: TMenuItem;
     procedure Diagnostika1Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -41,6 +60,7 @@ type
     procedure PaintBoxPoruchyPaintBuffer(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure STAV1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -255,6 +275,21 @@ end;
 procedure TForm1.Resetvhybej1Click(Sender: TObject);
 begin
   LogikaES.ResetujVyhybky(False);
+end;
+
+procedure TForm1.STAV1Click(Sender: TObject);
+begin
+  if Sender=STAV1 then LogikaES.SpracujMenu(MK_STAV)
+  else if Sender=STOJ1 then LogikaES.SpracujMenu(MK_STOJ)
+  else if Sender=DN1 then LogikaES.SpracujMenu(MK_DN)
+  else if Sender=PN1 then LogikaES.SpracujMenu(MK_PN)
+  else if Sender=P1 then LogikaES.SpracujMenu(MK_P1)
+  else if Sender=P2 then LogikaES.SpracujMenu(MK_P2)
+  else if Sender=ZAV1 then LogikaES.SpracujMenu(MK_ZAV1)
+  else if Sender=ZAV2 then LogikaES.SpracujMenu(MK_ZAV2)
+  else if Sender=STIT1 then LogikaES.SpracujMenu(MK_STIT)
+  else if Sender=VYL1 then LogikaES.SpracujMenu(MK_VYL)
+  else if Sender=RESET1 then LogikaES.SpracujMenu(MK_RESET)
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

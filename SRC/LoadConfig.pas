@@ -6,6 +6,7 @@ interface
   type TConfigLoader=class(TObject)
     private
       t_nazov: string;
+      t_nazov_stitky: string;
 
       function Chyba(p_text: string): Boolean;
 
@@ -15,9 +16,12 @@ interface
       function NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
       function NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
       function NacitajKonfiguraciuPlanText(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
-      function NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
+      function NacitajKonfiguraciuPlanStanOb(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
 
       function NacitajKonfiguraciuPlanDopravna(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+
+      function NacitajKonfiguraciuOdvrat(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
 
       function NacitajKonfiguraciuHitBox(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
 
@@ -35,25 +39,35 @@ interface
       function NacitajKonfiguraciuZlozena(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
 
       function NacitajKonfiguraciuPlan(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuOdvraty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
       function NacitajKonfiguraciuHitBoxy(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
       function NacitajKonfiguraciuZaverovka(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
       function NacitajKonfiguraciuZlozene(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
 
       function NacitajKonfiguraciuObsah(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
 
+      function NacitajStitok(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajVyluku(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajText(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+
+      function NacitajStitky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajVyluky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajTexty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
     public
-      constructor Create(p_nazov: string);
+      constructor Create(p_nazov,p_stitky: string);
       function NacitajKonfiguraciu(p_ciel: TLogikaES): Boolean;
+      function NacitajStitkyVyluky(p_ciel: TLogikaES): Boolean;
   end;
 
 implementation
   uses SysUtils, Forms, GUI1, Types;
 
-  constructor TConfigLoader.Create(p_nazov: string);
+  constructor TConfigLoader.Create(p_nazov,p_stitky: string);
   begin
     inherited Create;
 
     t_nazov:=p_nazov;
+    t_nazov_stitky:=p_stitky;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -195,7 +209,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
   
-  function TConfigLoader.NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
+  function TConfigLoader.NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
   var
     vyhybka: TVyhybka;
     x_hrot,y_hrot,x_rovno,y_rovno,x_odboc,y_odboc: Integer;
@@ -278,7 +292,7 @@ implementation
       else if p_zdroj.AttrName[i]='ykon' then y_kon:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='cislo' then cislo:=p_zdroj.AttrValue[i]
       else if p_zdroj.AttrName[i]='cjednotky' then cjednotky:=StrToIntDef(p_zdroj.AttrValue[i],-1)
-      else if p_zdroj.AttrName[i]='spojzelenu' then spojit_zelenu:=p_zdroj.AttrValue[i]='True'
+      else if p_zdroj.AttrName[i]='spojitzelenu' then spojit_zelenu:=p_zdroj.AttrValue[i]='True'
       else if p_zdroj.AttrName[i]='bezzltej' then bez_zltej:=p_zdroj.AttrValue[i]='True'
       else if p_zdroj.AttrName[i]='cervena' then adresy[NOF_C]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='zelena' then adresy[NOF_Z]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
@@ -305,6 +319,7 @@ implementation
     htext: string;
     cjednotky: Integer;
     nastred: Boolean;
+    napravo: Boolean;
     velkost: Integer;
     i: Integer;
   begin
@@ -313,6 +328,7 @@ implementation
     htext:='???';
     cjednotky:=0;
     nastred:=False;
+    napravo:=False;
     velkost:=0;
 
     for i := 0 to p_zdroj.AttrCount-1 do
@@ -323,11 +339,12 @@ implementation
       else if p_zdroj.AttrName[i]='cjednotky' then cjednotky:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='velkost' then velkost:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='nastred' then nastred:=p_zdroj.AttrValue[i]='True'
+      else if p_zdroj.AttrName[i]='napravo' then napravo:=p_zdroj.AttrValue[i]='True'
     end;
 
     if(x_zac>=0) and (y_zac>=0) and (cjednotky>0) then
     begin      
-      text:=TText.Create(x_zac,y_zac,htext,velkost,nastred,cjednotky,p_dopravna);
+      text:=TText.Create(x_zac,y_zac,htext,velkost,nastred,napravo,cjednotky,p_dopravna);
       p_ciel.PridajObjekt(text);
       Result:=True;
     end
@@ -335,8 +352,48 @@ implementation
   end;
 
   //////////////////////////////////////////////////////////////////////////////
-  
-  function TConfigLoader.NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
+
+  function TConfigLoader.NacitajKonfiguraciuPlanStanOb(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    stan: TStanObsluhy;
+    x_zac,y_zac,x_kon,y_kon: Integer;
+    htext: string;
+    poloha: Integer;
+    cjednotky: Integer;
+    i: Integer;
+  begin
+    x_zac:=-1;
+    y_zac:=-1;
+    x_kon:=-1;
+    y_kon:=-1;
+    htext:='???';
+    cjednotky:=0;
+
+    poloha:=0;
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='xzac' then x_zac:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='yzac' then y_zac:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='xkon' then x_kon:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='ykon' then y_kon:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='nazov' then htext:=p_zdroj.AttrValue[i]
+      else if p_zdroj.AttrName[i]='ciara' then poloha:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='cjednotky' then cjednotky:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+    end;
+
+    if(x_zac>=0) and (y_zac>=0) and (x_kon>=0) and (y_kon>=0)and (cjednotky>0) and (poloha>0) and (poloha<5) then
+    begin
+      stan:=TStanObsluhy.Create(x_zac,y_zac,x_kon,y_kon,poloha,htext,cjednotky,p_dopravna);
+      p_ciel.PridajObjekt(stan);
+      Result:=True;
+    end
+    else Result:=Chyba('Chybné položka stan. obsluhy è. '+IntToStr(p_poradie));
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
   var
     sulibrk: TSulibrk;
     x,y: Integer;
@@ -380,6 +437,7 @@ implementation
     poradie_nav_odchodove: Integer;
     poradie_text: Integer;
     poradie_sulibrk: Integer;
+    poradie_stanob: Integer;
   begin
     dnazov:='';
     dskratka:='';
@@ -402,7 +460,8 @@ implementation
     poradie_nav_odchodove:=1;
     poradie_text:=1;
     poradie_sulibrk:=1;
-  
+    poradie_stanob:=1;
+
     poc:=p_zdroj.XChildrenCount;
 
     Result:=True;
@@ -446,6 +505,12 @@ implementation
         p_zdroj.XPath:='/Konfiguracia/Plan/Dopravna['+IntToStr(p_poradie)+']/Text['+IntToStr(poradie_text)+']';
         Result:=NacitajKonfiguraciuPlanText(dopravna,poradie_text,p_zdroj,p_ciel);
         Inc(poradie_text);
+      end
+      else if(nazov='StanOb') then
+      begin
+        p_zdroj.XPath:='/Konfiguracia/Plan/Dopravna['+IntToStr(p_poradie)+']/StanOb['+IntToStr(poradie_stanob)+']';
+        Result:=NacitajKonfiguraciuPlanStanOb(dopravna,poradie_text,p_zdroj,p_ciel);
+        Inc(poradie_stanob);
       end
       else if(nazov='Sulibrk') then
       begin
@@ -492,7 +557,68 @@ implementation
       if not Result then break;
     end;    
   end;
-  
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajKonfiguraciuOdvrat(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    cjvyhybka,cjvyhybkou: Integer;
+    poloha,polohou: TVyhybkaPozicia;
+    vyhybka,vyhybkou: TVyhybka;
+    i: Integer;
+  begin
+    cjvyhybka:=-1;
+    cjvyhybkou:=-1;
+    poloha:=VPO_NEZNAMA;
+    polohou:=VPO_NEZNAMA;
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='cjvyhybka' then cjvyhybka:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='cjvyhybkou' then cjvyhybkou:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='poloha' then poloha:=VyhybkaPoziciaXML(p_zdroj.AttrValue[i])
+      else if p_zdroj.AttrName[i]='polohou' then polohou:=VyhybkaPoziciaXML(p_zdroj.AttrValue[i])
+    end;
+
+    vyhybka:=p_ciel.DajObjekt(KJ_VYHYBKA,cjvyhybka) as TVyhybka;
+    vyhybkou:=p_ciel.DajObjekt(KJ_VYHYBKA,cjvyhybkou) as TVyhybka;
+
+    if(vyhybka<>nil) and (vyhybkou<>nil) and (poloha in [VPO_ROVNO,VPO_ODBOCKA]) and (polohou in [VPO_ROVNO,VPO_ODBOCKA]) then
+    begin
+      vyhybkou.PridajOdvrat(polohou,vyhybka,poloha);
+      Result:=True;
+    end
+    else Result:=Chyba('Neplatný odvrat');
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajKonfiguraciuOdvraty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    poc: Integer;
+    i: Integer;
+    nazov: string;
+  begin
+    poc:=p_zdroj.XChildrenCount;
+
+    Result:=True;
+
+    for i := 0 to poc-1 do
+    begin
+      nazov:=p_zdroj.XChildName[i];
+
+      if(nazov='Odvrat') then
+      begin
+        p_zdroj.XPath:='/Konfiguracia/Odvraty/Odvrat['+IntToStr(i+1)+']';
+        Result:=NacitajKonfiguraciuOdvrat(i+1,p_zdroj,p_ciel);
+      end
+      else Result:=Chyba('Neplatný element '+nazov+'v odvratoch');
+
+      p_zdroj.XPath:='/Konfiguracia/Odvraty';
+
+      if not Result then break;
+    end;
+  end;
 
   //////////////////////////////////////////////////////////////////////////////
 
@@ -987,6 +1113,13 @@ implementation
     end
     else Result:=Chyba('Chýba plán ko¾ajiska');
 
+    if Result and p_zdroj.HasXPath('/Konfiguracia/Odvraty') then
+    begin
+      p_zdroj.XPath:='/Konfiguracia/Odvraty';
+      Result:=NacitajKonfiguraciuOdvraty(p_zdroj,p_ciel);
+      p_zdroj.XPath:='/Konfiguracia';
+    end;
+
     if Result and p_zdroj.HasXPath('/Konfiguracia/HitBoxy') then
     begin
       p_zdroj.XPath:='/Konfiguracia/HitBoxy';
@@ -1032,4 +1165,227 @@ implementation
     end;
   end;
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajStitok(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    i: Integer;
+    kj: TKodJednotky;
+    cj: Integer;
+    text: string;
+    objekt: TStavadloObjekt;
+  begin
+    Result:=True;
+
+    kj:=KJ_KOLAJCIARA;
+    cj:=0;
+    text:='';
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='kodjednotky' then kj:=KodJednotkyXML(p_zdroj.AttrValue[i])
+      else if p_zdroj.AttrName[i]='cjednotky' then cj:=StrToIntDef(p_zdroj.AttrValue[i],0)
+    end;
+
+    text:=p_zdroj.XText;
+    objekt:=LogikaES.DajObjekt(kj,cj);
+
+    if objekt<>nil then
+    begin
+      if objekt is TKolajCiara then (objekt as TKolajCiara).NastavStitok(text)
+      else if objekt is TVyhybka then (objekt as TVyhybka).NastavStitok(text)
+      else if objekt is TNavestidlo then (objekt as TNavestidlo).NastavStitok(text)
+      else Result:=Chyba('Výluka na prvku, ktorý nemá výluky');
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajStitky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    poc: Integer;
+    i: Integer;
+    nazov: string;
+  begin
+    poc:=p_zdroj.XChildrenCount;
+
+    Result:=True;
+
+    for i := 0 to poc-1 do
+    begin
+      nazov:=p_zdroj.XChildName[i];
+
+      if(nazov='Stitok') then
+      begin
+        p_zdroj.XPath:='/StitkyVyluky/Stitky/Stitok['+IntToStr(i+1)+']';
+        Result:=NacitajStitok(i+1,p_zdroj,p_ciel);
+      end
+      else Result:=Chyba('Neplatný element '+nazov+'v zozname štítkov');
+
+      p_zdroj.XPath:='/StitkyVyluky/Stitky';
+
+      if not Result then break;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajVyluku(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    i: Integer;
+    kj: TKodJednotky;
+    cj: Integer;
+    text: string;
+    objekt: TStavadloObjekt;
+  begin
+    Result:=True;
+
+    kj:=KJ_KOLAJCIARA;
+    cj:=0;
+    text:='';
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='kodjednotky' then kj:=KodJednotkyXML(p_zdroj.AttrValue[i])
+      else if p_zdroj.AttrName[i]='cjednotky' then cj:=StrToIntDef(p_zdroj.AttrValue[i],0)
+    end;
+
+    text:=p_zdroj.XText;
+    objekt:=LogikaES.DajObjekt(kj,cj);
+
+    if objekt<>nil then
+    begin
+      if objekt is TKolajCiara then (objekt as TKolajCiara).NastavVyluku(text)
+      else if objekt is TVyhybka then (objekt as TVyhybka).NastavVyluku(text)
+      else Result:=Chyba('Výluka na prvku, ktorý nemá výluky');
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajText(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    i: Integer;
+    kj: TKodJednotky;
+    cj: Integer;
+    text: string;
+    objekt: TStavadloObjekt;
+  begin
+    Result:=True;
+
+    kj:=KJ_KOLAJCIARA;
+    cj:=0;
+    text:='';
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='kodjednotky' then kj:=KodJednotkyXML(p_zdroj.AttrValue[i])
+      else if p_zdroj.AttrName[i]='cjednotky' then cj:=StrToIntDef(p_zdroj.AttrValue[i],0)
+    end;
+
+    text:=p_zdroj.XText;
+    objekt:=LogikaES.DajObjekt(kj,cj);
+
+    if objekt<>nil then
+    begin
+      if objekt is TText then (objekt as TText).NastavPredefText(text)
+      else Result:=Chyba('Text na prvku, ktorý nie je textom');
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajVyluky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    poc: Integer;
+    i: Integer;
+    nazov: string;
+  begin
+    poc:=p_zdroj.XChildrenCount;
+
+    Result:=True;
+
+    for i := 0 to poc-1 do
+    begin
+      nazov:=p_zdroj.XChildName[i];
+
+      if(nazov='Vyluka') then
+      begin
+        p_zdroj.XPath:='/StitkyVyluky/Vyluky/Vyluka['+IntToStr(i+1)+']';
+        Result:=NacitajVyluku(i+1,p_zdroj,p_ciel);
+      end
+      else Result:=Chyba('Neplatný element '+nazov+'v zozname výluk');
+
+      p_zdroj.XPath:='/StitkyVyluky/Vyluky';
+
+      if not Result then break;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajTexty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    poc: Integer;
+    i: Integer;
+    nazov: string;
+  begin
+    poc:=p_zdroj.XChildrenCount;
+
+    Result:=True;
+
+    for i := 0 to poc-1 do
+    begin
+      nazov:=p_zdroj.XChildName[i];
+
+      if(nazov='Text') then
+      begin
+        p_zdroj.XPath:='/StitkyVyluky/Texty/Text['+IntToStr(i+1)+']';
+        Result:=NacitajText(i+1,p_zdroj,p_ciel);
+      end
+      else Result:=Chyba('Neplatný element '+nazov+'v zozname textov');
+
+      p_zdroj.XPath:='/StitkyVyluky/Texty';
+
+      if not Result then break;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajStitkyVyluky(p_ciel: TLogikaES): Boolean;
+  var
+    parser: TipwXMLp;
+  begin
+    Result:=True;
+
+    parser:=TipwXMLp.Create(nil);
+    try
+      parser.ParseFile(t_nazov_stitky);
+
+      if parser.HasXPath('/StitkyVyluky') then
+      begin
+        if parser.HasXPath('/StitkyVyluky/Stitky') then
+        begin
+          parser.XPath:='/StitkyVyluky/Stitky';
+          Result:=NacitajStitky(parser,p_ciel);
+        end;
+
+        if parser.HasXPath('/StitkyVyluky/Vyluky') then
+        begin
+          parser.XPath:='/StitkyVyluky/Vyluky';
+          Result:=NacitajVyluky(parser,p_ciel);
+        end;
+
+        if parser.HasXPath('/StitkyVyluky/Texty') then
+        begin
+          parser.XPath:='/StitkyVyluky/Texty';
+          Result:=NacitajTexty(parser,p_ciel);
+        end;
+      end
+      else Result:=Chyba('V konfiguraci chybí výchozí prvek XML');
+    finally
+      parser.Free;
+    end;
+  end;
 end.

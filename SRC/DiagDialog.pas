@@ -73,8 +73,6 @@ begin
   end
   else SimPripoj.Checked:=False;
 
-
-
   Form1.VLoconet.Caption:=text;
 end;
 

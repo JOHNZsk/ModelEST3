@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, Generics.Collections, Synaser,
-  Vcl.ExtCtrls, IniFiles;
+  Vcl.ExtCtrls;
 
 type
   TByteDynPoleW=class(TObject)
@@ -31,7 +31,6 @@ type
     t_rychlost: Cardinal;
     t_hwflow: Boolean;
     t_simulacia: Boolean;
-    t_reset_navestidiel: Boolean;
 
     t_simbuffer: TBytes;
 
@@ -56,6 +55,8 @@ type
     { Public declarations }
     property PortCislo: string read t_portcislo;
     property JeSimulacia: Boolean read t_simulacia;
+
+    procedure Nastav(p_port: string; p_rychlost: Integer; p_hwflow: Boolean; p_simulacia: Boolean);
 
     function DajPocetPovelov: Integer;
     procedure VydajPovel82;
@@ -95,8 +96,6 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 
 procedure TCPort.DataModuleCreate(Sender: TObject);
-var
-  subor: TIniFile;
 begin
   t_opkod:=0;
   SetLength(t_sprava,0);
@@ -104,23 +103,21 @@ begin
   t_povely:=TQueue<TByteDynPoleW>.Create;
   t_port:=TBlockSerial.Create;
 
-  t_portcislo:='COM2';
+  t_portcislo:='COM5';
   t_rychlost:=115200;
   t_hwflow:=False;
   t_simulacia:=False;
-  t_reset_navestidiel:=False;
   SetLength(t_simbuffer,0);
+end;
 
-  subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'\conf.ini');
-  try
-    t_portcislo:=subor.ReadString('Main','COMPort','COM1');
-    t_rychlost:=subor.ReadInteger('Main','Rychlost',115200);
-    t_hwflow:=subor.ReadBool('Main','HWFlow',False);
-    t_simulacia:=subor.ReadBool('Main','Simulacia',False);
-    t_reset_navestidiel:=subor.ReadBool('Main','ResetNavestidiel',False);
-  finally
-    subor.Free;
-  end;
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TCPort.Nastav(p_port: string; p_rychlost: Integer; p_hwflow: Boolean; p_simulacia: Boolean);
+begin
+  t_portcislo:=p_port;
+  t_rychlost:=p_rychlost;
+  t_hwflow:=p_hwflow;
+  t_simulacia:=p_simulacia;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,9 +153,6 @@ begin
   VydajPovel83;
 
   DiagDlg.Button1.Enabled:=False;
-
-  LogikaES.OtestujVyhybky;
-  if t_reset_navestidiel then LogikaES.ResetujNavestidla(True);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -252,7 +246,7 @@ begin
   Timer1.Enabled:=False;
 
   try
-    if not t_simulacia then output:=t_port.RecvBufferEx(@buf,64,30)
+    if not t_simulacia then output:=t_port.RecvBufferEx(@buf,64,5)
     else
     begin
       for i:=Low(t_simbuffer) to High(t_simbuffer) do
@@ -509,6 +503,7 @@ begin
   t_simbuffer[Length(t_simbuffer)-1]:=v_pole[3];
 end;
 
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TCPort.ZapisPovel(p_povel: TByteDynPoleW);
 var

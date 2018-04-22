@@ -36,9 +36,12 @@ interface
       t_kolaje: TList<TCestaKolaj>;
       t_vyhybky: TList<TCestaVyhybka>;
 
+      t_zavreta: Boolean;
+
       function DajNavestidlo: TNavestidlo;
       procedure VyberVolnoznak(p_navestidlo: TNavestidlo);
     public
+      property Zavreta: Boolean read t_zavreta;
       property Cislo: Integer read t_cislo;
       property Dalsie: TNavestidloHlavne read t_dalsie;
 
@@ -238,7 +241,8 @@ implementation
         else t_navest:=CN_40AVYSTRAHA
       end;
 
-      p_navestidlo.RozsvietNavest(t_navest,povely);
+      if p_navestidlo.RucnyZaver then p_navestidlo.RozsvietNavest(CN_STOJ,povely)
+      else p_navestidlo.RozsvietNavest(t_navest,povely);
 
       for povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
       LogikaES.AktualizujVolnoZnak(p_navestidlo);
@@ -276,6 +280,8 @@ implementation
   var
     vyhybka: TCestaVyhybka;
   begin
+    t_zavreta:=False;
+
     for vyhybka in t_vyhybky do
     begin
       if vyhybka.Vyhybka.Pozicia<>vyhybka.Poloha then
@@ -304,12 +310,13 @@ implementation
     assert(t_posunova or (not p_posun));
     t_aktual_posun:=p_posun;
     t_aktual_zdroj:=p_zdroj;
+    t_zavreta:=True;
 
     Result:=True;
 
     for kolaj in t_kolaje do
     begin
-      if not kolaj.Kolaj.JeVolna then
+      if not kolaj.Kolaj.JeVolna(ZSO_VYHRADNY) then
       begin
         Result:=False;
         break;
@@ -325,7 +332,21 @@ implementation
       end;
     end;
 
-    if Result then for kolaj in t_kolaje do kolaj.Kolaj.Zaver:=ZVR_PREDBEZNY;
+    if Result then
+    begin
+      for vyhybka in t_vyhybky do
+      begin
+        if (vyhybka.Vyhybka.Stitok<>'') or (vyhybka.Vyhybka.Vyluka<>'') then LogikaES.PridajVolbaStitok(vyhybka.Vyhybka);
+      end;
+
+      for kolaj in t_kolaje do
+      begin
+        kolaj.Kolaj.Zaver:=ZVR_PREDBEZNY;
+        if (kolaj.Kolaj.Stitok<>'') or (kolaj.Kolaj.Vyluka<>'') then LogikaES.PridajVolbaStitok(kolaj.Kolaj);
+      end;
+
+      if (DajNavestidlo<>nil) and (DajNavestidlo.Stitok<>'') then LogikaES.PridajVolbaStitok(DajNavestidlo);
+    end;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -414,6 +435,7 @@ implementation
   var
     kolaj: TCestaKolaj;
   begin
+    t_zavreta:=False;
     ZrusVolnoznak;
     for kolaj in t_kolaje do kolaj.Kolaj.Zaver:=ZVR_NENI;
   end;

@@ -5,6 +5,7 @@ object LogikaES: TLogikaES
   Height = 150
   Width = 215
   object Timer1: TTimer
+    Enabled = False
     Interval = 240
     OnTimer = Timer1Timer
     Left = 24

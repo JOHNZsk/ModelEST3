@@ -47,11 +47,29 @@ type
     ZAV1: TMenuItem;
     ZAV2: TMenuItem;
     SVYH: TMenuItem;
+    ZAM1: TMenuItem;
+    ZAM2: TMenuItem;
+    SZAM: TMenuItem;
+    Panel4: TPanel;
+    VDebug: TLabel;
+    PanelSV: TPanel;
+    Label1: TLabel;
+    StitokVyluka: TEdit;
+    Panel5: TPanel;
+    KPV1: TMenuItem;
+    KSV1: TMenuItem;
+    RNAV1: TMenuItem;
+    RVYH1: TMenuItem;
+    Nastavenia1: TMenuItem;
+    Predefinovanietextov1: TMenuItem;
+    NAZOV1: TMenuItem;
+    N2: TMenuItem;
+    Nacelobrazovku1: TMenuItem;
+    PanelOkraj: TPanel;
     procedure Diagnostika1Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Koniec1Click(Sender: TObject);
     procedure Drtoah1Click(Sender: TObject);
@@ -61,12 +79,26 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure STAV1Click(Sender: TObject);
+    procedure PaintBoxRizikaPaintBuffer(Sender: TObject);
+    procedure PaintBox1MouseLeave(Sender: TObject);
+    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure StitokVylukaKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Predefinovanietextov1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Nacelobrazovku1Click(Sender: TObject);
   private
     { Private declarations }
+    t_maximalizovat: Boolean;
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
   public
+    property Maximalizovat: Boolean read t_maximalizovat;
     { Public declarations }
 
     procedure VypisChybu(p_text: string);
+    procedure Spusti(p_fullscreen,p_maximalizovat: Boolean);
   end;
 
 var
@@ -77,7 +109,13 @@ implementation
 {$R *.dfm}
 
 uses ComPort, DiagDialog, LogikaStavadlo, DratotahDialog, DateUtils,
-Generics.Collections;
+Generics.Collections, TextyDialog, Splash;
+
+procedure TForm1.CreateParams(var Params: TCreateParams);
+begin
+  inherited;
+  Params.ExStyle := Params.ExStyle or WS_EX_APPWINDOW;
+end;
 
 procedure TForm1.Diagnostika1Click(Sender: TObject);
 begin
@@ -93,13 +131,41 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Form2.Close;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  t_maximalizovat:=False;
+
   VJednotka.Caption:='';
   VLoconet.Caption:='';
+  VDebug.Caption:='';
+  PanelSV.Visible:=False;
 
   DoubleBuffered:=True;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.Spusti(p_fullscreen,p_maximalizovat: Boolean);
+begin
+  Show;
+  t_maximalizovat:=p_maximalizovat;
+
+  if p_fullscreen then
+  begin
+    Form1.BorderStyle:=bsNone;
+    Nacelobrazovku1.Checked:=True;
+  end;
+  if p_fullscreen or p_maximalizovat then Form1.WindowState:=wsMaximized;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
@@ -115,13 +181,8 @@ begin
     PanelPoruch.Width:=Form1.Width div 3;
   end
   else PanelPoruch.Width:=400;
-end;
 
-////////////////////////////////////////////////////////////////////////////////
-
-procedure TForm1.FormShow(Sender: TObject);
-begin
-  CPort.Pripoj;
+  VDebug.Caption:=IntToStr(Form1.Width)+'x'+IntToStr(Form1.Height);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,6 +190,39 @@ end;
 procedure TForm1.Koniec1Click(Sender: TObject);
 begin
   Close;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.Nacelobrazovku1Click(Sender: TObject);
+begin
+  if BorderStyle=bsNone then
+  begin
+    if not Maximalizovat then WindowState:=wsNormal;
+    Form1.BorderStyle:=bsSizeable;
+    Nacelobrazovku1.Checked:=False;
+  end
+  else
+  begin
+    if WindowState=wsMaximized then WindowState:=wsNormal;
+    BorderStyle:=bsNone;
+    WindowState:=wsMaximized;
+    Nacelobrazovku1.Checked:=True;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.PaintBox1MouseLeave(Sender: TObject);
+begin
+  LogikaES.ZrusHint;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+begin
+  LogikaES.VyberHint(X,Y);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,8 +241,8 @@ var
   farba: TColor32;
 begin
   x_zac:=(p_hitbox.Poloha.Left*p_ciel.Width) div LogikaES.SirkaPlanu;
-  y_zac:=(p_hitbox.Poloha.Top*p_ciel.Height) div LogikaES.SirkaPlanu;
-  x_kon:=(p_hitbox.Poloha.Right*p_ciel.Width) div LogikaES.VyskaPlanu;
+  y_zac:=(p_hitbox.Poloha.Top*p_ciel.Height) div LogikaES.VyskaPlanu;
+  x_kon:=(p_hitbox.Poloha.Right*p_ciel.Width) div LogikaES.SirkaPlanu;
   y_kon:=(p_hitbox.Poloha.Bottom*p_ciel.Height) div LogikaES.VyskaPlanu;
 
   if p_posun then farba:=clWhite32
@@ -166,6 +260,13 @@ var
   volba,volba_pred: TPair<TStavadloObjekt,Boolean>;
   bitmap: TBitmap32;
 begin
+  if LogikaES.NudzovyPovel then
+  begin
+    if (SecondOf(Now) mod 2)=0 then PanelOkraj.Color:=clRed
+    else PanelOkraj.Color:=clLime;
+  end
+  else PanelOkraj.Color:=clBlack;
+
   bitmap:=TBitmap32.Create;
   try
     bitmap.SetSizeFrom(PaintBox1);
@@ -204,13 +305,13 @@ begin
 
   if p_porucha.Dopravna<>nil then dopravna:=p_porucha.Dopravna.Skratka;
 
-  p_ciel.Textout(22,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),FormatDateTime('hh:nn:ss',p_porucha.Cas));
+  p_ciel.Textout(28,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),FormatDateTime('hh:nn:ss',p_porucha.Cas));
   if p_nazvy_dopravni then
   begin
-    p_ciel.Textout(92,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),'['+dopravna+']');
-    p_ciel.Textout(142,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),p_porucha.Text);
+    p_ciel.Textout(98,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),'['+dopravna+']');
+    p_ciel.Textout(148,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),p_porucha.Text);
   end
-  else p_ciel.Textout(92,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),p_porucha.Text);
+  else p_ciel.Textout(98,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),p_porucha.Text);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -219,7 +320,6 @@ procedure TForm1.PaintBoxPoruchyPaintBuffer(Sender: TObject);
 var
   tmp: TBitmap32;
   cas: TDateTime;
-
 begin
   tmp:=TBitmap32.Create;
   try
@@ -232,18 +332,25 @@ begin
       0: tmp.FillRect(0,0,tmp.Width-1,tmp.Height-1,clBlack32);
       1:
       begin
-        tmp.FillRect(0,0,tmp.Width-1,(tmp.Height div 3)-1,clWhite32);
-        tmp.FillRect(0,tmp.Height div 3,tmp.Width-1,tmp.Height-1,clBlack32);
+        tmp.FillRect(0,0,tmp.Width-1,(tmp.Height div 4)-1,clWhite32);
+        tmp.FillRect(0,tmp.Height div 4,tmp.Width-1,tmp.Height-1,clBlack32);
 
-        if(SecondOf(cas) mod 2)=0 then tmp.FillRect(3,3,18,(tmp.Height div 3)-4,clFuchsia32);
+        if(SecondOf(cas) mod 2)=0 then tmp.FillRect(3,3,18,(tmp.Height div 4)-4,clFuchsia32);
       end;
       2:
       begin
-        tmp.FillRect(0,0,tmp.Width-1,((tmp.Height*2) div 3)-1,clWhite32);
-        tmp.FillRect(0,(tmp.Height*2) div 3,tmp.Width-1,tmp.Height-1,clBlack32);
+        tmp.FillRect(0,0,tmp.Width-1,((tmp.Height*2) div 4)-1,clWhite32);
+        tmp.FillRect(0,(tmp.Height*2) div 4,tmp.Width-1,((tmp.Height*3) div 4)-1,clBlack32);
 
-        if(SecondOf(cas) mod 2)=0 then tmp.FillRect(3,3,18,((tmp.Height*2) div 3)-4,clFuchsia32);
+        if(SecondOf(cas) mod 2)=0 then tmp.FillRect(3,3,18,((tmp.Height*2) div 4)-4,clFuchsia32);
       end;
+      3:
+      begin
+        tmp.FillRect(0,0,tmp.Width-1,((tmp.Height*3) div 4)-1,clWhite32);
+        tmp.FillRect(0,(tmp.Height*3) div 4,tmp.Width-1,tmp.Height-1,clBlack32);
+
+        if(SecondOf(cas) mod 2)=0 then tmp.FillRect(3,3,18,((tmp.Height*3) div 4)-4,clFuchsia32);
+      end
       else
       begin
         tmp.FillRect(0,0,tmp.Width-1,tmp.Height-1,clWhite32);
@@ -253,9 +360,10 @@ begin
     end;
 
 
-    if(LogikaES.PocetPoruch>0) then VykresliPoruchu(tmp,LogikaES.NazvyDopravni,5,(tmp.Height div 3)-4,LogikaES.DajPoruchu(0));
-    if(LogikaES.PocetPoruch>1) then VykresliPoruchu(tmp,LogikaES.NazvyDopravni,(tmp.Height div 3)+5,((tmp.Height*2) div 3)-4,LogikaES.DajPoruchu(1));
-    if(LogikaES.PocetPoruch>2) then VykresliPoruchu(tmp,LogikaES.NazvyDopravni,((tmp.Height*2) div 3)+5,tmp.Height-4,LogikaES.DajPoruchu(2));
+    if(LogikaES.PocetPoruch>0) then VykresliPoruchu(tmp,LogikaES.NazvyDopravni,5,(tmp.Height div 4)-4,LogikaES.DajPoruchu(0));
+    if(LogikaES.PocetPoruch>1) then VykresliPoruchu(tmp,LogikaES.NazvyDopravni,(tmp.Height div 4)+5,((tmp.Height*2) div 4)-4,LogikaES.DajPoruchu(1));
+    if(LogikaES.PocetPoruch>2) then VykresliPoruchu(tmp,LogikaES.NazvyDopravni,((tmp.Height*2) div 4)+5,((tmp.Height*3) div 4)-4,LogikaES.DajPoruchu(2));
+    if(LogikaES.PocetPoruch>3) then VykresliPoruchu(tmp,LogikaES.NazvyDopravni,((tmp.Height*3) div 4)+5,tmp.Height-4,LogikaES.DajPoruchu(3));
 
     PaintBoxPoruchy.Buffer.Draw(0,0,tmp);
   finally
@@ -265,17 +373,169 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+procedure TForm1.PaintBoxRizikaPaintBuffer(Sender: TObject);
+var
+  tmp: TBitmap32;
+  max_sirka,max_popis: Integer;
+  text_dopravna: string;
+  text_nazov: string;
+  popis_a,popis_b,popis_c,popis_d,popis_e: string;
+  text_a,text_b,text_c,text_d,text_e: string;
+  cervena_a,cervena_b,cervena_c,cervena_d,cervena_e: Boolean;
+  text_potvrd: string;
+  vyska_r,pozicia_r: Integer;
+begin
+  tmp:=TBitmap32.Create;
+  try
+    tmp.Font.Size:=-10;
+    tmp.Font.Style:=[fsBold];
+
+    tmp.Width:=PaintBoxPoruchy.Width;
+    tmp.Height:=PaintBoxPoruchy.Height;
+
+    tmp.FillRect(0,0,tmp.Width-1,tmp.Height-1,clBlack32);
+
+    max_sirka:=0;
+
+    if LogikaES.NudzovyPovel then
+    begin
+      if(LogikaES.NudzovyPovelDopravna<>nil) then text_dopravna:=LogikaES.NudzovyPovelDopravna.Nazov
+      else text_dopravna:='Globálny';
+
+      if tmp.TextWidth(text_dopravna)>max_sirka then max_sirka:=tmp.TextWidth(text_dopravna);
+
+      text_nazov:=NudzovyPovelTypText(LogikaES.NudzovyPovelTyp);
+      if tmp.TextWidth(text_nazov)>max_sirka then max_sirka:=tmp.TextWidth(text_nazov);
+
+      popis_a:='(A)';
+      popis_b:='(B)';
+      popis_c:='(C)';
+      popis_d:='(D)';
+      popis_e:='(E)';
+
+      text_a:='';
+      text_b:='';
+      text_c:='';
+      text_d:='';
+      text_e:='';
+
+      cervena_a:=False;
+      cervena_b:=False;
+      cervena_c:=False;
+      cervena_d:=False;
+      cervena_e:=False;
+
+      case LogikaES.NudzovyPovelTyp of
+        NPT_STAV,NPT_ZRUSVYLUKU,NPT_ZRUSSTITOK: LogikaES.NudzovyPovelPrvok.VypisNudzovyPovelStav(popis_a,popis_b,popis_c,popis_d,popis_e,text_a,text_b,text_c,text_d,text_e,cervena_a,cervena_b,cervena_c,cervena_d,cervena_e);
+        NPT_RESETNAV: (LogikaES.NudzovyPovelPrvok as TNavestidlo).VypisNudzovyPovelReset(popis_a,popis_b,popis_c,popis_d,text_a,text_b,text_c,text_d,cervena_a,cervena_b,cervena_c,cervena_d);
+        NPT_RESETVYH: (LogikaES.NudzovyPovelPrvok as TVyhybka).VypisNudzovyPovelReset(popis_a,popis_b,popis_c,popis_d,text_a,text_b,text_c,text_d,cervena_a,cervena_b,cervena_c,cervena_d);
+        NPT_RESETNAVGLOBAL: LogikaES.VypisNudzovyPovelNavestidla(nil,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
+        NPT_RESETVYHGLOBAL: LogikaES.VypisNudzovyPovelVyhybky(nil,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
+        NPT_PRIVOLAVACKA: (LogikaES.NudzovyPovelPrvok as TNavestidloHlavne).VypisNudzovyPovelPrivolavacka(popis_a,popis_b,popis_c,popis_d,text_a,text_b,text_c,text_d,cervena_a,cervena_b,cervena_c,cervena_d);
+        NPT_ZAV2: (LogikaES.NudzovyPovelPrvok as TVyhybka).VypisNudzovyPovelZAV2(popis_a,popis_b,popis_c,popis_d,text_a,text_b,text_c,text_d,cervena_a,cervena_b,cervena_c,cervena_d);
+        NPT_KPV: LogikaES.VypisNudzovyPovelKPV(LogikaES.NudzovyPovelDopravna,popis_a,popis_b,popis_c,popis_d,popis_e,text_a,text_b,text_c,text_d,text_e,cervena_a,cervena_b,cervena_c,cervena_d,cervena_e);
+        NPT_KSV: LogikaES.VypisNudzovyPovelKSV(LogikaES.NudzovyPovelDopravna,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
+        NPT_RESETNAVDOP: LogikaES.VypisNudzovyPovelNavestidla(LogikaES.NudzovyPovelDopravna,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
+        NPT_RESETVYHDOP: LogikaES.VypisNudzovyPovelVyhybky(LogikaES.NudzovyPovelDopravna,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
+      end;
+
+      max_popis:=0;
+      if tmp.TextWidth(popis_a)>max_popis then max_popis:=tmp.TextWidth(popis_a);
+      if tmp.TextWidth(popis_b)>max_popis then max_popis:=tmp.TextWidth(popis_b);
+      if tmp.TextWidth(popis_c)>max_popis then max_popis:=tmp.TextWidth(popis_c);
+      if tmp.TextWidth(popis_d)>max_popis then max_popis:=tmp.TextWidth(popis_d);
+      if tmp.TextWidth(popis_e)>max_popis then max_popis:=tmp.TextWidth(popis_e);
+      max_popis:=max_popis+8;
+
+      if max_popis+tmp.TextWidth(text_a)>max_sirka then max_sirka:=max_popis+tmp.TextWidth(text_a)+8;
+      if max_popis+tmp.TextWidth(text_b)>max_sirka then max_sirka:=max_popis+tmp.TextWidth(text_b)+8;
+      if max_popis+tmp.TextWidth(text_c)>max_sirka then max_sirka:=max_popis+tmp.TextWidth(text_c)+8;
+      if max_popis+tmp.TextWidth(text_d)>max_sirka then max_sirka:=max_popis+tmp.TextWidth(text_d)+8;
+      if max_popis+tmp.TextWidth(text_e)>max_sirka then max_sirka:=max_popis+tmp.TextWidth(text_e)+8;
+
+      case LogikaES.NudzovyPovelPotvrdTyp of
+        NPP_ENTER: text_potvrd:='Potvrï (ENTER)';
+        NPP_ASDF: text_potvrd:='Potvrï (ASDF): ';
+        else text_potvrd:='Potvrï';
+      end;
+
+      text_potvrd:=text_potvrd+LogikaES.NudzovyPovelSekvencia;
+      if tmp.TextWidth(text_potvrd)>max_sirka then max_sirka:=tmp.TextWidth(text_potvrd);
+
+      max_sirka:=max_sirka+15;
+
+      tmp.FillRect(0,0,max_sirka-1,(tmp.Height div 4)-1,clWhite32);
+      tmp.FillRect(0,(tmp.Height div 4)+1,max_sirka-1,(tmp.Height*7) div 8,clWhite32);
+
+      tmp.Font.Color:=clRed;
+      tmp.Textout((max_sirka-tmp.TextWidth(text_dopravna)) div 2,2,text_dopravna);
+      tmp.Font.Color:=clBlack;
+      tmp.Textout((max_sirka-tmp.TextWidth(text_nazov)) div 2,16,text_nazov);
+
+      vyska_r:=(((tmp.Height*7) div 8)-((tmp.Height div 4)+1)) div 5;
+      pozicia_r:=(tmp.Height div 4)+2;
+
+      if cervena_a then tmp.Font.Color:=clRed else tmp.Font.Color:=clBlack;
+
+      tmp.Textout(5,pozicia_r,popis_a);
+      tmp.Textout(max_popis,pozicia_r,text_a);
+      pozicia_r:=pozicia_r+vyska_r;
+
+      if cervena_b then tmp.Font.Color:=clRed else tmp.Font.Color:=clBlack;
+
+      tmp.Textout(5,pozicia_r,popis_b);
+      tmp.Textout(max_popis,pozicia_r,text_b);
+      pozicia_r:=pozicia_r+vyska_r;
+
+      if cervena_c then tmp.Font.Color:=clRed else tmp.Font.Color:=clBlack;
+
+      tmp.Textout(5,pozicia_r,popis_c);
+      tmp.Textout(max_popis,pozicia_r,text_c);
+      pozicia_r:=pozicia_r+vyska_r;
+
+      if cervena_d then tmp.Font.Color:=clRed else tmp.Font.Color:=clBlack;
+
+      tmp.Textout(5,pozicia_r,popis_d);
+      tmp.Textout(max_popis,pozicia_r,text_d);
+      pozicia_r:=pozicia_r+vyska_r;
+
+      if cervena_e then tmp.Font.Color:=clRed else tmp.Font.Color:=clBlack;
+
+      tmp.Textout(5,pozicia_r,popis_e);
+      tmp.Textout(max_popis,pozicia_r,text_e);
+
+      tmp.Font.Color:=clWhite;
+      tmp.Textout(1,(tmp.Height*7) div 8+1,text_potvrd);
+    end;
+
+    PaintBoxRizika.Buffer.Draw(0,0,tmp);
+  finally
+    tmp.Free;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.Predefinovanietextov1Click(Sender: TObject);
+begin
+  TextyDlg.Show;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TForm1.Resetnvstidel1Click(Sender: TObject);
 begin
-  LogikaES.ResetujNavestidla(False);
+  LogikaES.ResetujNavestidla(nil,False);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.Resetvhybej1Click(Sender: TObject);
 begin
-  LogikaES.ResetujVyhybky(False);
+  LogikaES.ResetujVyhybky(nil,False);
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.STAV1Click(Sender: TObject);
 begin
@@ -283,6 +543,8 @@ begin
   else if Sender=STOJ1 then LogikaES.SpracujMenu(MK_STOJ)
   else if Sender=DN1 then LogikaES.SpracujMenu(MK_DN)
   else if Sender=PN1 then LogikaES.SpracujMenu(MK_PN)
+  else if Sender=ZAM1 then LogikaES.SpracujMenu(MK_ZAM1)
+  else if Sender=ZAM2 then LogikaES.SpracujMenu(MK_ZAM2)
   else if Sender=P1 then LogikaES.SpracujMenu(MK_P1)
   else if Sender=P2 then LogikaES.SpracujMenu(MK_P2)
   else if Sender=ZAV1 then LogikaES.SpracujMenu(MK_ZAV1)
@@ -290,6 +552,18 @@ begin
   else if Sender=STIT1 then LogikaES.SpracujMenu(MK_STIT)
   else if Sender=VYL1 then LogikaES.SpracujMenu(MK_VYL)
   else if Sender=RESET1 then LogikaES.SpracujMenu(MK_RESET)
+  else if Sender=KPV1 then LogikaES.SpracujMenu(MK_KPV)
+  else if Sender=KSV1 then LogikaES.SpracujMenu(MK_KSV)
+  else if Sender=RNAV1 then LogikaES.SpracujMenu(MK_RNAV)
+  else if Sender=RVYH1 then LogikaES.SpracujMenu(MK_RVYH)
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.StitokVylukaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key=VK_RETURN then LogikaES.PotvrdStitokVyluku
+  else if Key=VK_ESCAPE then LogikaES.ZrusStitokVyluku;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

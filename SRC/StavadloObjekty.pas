@@ -4,9 +4,13 @@ interface
   uses Graphics, GR32, Generics.Collections;
 
   type TZaver=(ZVR_NENI,ZVR_RUCNY,ZVR_PREDBEZNY,ZVR_PRESAH,ZVR_POSUNOVA,ZVR_VLAKOVA);
-  type TKodJednotky=(KJ_KOLAJCIARA,KJ_NAVESTIDLOZRIADOVACIE,KJ_NAVESTIDLOVCHODOVE,KJ_NAVESTIDLOODCHODOVE,KJ_VYHYBKA,KJ_TEXT,KJ_SULIBRK);
 
-  function KodJednotkyXML(p_text: string): TKodJednotky;
+  function ZaverText(p_hodnota: TZaver): string;
+
+  type TKodJednotky=(KJ_KOLAJCIARA,KJ_NAVESTIDLOZRIADOVACIE,KJ_NAVESTIDLOVCHODOVE,KJ_NAVESTIDLOODCHODOVE,KJ_VYHYBKA,KJ_TEXT,KJ_SULIBRK,KJ_STANOB);
+
+  function KodJednotkyXML(p_popis: string): TKodJednotky;
+  function KodJednotkyNaXML(p_popis: TKodJednotky): string;
   function KodJednotkyNaSkratku(p_hodnota: TKodJednotky): string;
 
   //**************************************************************************//
@@ -22,8 +26,8 @@ interface
 
   type TVyhybkaPozicia=(VPO_NEZNAMA,VPO_ROVNO,VPO_ODBOCKA,VPO_ROVNO_OTAZNIK,VPO_ODBOCKA_OTAZNIK);
 
-  function VyhybkaPoziciaXML(p_text: string): TVyhybkaPozicia;
-  function VyhybkaPoziciaNaText(p_text: TVyhybkaPozicia): string;
+  function VyhybkaPoziciaXML(p_popis: string): TVyhybkaPozicia;
+  function VyhybkaPoziciaNaText(p_popis: TVyhybkaPozicia): string;
 
   //**************************************************************************//
 
@@ -67,7 +71,8 @@ interface
       function DajKodJednotky: TKodJednotky; virtual; abstract;
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; virtual; abstract;
 
-      function PercentaNaPixely(p_percenta,p_plan_zac,p_plan_kon: Integer): Integer;
+      function PercentaNaPixelyX(p_percenta,p_plan_zac,p_plan_kon: Integer): Integer;
+      function PercentaNaPixelyY(p_percenta,p_plan_zac,p_plan_kon: Integer): Integer;
 
     public
       property KodJednotky: TKodJednotky read DajKodJednotky;
@@ -86,6 +91,25 @@ interface
 
       procedure NastavJeZdroj(p_posun: Boolean);
       procedure ZrusJeZdroj;
+
+      procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); virtual;
+  end;
+
+  //**************************************************************************//
+
+  type TStanObsluhy=class(TStavadloObjekt)
+    private
+      t_x_zac,t_y_zac,t_x_kon,t_y_kon: Integer;
+      t_ciara_poloha: Integer;
+      t_nazov: string;
+    protected
+      function DajKodJednotky: TKodJednotky; override;
+      function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
+
+    public
+      constructor Create(p_x_zac,p_y_zac,p_x_kon,p_y_kon: Integer; p_ciara_poloha: Integer; p_nazov: string; p_cjednotky: Integer; p_dopravna: TDopravna);
+
+      procedure Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer); override;
   end;
 
   //**************************************************************************//
@@ -93,16 +117,24 @@ interface
   type TText=class(TStavadloObjekt)
     private
       t_x_zac,t_y_zac: Integer;
-      t_text: string;
+      t_text,t_predef_text: string;
       t_nastred: Boolean;
+      t_napravo: Boolean;
       t_velkost: Integer;
+
+      function DajText: string;
     protected
       function DajKodJednotky: TKodJednotky; override;
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
 
     public
-      constructor Create(p_x_zac,p_y_zac: Integer; p_text: string; p_velkost: Integer; p_nastred: Boolean; p_cjednotky: Integer; p_dopravna: TDopravna);
+      property Text: string read DajText;
 
+      constructor Create(p_x_zac,p_y_zac: Integer; p_text: string; p_velkost: Integer; p_nastred,p_napravo: Boolean; p_cjednotky: Integer; p_dopravna: TDopravna);
+
+      function DajOrigText: string;
+      function DajPredefText: string;
+      procedure NastavPredefText(p_hodnota: string);
       procedure Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer); override;
   end;
 
@@ -123,22 +155,33 @@ interface
 
   //**************************************************************************//
 
+  type TKolajCiaraZavSposob=(ZSO_VYHRADNY,ZSO_STAVANIE,ZSO_ZOBRAZENIE);
+
   type TKolajCiara=class(TStavadloObjekt)
     private
       t_x_zac,t_x_kon,t_y_zac,t_y_kon: Integer;
       t_cislo: string;
       t_zaver: TZaver;
+      t_stitok: string;
+      t_vyluka: string;
     protected
       function DajKodJednotky: TKodJednotky; override;
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
 
     public
+      property Stitok: string read t_stitok;
+      property Vyluka: string read t_vyluka;
       property Zaver: TZaver read t_zaver write t_zaver;
 
       constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_cjednotky: Integer; p_dopravna: TDopravna);
 
       procedure Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer); override;
-      function JeVolna: Boolean;
+      function JeVolna(p_sposob: TKolajCiaraZavSposob): Boolean;
+
+      procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); override;
+
+      procedure NastavVyluku(p_text: string);
+      procedure NastavStitok(p_text: string);
   end;
 
   //**************************************************************************//
@@ -147,10 +190,14 @@ interface
     protected
       t_x_zac,t_x_kon,t_y_zac,t_y_kon: Integer;
       t_cislo: string;
+      t_rucny_zaver: Boolean;
+      t_stitok: string;
 
       function DajNavest(p_fyzicky: Boolean): TNavest; virtual; abstract;
 
     public
+      property Stitok: string read t_stitok;
+      property RucnyZaver: Boolean read t_rucny_zaver;
       property Navest[Fyzicka: Boolean]: TNavest read DajNavest;
 
       constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_cjednotky: Integer; p_dopravna: TDopravna);
@@ -162,6 +209,12 @@ interface
 
       procedure DajAdresy(p_adresy: TList<Integer>); virtual; abstract;
       procedure Reset(p_povely: TList<TPair<Integer,Boolean>>); virtual; abstract;
+
+      procedure NastavRucnyZaver(p_zaver: Boolean);
+
+      procedure VypisNudzovyPovelReset(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+
+      procedure NastavStitok(p_text: string);
   end;
 
   //**************************************************************************//
@@ -169,11 +222,22 @@ interface
   type TNavestidloHlavne=class(TNavestidlo)
     public
       procedure Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer); override;
+
+      procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); override;
+      procedure VypisNudzovyPovelPrivolavacka(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
   end;
 
   //**************************************************************************//
 
-  type TVyhybka=class(TStavadloObjekt)
+  type
+    TVyhybka=class;
+
+     TVyhybkaOdvrat=record
+      Opacna: TVyhybka;
+      Poloha: TVyhybkaPozicia;
+    end;
+
+    TVyhybka=class(TStavadloObjekt)
     private
       t_x_hrot,t_y_hrot,t_x_rovno,t_y_rovno,t_x_odboc,t_y_odboc: Integer;
       t_cislo: string;
@@ -184,6 +248,12 @@ interface
 
       t_kolaj_hrot,t_kolaj_rovno,t_kolaj_odboc: TKolajCiara;
 
+      t_stitok: string;
+      t_vyluka: string;
+
+      t_odvraty_rovno: TList<TVyhybkaOdvrat>;
+      t_odvraty_odbocka: TList<TVyhybkaOdvrat>;
+
     protected
       function DajKodJednotky: TKodJednotky; override;
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
@@ -193,17 +263,32 @@ interface
       property Pozicia: TVyhybkaPozicia read t_poloha;
       property OtocitPolaritu: Boolean read t_otocit_polaritu;
       property RucnyZaver: Boolean read t_rucny_zaver;
+      property Stitok: string read t_stitok;
+      property Vyluka: string read t_vyluka;
 
       constructor Create(p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc: Integer; p_cislo: string; p_adresa: Integer; p_otocit_pohohu: Boolean; p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc: TKolajCiara; p_cjednotky: Integer; p_dopravna: TDopravna);
 
       procedure Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer); override;
       procedure NastavPolohuCentrala(p_poloha,p_istota: Boolean);
 
-      function JeVolna: Boolean;
+      function JeVolna(p_stavanie: Boolean): Boolean;
+      function VyzadujeOdvrat(p_stavanie: Boolean): Boolean;
+      function JeVOdvrate(p_stavanie: Boolean): Boolean;
 
       function DajStav: string; override;
 
       function NastavRucnyZaver(p_zaver: Boolean; p_potvrd: Boolean): Boolean;
+
+      procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); override;
+      procedure VypisNudzovyPovelZAV2(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+      procedure VypisNudzovyPovelReset(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+
+      procedure NastavVyluku(p_text: string);
+      procedure NastavStitok(p_text: string);
+
+      procedure PridajOdvrat(p_polohou: TVyhybkaPozicia; p_vyhybka: TVyhybka; p_poloha: TVyhybkaPozicia);
+
+      destructor Destroy; override;
   end;
 
   //**************************************************************************//
@@ -307,22 +392,55 @@ interface
       procedure Reset(p_povely: TList<TPair<Integer,Boolean>>); override;
 
       function DajStav: string; override;
-  end;
+
+      procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); override;
+ end;
 
 implementation
-  uses DateUtils, SysUtils, Types, GR32_Polygons, GR32_Backends;
+  uses DateUtils, SysUtils, Types, GR32_Polygons, GR32_Backends, LogikaStavadlo;
 
-  function KodJednotkyXML(p_text: string): TKodJednotky;
+  function ZaverText(p_hodnota: TZaver): string;
   begin
-    if(p_text='KJ_KOLAJCIARA') then Result:=KJ_KOLAJCIARA
-    else if(p_text='KJ_NAVESTIDLOZRIADOVACIE') then Result:=KJ_NAVESTIDLOZRIADOVACIE
-    else if(p_text='KJ_NAVESTIDLOVCHODOVE') then Result:=KJ_NAVESTIDLOVCHODOVE
-    else if(p_text='KJ_NAVESTIDLOODCHODOVE') then Result:=KJ_NAVESTIDLOODCHODOVE
-    else if(p_text='KJ_VYHYBKA') then Result:=KJ_VYHYBKA
-    else if(p_text='KJ_TEXT') then Result:=KJ_TEXT
-    else if(p_text='KJ_SULIBRK') then Result:=KJ_SULIBRK
+    case p_hodnota of
+      ZVR_NENI: Result:='bez z·veru';
+      ZVR_RUCNY,ZVR_PREDBEZNY: Result:='nerozlÌöen˝';
+      ZVR_PRESAH: Result:='drûan˝ cestou';
+      ZVR_POSUNOVA: Result:='posunov· cesta';
+      ZVR_VLAKOVA: Result:='vlakov· cesta';
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function KodJednotkyXML(p_popis: string): TKodJednotky;
+  begin
+    if(p_popis='KJ_KOLAJCIARA') then Result:=KJ_KOLAJCIARA
+    else if(p_popis='KJ_NAVESTIDLOZRIADOVACIE') then Result:=KJ_NAVESTIDLOZRIADOVACIE
+    else if(p_popis='KJ_NAVESTIDLOVCHODOVE') then Result:=KJ_NAVESTIDLOVCHODOVE
+    else if(p_popis='KJ_NAVESTIDLOODCHODOVE') then Result:=KJ_NAVESTIDLOODCHODOVE
+    else if(p_popis='KJ_VYHYBKA') then Result:=KJ_VYHYBKA
+    else if(p_popis='KJ_TEXT') then Result:=KJ_TEXT
+    else if(p_popis='KJ_SULIBRK') then Result:=KJ_SULIBRK
+    else if(p_popis='KJ_STANOB') then Result:=KJ_STANOB
     else Result:=KJ_KOLAJCIARA
   end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function KodJednotkyNaXML(p_popis: TKodJednotky): string;
+  begin
+    case p_popis of
+      KJ_NAVESTIDLOZRIADOVACIE: Result:='KJ_NAVESTIDLOZRIADOVACIE';
+      KJ_NAVESTIDLOVCHODOVE: Result:='KJ_NAVESTIDLOVCHODOVE';
+      KJ_NAVESTIDLOODCHODOVE: Result:='KJ_NAVESTIDLOODCHODOVE';
+      KJ_VYHYBKA: Result:='KJ_VYHYBKA';
+      KJ_TEXT: Result:='KJ_TEXT';
+      KJ_SULIBRK: Result:='KJ_SULIBRK';
+      KJ_STANOB: Result:='KJ_STANOB';
+      else Result:='KJ_KOLAJCIARA';
+    end;
+  end;
+
 
   //////////////////////////////////////////////////////////////////////////////
 
@@ -336,25 +454,26 @@ implementation
       KJ_VYHYBKA: Result:='VYH';
       KJ_TEXT: Result:='TXT';
       KJ_SULIBRK: Result:='SUL';
+      KJ_STANOB: Result:='SOB';
     end;
   end;
 
   //**************************************************************************//
 
-  function VyhybkaPoziciaXML(p_text: string): TVyhybkaPozicia;
+  function VyhybkaPoziciaXML(p_popis: string): TVyhybkaPozicia;
   begin
-    if p_text='VPO_ROVNO' then Result:=VPO_ROVNO
-    else if p_text='VPO_ODBOCKA' then Result:=VPO_ODBOCKA
-    else if p_text='VPO_ROVNO_OTAZNIK' then Result:=VPO_ROVNO_OTAZNIK
-    else if p_text='VPO_ODBOCKA_OTAZNIK' then Result:=VPO_ODBOCKA_OTAZNIK
+    if p_popis='VPO_ROVNO' then Result:=VPO_ROVNO
+    else if p_popis='VPO_ODBOCKA' then Result:=VPO_ODBOCKA
+    else if p_popis='VPO_ROVNO_OTAZNIK' then Result:=VPO_ROVNO_OTAZNIK
+    else if p_popis='VPO_ODBOCKA_OTAZNIK' then Result:=VPO_ODBOCKA_OTAZNIK
     else Result:=VPO_NEZNAMA
   end;
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function VyhybkaPoziciaNaText(p_text: TVyhybkaPozicia): string;
+  function VyhybkaPoziciaNaText(p_popis: TVyhybkaPozicia): string;
   begin
-    case p_text of
+    case p_popis of
       VPO_NEZNAMA: Result:='Nezn·ma/medzipoloha';
       VPO_ROVNO: Result:='Z·kladn·';
       VPO_ODBOCKA: Result:='OdboËn·';
@@ -443,12 +562,22 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TStavadloObjekt.PercentaNaPixely(p_percenta,p_plan_zac,p_plan_kon: Integer): Integer;
+  function TStavadloObjekt.PercentaNaPixelyX(p_percenta,p_plan_zac,p_plan_kon: Integer): Integer;
   var
     sirka: Integer;
   begin
     sirka:=p_plan_kon-p_plan_zac;
-    Result:=(p_percenta*sirka) div 110;
+    Result:=(p_percenta*sirka) div LogikaES.SirkaPlanu;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TStavadloObjekt.PercentaNaPixelyY(p_percenta,p_plan_zac,p_plan_kon: Integer): Integer;
+  var
+    sirka: Integer;
+  begin
+    sirka:=p_plan_kon-p_plan_zac;
+    Result:=(p_percenta*sirka) div LogikaES.VyskaPlanu;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -462,7 +591,7 @@ implementation
 
   function TStavadloObjekt.DajStav: string;
   begin
-    Result:='Stav prvku nenÌ k dispozici';
+    Result:='Stav prvku nie je k dispozÌcii';
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -481,17 +610,71 @@ implementation
     t_je_zdroj_posun:=False;
   end;
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TStavadloObjekt.VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
+  begin
+    p_popis_a:='(A) N·zov';
+    p_popis_b:='(B) ';
+    p_popis_c:='(C) ';
+    p_popis_d:='(D) ';
+    p_popis_e:='(E) ';
+
+    p_text_a:=Nazov[True,False];
+    p_text_b:='';
+    p_text_c:='';
+    p_text_d:='';
+    p_text_e:='';
+
+    p_cervena_a:=False;
+    p_cervena_b:=False;
+    p_cervena_c:=False;
+    p_cervena_d:=False;
+    p_cervena_e:=False;
+  end;
+
   //**************************************************************************//
 
-  constructor TText.Create(p_x_zac,p_y_zac: Integer; p_text: string; p_velkost: Integer; p_nastred: Boolean; p_cjednotky: Integer; p_dopravna: TDopravna);
+  constructor TText.Create(p_x_zac,p_y_zac: Integer; p_text: string; p_velkost: Integer; p_nastred,p_napravo: Boolean; p_cjednotky: Integer; p_dopravna: TDopravna);
   begin
     inherited Create(p_cjednotky,p_dopravna);
 
     t_x_zac:=p_x_zac;
     t_y_zac:=p_y_zac;
     t_text:=p_text;
+    t_predef_text:='';
     t_nastred:=p_nastred;
+    t_napravo:=p_napravo;
     t_velkost:=p_velkost;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TText.DajText: string;
+  begin
+    if t_predef_text<>'' then Result:=t_predef_text
+    else Result:=t_text;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TText.DajOrigText: string;
+  begin
+    Result:=t_text;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TText.DajPredefText: string;
+  begin
+    Result:=t_predef_text;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TText.NastavPredefText(p_hodnota: string);
+  begin
+    t_predef_text:=p_hodnota;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -499,20 +682,26 @@ implementation
   procedure TText.Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer);
   var
     zac_x,zac_y: Integer;
+    vtext: TSize;
   begin
-    zac_x:=PercentaNaPixely(t_x_zac,p_plan_x_zac,p_plan_x_kon);
-    zac_y:=PercentaNaPixely(t_y_zac,p_plan_y_zac,p_plan_y_kon);
+    zac_x:=PercentaNaPixelyX(t_x_zac,p_plan_x_zac,p_plan_x_kon);
+    zac_y:=PercentaNaPixelyY(t_y_zac,p_plan_y_zac,p_plan_y_kon);
 
     p_plan.Font.Color:=clWhite;
-    p_plan.Font.Size:=t_velkost;
+    p_plan.Font.Size:=-1*PercentaNaPixelyY(t_velkost,p_plan_y_zac,p_plan_y_kon);
+
+    vtext:=p_plan.TextExtent(Text);
 
     if t_nastred then
     begin
-      zac_x:=zac_x-(p_plan.TextWidth(t_text) div 2);
-      zac_y:=zac_y-(p_plan.TextHeight(t_text) div 2);
+      if not t_napravo then zac_x:=zac_x-(vtext.Width div 2);
+      zac_y:=zac_y-(vtext.Height div 2);
     end;
 
-    p_plan.TextOut(zac_x,zac_y,t_text);
+    if t_napravo then zac_x:=zac_x-vtext.Width;
+
+    p_plan.FillRect(zac_x-3,zac_y-3,zac_x+vtext.Width+3,zac_y+vtext.Height+3,clBlack32);
+    p_plan.TextOut(zac_x,zac_y,Text);
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -527,8 +716,113 @@ implementation
   function TText.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'Textov˝ prvok ';
+    if p_kodjednotky then Result:=Result+'textov˝ prvok ';
     Result:=Result+t_text;
+  end;
+
+  //**************************************************************************//
+
+  constructor TStanObsluhy.Create(p_x_zac,p_y_zac,p_x_kon,p_y_kon: Integer; p_ciara_poloha: Integer; p_nazov: string; p_cjednotky: Integer; p_dopravna: TDopravna);
+  begin
+    inherited Create(p_cjednotky,p_dopravna);
+
+    t_x_zac:=p_x_zac;
+    t_y_zac:=p_y_zac;
+    t_x_kon:=p_x_kon;
+    t_y_kon:=p_y_kon;
+    t_nazov:=p_nazov;
+    t_ciara_poloha:=p_ciara_poloha;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure VykresliHrubuCiaru(p_plan: TBitmap32; p_hrubka: Integer; p_zac_x,p_zac_y,p_kon_x,p_kon_y: Integer; p_farba: TColor32);
+  var
+    polygon,obal,outline: TPolygon32;
+  begin
+    polygon:=TPolygon32.Create;
+    try
+      polygon.Add(FixedPoint(p_zac_x,p_zac_y));
+      polygon.Add(FixedPoint(p_kon_x,p_kon_y));
+      polygon.Closed:=False;
+      obal:=polygon.Outline;
+      obal.Closed:=False;
+      try
+        outline:=obal.Grow(Fixed(p_hrubka-3),0.1);
+        try
+          outline.Antialiased:=True;
+          outline.FillMode:=pfWinding;
+          outline.AntialiasMode:=am8times;
+          outline.Closed:=False;
+          outline.DrawFill(p_plan,p_farba);
+        finally
+          outline.Free;
+        end;
+      finally
+        obal.Free;
+      end;
+    finally
+      polygon.Free;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TStanObsluhy.Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer);
+  var
+    zac_x,zac_y,kon_x,kon_y,deltax,deltay: Integer;
+  begin
+    zac_x:=PercentaNaPixelyX(t_x_zac,p_plan_x_zac,p_plan_x_kon);
+    zac_y:=PercentaNaPixelyY(t_y_zac,p_plan_y_zac,p_plan_y_kon);
+    kon_x:=PercentaNaPixelyX(t_x_kon,p_plan_x_zac,p_plan_x_kon);
+    kon_y:=PercentaNaPixelyY(t_y_kon,p_plan_y_zac,p_plan_y_kon);
+
+    VykresliHrubuCiaru(p_plan,5,zac_x,zac_y,zac_x,kon_y,clGray32);
+    VykresliHrubuCiaru(p_plan,5,zac_x,zac_y,kon_x,zac_y,clGray32);
+    VykresliHrubuCiaru(p_plan,5,zac_x,kon_y,kon_x,kon_y,clGray32);
+    VykresliHrubuCiaru(p_plan,5,kon_x,zac_y,kon_x,kon_y,clGray32);
+
+    deltax:=(kon_x-zac_x) div 5;
+    deltay:=(kon_y-zac_y) div 5;
+
+    case t_ciara_poloha of
+      1:
+      begin
+        VykresliHrubuCiaru(p_plan,5,zac_x+deltax,zac_y+deltay,zac_x+deltax,kon_y-deltay,clGray32);
+        VykresliHrubuCiaru(p_plan,5,zac_x+deltax*2,zac_y+deltay*2,zac_x+deltax*2,kon_y-deltay*2,clGray32);
+      end;
+      2:
+      begin
+        VykresliHrubuCiaru(p_plan,5,zac_x+deltax,zac_y+deltay,kon_x-deltax,zac_y+deltay,clGray32);
+        VykresliHrubuCiaru(p_plan,5,zac_x+deltax*2,zac_y+deltay*2,kon_x-deltax*2,zac_y+deltay*2,clGray32);
+      end;
+      3:
+      begin
+        VykresliHrubuCiaru(p_plan,5,zac_x+deltax,kon_y-deltay,kon_x-deltax,kon_y-deltay,clGray32);
+        VykresliHrubuCiaru(p_plan,5,zac_x+deltax*2,kon_y-deltay*2,kon_x-deltax*2,kon_y-deltay*2,clGray32);
+      end
+      else
+      begin
+        VykresliHrubuCiaru(p_plan,5,kon_x-deltax,zac_y+deltay,kon_x-deltax,kon_y-deltay,clGray32);
+        VykresliHrubuCiaru(p_plan,5,kon_x-deltax*2,zac_y+deltay*2,kon_x-deltax*2,kon_y-deltay*2,clGray32);
+      end;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TStanObsluhy.DajKodJednotky: TKodJednotky;
+  begin
+    Result:=KJ_STANOB;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TStanObsluhy.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
+  begin
+    if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
+    if p_kodjednotky then Result:=Result+'stanoviöte obsluhy ';
+    Result:=Result+t_nazov;
   end;
 
   //**************************************************************************//
@@ -550,54 +844,84 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
+  procedure VykresliKolac(p_plan: TBitmap32; p_polygon: TPolygon32; p_ciara,p_vypln: TColor32);
+  begin
+    p_polygon.Closed:=True;
+    p_polygon.Antialiased:=True;
+    p_polygon.FillMode:=pfWinding;
+    p_polygon.AntialiasMode:=am16times;
+    p_polygon.Draw(p_plan,p_ciara,p_vypln);
+  end;
+  
+  //////////////////////////////////////////////////////////////////////////////
+
   procedure TSulibrk.Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer);
   var
-    zac_x,zac_y: Integer;
+    zac_x,zac_y,x,y: Integer;
     rozmer: Integer;
-    i: Extended;
-    A1,A2,B1,B2,C1,C2: TPoint;
+    i: Integer;
+    fi: Extended;
+    polygon_r,polygon_g,polygon_b: TPolygon32;
+
   begin
-    zac_x:=PercentaNaPixely(t_x_zac,p_plan_x_zac,p_plan_x_kon);
-    zac_y:=PercentaNaPixely(t_y_zac,p_plan_y_zac,p_plan_y_kon);
+    zac_x:=PercentaNaPixelyX(t_x_zac,p_plan_x_zac,p_plan_x_kon);
+    zac_y:=PercentaNaPixelyY(t_y_zac,p_plan_y_zac,p_plan_y_kon);
 
     rozmer:=20;
 
-    i:=2*PI/20*(SecondOf(Now) mod 20);
+    fi:=2*PI/60*(SecondOf(Now) mod 20)*3;
 
-    A2.X:=Round(rozmer*Sin(2*PI/6*1+i));
-    A1.X:=Round(rozmer*Sin(2*PI/6*0+i));
+    polygon_r:=TPolygon32.Create;
+    try
+      polygon_r.Add(FixedPoint(zac_x,zac_y));
 
-    A2.Y:=Round(rozmer*Cos(2*PI/6*1+i));
-    A1.Y:=Round(rozmer*Cos(2*PI/6*0+i));
+      polygon_g:=TPolygon32.Create;
+      try
+        polygon_g.Add(FixedPoint(zac_x,zac_y));
 
-    B1.X:=Round(rozmer*Sin(2*PI/6*2+i));
-    B2.X:=Round(rozmer*Sin(2*PI/6*3+i));
+        polygon_b:=TPolygon32.Create;
+        try
+          polygon_b.Add(FixedPoint(zac_x,zac_y));
+        
+          for i := 0 to 119 do
+          begin
+            x:=Round(rozmer*Sin((2*PI*i)/120+fi));
+            y:=Round(rozmer*Cos((2*PI*i)/120+fi));
 
-    B1.Y:=Round(rozmer*Cos(2*PI/6*2+i));
-    B2.Y:=Round(rozmer*Cos(2*PI/6*3+i));
+            if(i>=0) and (i<20) then polygon_r.Add(FixedPoint(zac_x+x,zac_y+y));
+            if(i>=40) and (i<60) then polygon_g.Add(FixedPoint(zac_x+x,zac_y+y));
+            if(i>=80) and (i<100) then polygon_b.Add(FixedPoint(zac_x+x,zac_y+y));
+          end;
 
-    C2.X:=Round(rozmer*Sin(2*PI/6*5+i));
-    C1.X:=Round(rozmer*Sin(2*PI/6*4+i));
-
-    C2.Y:=Round(rozmer*Cos(2*PI/6*5+i));
-    C1.Y:=Round(rozmer*Cos(2*PI/6*4+i));
-
-    p_plan.Canvas.Pen.Width:=1;
-
-    p_plan.Canvas.Pen.Color:=clSilver;
-    p_plan.Canvas.Brush.Color:=clRed;
-
-    p_plan.Canvas.Pie(zac_x-rozmer,zac_y-rozmer,zac_x+rozmer,zac_y+rozmer,zac_x+A1.X,zac_y+A1.Y,zac_x+A2.X,zac_y+A2.Y);
-
-    p_plan.Canvas.Pen.Color:=clSilver;
-    p_plan.Canvas.Brush.Color:=clLime;
-
-    p_plan.Canvas.Pie(zac_x-rozmer,zac_y-rozmer,zac_x+rozmer,zac_y+rozmer,zac_x+B1.X,zac_y+B1.Y,zac_x+B2.X,zac_y+B2.Y);
-
-    p_plan.Canvas.Pen.Color:=clSilver;
-    p_plan.Canvas.Brush.Color:=clBlue;
-
-    p_plan.Canvas.Pie(zac_x-rozmer,zac_y-rozmer,zac_x+rozmer,zac_y+rozmer,zac_x+C1.X,zac_y+C1.Y,zac_x+C2.X,zac_y+C2.Y);
+          VykresliKolac(p_plan,polygon_r,clSilver32,clRed32);
+          VykresliKolac(p_plan,polygon_g,clSilver32,clLime32);
+          VykresliKolac(p_plan,polygon_b,clSilver32,clBlue32);         
+        finally
+          polygon_b.Free;
+        end;
+      finally
+        polygon_g.Free;
+      end;
+    
+//    p_plan.Canvas.Pen.Width:=1;
+//
+//    p_plan.Canvas.Pen.Color:=clSilver;
+//    p_plan.Canvas.Brush.Color:=clRed;
+//
+//    p_plan.Canvas.Pie(zac_x-rozmer,zac_y-rozmer,zac_x+rozmer,zac_y+rozmer,zac_x+A1.X,zac_y+A1.Y,zac_x+A2.X,zac_y+A2.Y);
+//
+//    p_plan.Canvas.Pen.Color:=clSilver;
+//    p_plan.Canvas.Brush.Color:=clLime;
+//
+//    p_plan.Canvas.Pie(zac_x-rozmer,zac_y-rozmer,zac_x+rozmer,zac_y+rozmer,zac_x+B1.X,zac_y+B1.Y,zac_x+B2.X,zac_y+B2.Y);
+//
+//    p_plan.Canvas.Pen.Color:=clSilver;
+//    p_plan.Canvas.Brush.Color:=clBlue;
+//
+//    p_plan.Canvas.Pie(zac_x-rozmer,zac_y-rozmer,zac_x+rozmer,zac_y+rozmer,zac_x+C1.X,zac_y+C1.Y,zac_x+C2.X,zac_y+C2.Y);
+    finally
+      polygon_r.Free;
+    end;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -620,6 +944,23 @@ implementation
     t_y_kon:=p_y_kon;
     t_cislo:=p_cislo;
     t_zaver:=ZVR_NENI;
+
+    t_stitok:='';
+    t_vyluka:='';
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TKolajCiara.NastavVyluku(p_text: string);
+  begin
+    t_vyluka:=p_text;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TKolajCiara.NastavStitok(p_text: string);
+  begin
+    t_stitok:=p_text;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -631,41 +972,31 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TKolajCiara.JeVolna: Boolean;
+  function TKolajCiara.JeVolna(p_sposob: TKolajCiaraZavSposob): Boolean;
   begin
-    Result:=t_zaver=ZVR_NENI;
+    case p_sposob of
+      ZSO_VYHRADNY: Result:=t_zaver=ZVR_NENI;
+      ZSO_STAVANIE: Result:=t_zaver in [ZVR_NENI,ZVR_PRESAH];
+      else Result:=t_zaver in [ZVR_NENI,ZVR_PRESAH,ZVR_NENI];
+    end;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
 
-  procedure VykresliHrubuCiaru(p_plan: TBitmap32; p_hrubka: Integer; p_zac_x,p_zac_y,p_kon_x,p_kon_y: Integer; p_farba: TColor32);
-  var
-    polygon,obal,outline: TPolygon32;
+  procedure TKolajCiara.VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
   begin
-    polygon:=TPolygon32.Create;
-    try
-      polygon.Add(FixedPoint(p_zac_x,p_zac_y));
-      polygon.Add(FixedPoint(p_kon_x,p_kon_y));
-      polygon.Closed:=False;
-      obal:=polygon.Outline;
-      obal.Closed:=False;
-      try
-        outline:=obal.Grow(Fixed((p_hrubka+1)*0.35),0.1);
-        try
-          outline.Antialiased:=True;
-          outline.FillMode:=pfWinding;
-          outline.AntialiasMode:=am8times;
-          outline.Closed:=False;
-          outline.DrawFill(p_plan,p_farba);
-        finally
-          outline.Free;
-        end;
-      finally
-        obal.Free;
-      end;
-    finally
-      polygon.Free;
-    end;
+    inherited;
+
+    p_popis_b:=p_popis_b+'Z·ver';
+    p_text_b:=ZaverText(t_zaver);
+
+    p_popis_c:=p_popis_c+'ätÌtok';
+    p_text_c:=t_stitok;
+    if t_stitok<>'' then p_cervena_c:=True;
+
+    p_popis_d:=p_popis_d+'V˝luka';
+    p_text_d:=t_vyluka;
+    if t_vyluka<>'' then p_cervena_d:=True;    
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -675,11 +1006,29 @@ implementation
     zac_x,zac_y,kon_x,kon_y: Integer;
     farba: TColor32;
     hrubka: Integer;
+    hb: THitBox;
   begin
-    zac_x:=PercentaNaPixely(t_x_zac,p_plan_x_zac,p_plan_x_kon);
-    kon_x:=PercentaNaPixely(t_x_kon,p_plan_x_zac,p_plan_x_kon);
-    zac_y:=PercentaNaPixely(t_y_zac,p_plan_y_zac,p_plan_y_kon);
-    kon_y:=PercentaNaPixely(t_y_kon,p_plan_y_zac,p_plan_y_kon);
+    if (t_stitok<>'') or (t_vyluka<>'') then
+    begin
+      hb:=LogikaES.DajHitBox(self);
+      if hb.Objekt=self then
+      begin
+        zac_x:=PercentaNaPixelyX(hb.Poloha.Left,p_plan_x_zac,p_plan_x_kon);
+        kon_x:=PercentaNaPixelyX(hb.Poloha.Right,p_plan_x_zac,p_plan_x_kon);
+        zac_y:=PercentaNaPixelyY(hb.Poloha.Top,p_plan_y_zac,p_plan_y_kon);
+        kon_y:=PercentaNaPixelyY(hb.Poloha.Bottom,p_plan_y_zac,p_plan_y_kon);
+
+        if t_vyluka<>'' then farba:=clMaroon32
+        else farba:=clTeal32;
+
+        p_plan.FillRectS(zac_x,zac_y,kon_x,kon_y,farba);
+      end
+    end;
+
+    zac_x:=PercentaNaPixelyX(t_x_zac,p_plan_x_zac,p_plan_x_kon);
+    kon_x:=PercentaNaPixelyX(t_x_kon,p_plan_x_zac,p_plan_x_kon);
+    zac_y:=PercentaNaPixelyY(t_y_zac,p_plan_y_zac,p_plan_y_kon);
+    kon_y:=PercentaNaPixelyY(t_y_kon,p_plan_y_zac,p_plan_y_kon);
 
     if t_zaver in [ZVR_RUCNY,ZVR_PREDBEZNY] then farba:=clAqua32
     else if t_zaver=ZVR_VLAKOVA then farba:=clLime32
@@ -713,6 +1062,47 @@ implementation
     t_y_zac:=p_y_zac;
     t_y_kon:=p_y_kon;
     t_cislo:=p_cislo;
+
+    t_stitok:='';
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidlo.NastavStitok(p_text: string);
+  begin
+    t_stitok:=p_text;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidlo.NastavRucnyZaver(p_zaver: Boolean);
+  begin
+    t_rucny_zaver:=p_zaver;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidlo.VypisNudzovyPovelReset(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+  begin
+    p_popis_a:='(A) N·zov';
+    p_text_a:=Nazov[True,False];
+
+    p_popis_b:='(B) N·vesù';
+    p_text_b:=NavestNaText(Navest[False]);
+    if not (Navest[False] in [CN_STOJ,CN_NEZNAMA]) then p_cervena_b:=True;
+
+
+    p_popis_c:='(C) RuËn˝ z·ver';
+    if t_rucny_zaver then p_text_c:='¡no'
+    else
+    begin
+      p_cervena_c:=True;
+      p_text_c:='Nie';
+    end;
+
+    p_popis_d:='(D) ätÌtok';
+    p_text_d:=t_stitok;
+    if t_stitok<>'' then p_cervena_d:=True;
   end;
 
   //**************************************************************************//
@@ -724,18 +1114,28 @@ implementation
     polygon,obal,outline: TPolygon32;
     obrys,vypln: TColor32;
   begin
-    zac_x:=PercentaNaPixely(t_x_zac,p_plan_x_zac,p_plan_x_kon);
-    kon_x:=PercentaNaPixely(t_x_kon,p_plan_x_zac,p_plan_x_kon);
-    zac_y:=PercentaNaPixely(t_y_zac,p_plan_y_zac,p_plan_y_kon);
-    kon_y:=PercentaNaPixely(t_y_kon,p_plan_y_zac,p_plan_y_kon);
+    zac_x:=PercentaNaPixelyX(t_x_zac,p_plan_x_zac,p_plan_x_kon);
+    kon_x:=PercentaNaPixelyX(t_x_kon,p_plan_x_zac,p_plan_x_kon);
+    zac_y:=PercentaNaPixelyY(t_y_zac,p_plan_y_zac,p_plan_y_kon);
+    kon_y:=PercentaNaPixelyY(t_y_kon,p_plan_y_zac,p_plan_y_kon);
 
-    v_navest:=DajNavest(True);
+    if t_rucny_zaver then vypln:=clRed32
+    else
+    begin
+      v_navest:=DajNavest(True);
 
-    if v_navest=CN_STOJ then vypln:=clGray32
-    else if v_navest=CN_NEZNAMA then vypln:=clBlack32
-    else if v_navest=CN_PRIVOLAVACKA then vypln:=clAqua32
-    else if v_navest=CN_POSUN_DOVOLENY then vypln:=clWhite32
-    else vypln:=clLime32;
+      if v_navest=CN_STOJ then vypln:=clGray32
+      else if v_navest=CN_NEZNAMA then vypln:=clBlack32
+      else if v_navest=CN_PRIVOLAVACKA then vypln:=clAqua32
+      else if v_navest=CN_POSUN_DOVOLENY then vypln:=clWhite32
+      else vypln:=clLime32;
+    end;
+
+    if t_stitok<>'' then
+    begin
+      if zac_x<kon_x then p_plan.FillRectS(zac_x-2,zac_y-2,kon_x+2,kon_y+2,clTeal32)
+      else p_plan.FillRectS(kon_x-2,zac_y-2,zac_x+2,kon_y+2,clTeal32);
+    end;
 
     if t_je_zdroj then
     begin
@@ -750,7 +1150,8 @@ implementation
 
       polygon.Add(FixedPoint(zac_x,zac_y));
       polygon.Add(FixedPoint(zac_x,kon_y));
-      polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2));
+      polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+2));
+      polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2-2));
 
       polygon.Antialiased:=True;
       polygon.FillMode:=pfWinding;
@@ -760,7 +1161,7 @@ implementation
       obal:=polygon.Outline;
       obal.Closed:=True;
       try
-        outline:=obal.Grow(Fixed(4*0.35),0.1);
+        outline:=obal.Grow(Fixed(1),0.1);
         try
           outline.Antialiased:=True;
           outline.FillMode:=pfWinding;
@@ -777,13 +1178,62 @@ implementation
       polygon.Free;
     end;
   end;
-  
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidloHlavne.VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
+  begin
+    inherited;
+
+    p_popis_b:=p_popis_b+'N·vesù';
+    p_popis_c:=p_popis_c+'Svieti';
+    p_popis_d:=p_popis_d+'UzamknutÈ';
+    p_popis_e:=p_popis_e+'ätÌtok';
+
+    p_text_b:=NavestNaText(Navest[False]);
+    p_text_c:=NavestNaText(Navest[True]);
+
+    if t_rucny_zaver then
+    begin
+      p_text_d:='¡no';
+      p_cervena_d:=True;
+    end
+    else p_text_d:='Nie';
+
+    p_text_e:=t_stitok;
+    if t_stitok<>'' then p_cervena_e:=True;    
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidloHlavne.VypisNudzovyPovelPrivolavacka(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+  begin
+    p_popis_a:='(A) N·zov';
+    p_text_a:=Nazov[True,False];
+
+    p_popis_b:='(B) N·vesù';
+    p_text_b:=NavestNaText(Navest[False]);
+    if not (Navest[False] in [CN_STOJ,CN_NEZNAMA]) then p_cervena_b:=True;
+
+    p_popis_c:='(C) RuËn˝ z·ver';
+    if t_rucny_zaver then
+    begin
+      p_text_c:='¡no';
+      p_cervena_c:=True;
+    end
+    else p_text_c:='Nie';
+
+    p_popis_d:='(D) ätÌtok';
+    p_text_d:=t_stitok;
+    if t_stitok<>'' then p_cervena_d:=True;
+  end;
+
   //**************************************************************************//
 
   constructor TVyhybka.Create(p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc: Integer; p_cislo: string; p_adresa: Integer; p_otocit_pohohu: Boolean; p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc: TKolajCiara; p_cjednotky: Integer; p_dopravna: TDopravna);
   begin
     inherited Create(p_cjednotky,p_dopravna);
-  
+
     t_x_hrot:=p_x_hrot;
     t_y_hrot:=p_y_hrot;
     t_x_rovno:=p_x_rovno;
@@ -797,6 +1247,36 @@ implementation
     t_kolaj_hrot:=p_kolaj_hrot;
     t_kolaj_rovno:=p_kolaj_rovno;
     t_kolaj_odboc:=p_kolaj_odboc;
+
+    t_stitok:='';
+    t_vyluka:='';
+
+    t_odvraty_rovno:=TList<TVyhybkaOdvrat>.Create;
+    t_odvraty_odbocka:=TList<TVyhybkaOdvrat>.Create;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  destructor TVyhybka.Destroy;
+  begin
+    t_odvraty_rovno.Free;
+    t_odvraty_odbocka.Free;
+    
+    inherited;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybka.NastavVyluku(p_text: string);
+  begin
+    t_vyluka:=p_text;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybka.NastavStitok(p_text: string);
+  begin
+    t_stitok:=p_text;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -813,13 +1293,38 @@ implementation
     hrot_x,rovno_x,odboc_x,hrot_y,rovno_y,odboc_y: Integer;
     kolaj_zaver: TKolajCiara;
     farba: TColor32;
+    zac_x,zac_y,kon_x,kon_y: Integer;
+    doc:Integer;
   begin
-    hrot_x:=PercentaNaPixely(t_x_hrot,p_plan_x_zac,p_plan_x_kon);
-    rovno_x:=PercentaNaPixely(t_x_rovno,p_plan_x_zac,p_plan_x_kon);
-    odboc_x:=PercentaNaPixely(t_x_odboc,p_plan_x_zac,p_plan_x_kon);
-    hrot_y:=PercentaNaPixely(t_y_hrot,p_plan_y_zac,p_plan_y_kon);
-    rovno_y:=PercentaNaPixely(t_y_rovno,p_plan_y_zac,p_plan_y_kon);
-    odboc_y:=PercentaNaPixely(t_y_odboc,p_plan_y_zac,p_plan_y_kon);
+    hrot_x:=PercentaNaPixelyX(t_x_hrot,p_plan_x_zac,p_plan_x_kon);
+    rovno_x:=PercentaNaPixelyX(t_x_rovno,p_plan_x_zac,p_plan_x_kon);
+    odboc_x:=PercentaNaPixelyX(t_x_odboc,p_plan_x_zac,p_plan_x_kon);
+    hrot_y:=PercentaNaPixelyY(t_y_hrot,p_plan_y_zac,p_plan_y_kon);
+    rovno_y:=PercentaNaPixelyY(t_y_rovno,p_plan_y_zac,p_plan_y_kon);
+    odboc_y:=PercentaNaPixelyY(t_y_odboc,p_plan_y_zac,p_plan_y_kon);
+
+    zac_x:=hrot_x;
+    zac_y:=odboc_y;
+    kon_x:=rovno_x;
+    kon_y:=rovno_y-(odboc_y-rovno_y);
+
+    if zac_x>kon_x then
+    begin
+      doc:=zac_x;
+      zac_x:=kon_x;
+      kon_x:=doc;
+    end;
+
+    if zac_y>kon_y then
+    begin
+      doc:=zac_y;
+      zac_y:=kon_y;
+      kon_y:=doc;
+    end;
+
+    if t_stitok<>'' then
+      p_plan.FillRect(zac_x,zac_y,kon_x,kon_y,clTeal32);
+    if t_vyluka<>'' then p_plan.FillRect(zac_x,zac_y,kon_x,kon_y,clMaroon32);
 
     if t_rucny_zaver then farba:=clAqua32
     else
@@ -832,7 +1337,8 @@ implementation
       else if(kolaj_zaver<>nil) and (kolaj_zaver.Zaver=ZVR_VLAKOVA) then farba:=clLime32
       else
       begin
-        if t_poloha in [VPO_ROVNO_OTAZNIK,VPO_ODBOCKA_OTAZNIK] then farba:=clYellow32
+        if JeVOdvrate(False) then farba:=clAqua32
+        else if t_poloha in [VPO_ROVNO_OTAZNIK,VPO_ODBOCKA_OTAZNIK] then farba:=clYellow32
         else farba:=clGray32;
       end;
     end;
@@ -885,11 +1391,78 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TVyhybka.JeVolna: Boolean;
+  function TVyhybka.JeVolna(p_stavanie: Boolean): Boolean;
   begin
-    Result:=(not t_rucny_zaver) and ((t_kolaj_hrot=nil) or (t_kolaj_hrot.JeVolna)) and ((t_kolaj_rovno=nil) or (t_kolaj_rovno.JeVolna)) and ((t_kolaj_odboc=nil) or (t_kolaj_odboc.JeVolna))
+    if (not t_rucny_zaver) and (not JeVOdvrate(p_stavanie)) then
+    begin
+      if p_stavanie then Result:=((t_kolaj_hrot=nil) or (t_kolaj_hrot.JeVolna(ZSO_STAVANIE))) and ((t_kolaj_rovno=nil) or (t_kolaj_rovno.JeVolna(ZSO_STAVANIE))) and ((t_kolaj_odboc=nil) or (t_kolaj_odboc.JeVolna(ZSO_STAVANIE)))
+      else Result:=((t_kolaj_hrot=nil) or (t_kolaj_hrot.JeVolna(ZSO_ZOBRAZENIE))) and ((t_kolaj_rovno=nil) or (t_kolaj_rovno.JeVolna(ZSO_ZOBRAZENIE))) and ((t_kolaj_odboc=nil) or (t_kolaj_odboc.JeVolna(ZSO_ZOBRAZENIE)))
+    end
+    else Result:=False;
   end;
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TVyhybka.VyzadujeOdvrat(p_stavanie: Boolean): Boolean;
+  begin
+    if p_stavanie then Result:=t_rucny_zaver or ((t_kolaj_rovno<>nil) and (t_poloha in [VPO_ROVNO,VPO_ROVNO_OTAZNIK]) and (not t_kolaj_rovno.JeVolna(ZSO_STAVANIE))) or ((t_kolaj_odboc<>nil) and (t_poloha in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]) and (not t_kolaj_odboc.JeVolna(ZSO_STAVANIE)))
+    else Result:=t_rucny_zaver or ((t_kolaj_rovno<>nil) and (t_poloha in [VPO_ROVNO,VPO_ROVNO_OTAZNIK]) and (not t_kolaj_rovno.JeVolna(ZSO_ZOBRAZENIE))) or ((t_kolaj_odboc<>nil) and (t_poloha in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]) and (not t_kolaj_odboc.JeVolna(ZSO_ZOBRAZENIE)))
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TVyhybka.JeVOdvrate(p_stavanie: Boolean): Boolean;
+  var
+    odvrat: TVyhybkaOdvrat;
+  begin
+    case t_poloha of
+      VPO_ROVNO,VPO_ROVNO_OTAZNIK: 
+      begin
+        Result:=False;
+      
+        for odvrat in t_odvraty_rovno do
+        begin
+          if (odvrat.Opacna.Pozicia=odvrat.Poloha) and (odvrat.Opacna.VyzadujeOdvrat(p_stavanie)) then
+          begin
+            Result:=True;
+            break;
+          end;
+        end;
+      end;
+      VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK: 
+      begin
+        Result:=False;
+      
+        for odvrat in t_odvraty_odbocka do
+        begin
+          if (odvrat.Opacna.Pozicia=odvrat.Poloha) and (odvrat.Opacna.VyzadujeOdvrat(p_stavanie)) then
+          begin        
+            Result:=True;
+            break;
+          end;
+        end;
+      end;
+      else Result:=False;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybka.PridajOdvrat(p_polohou: TVyhybkaPozicia; p_vyhybka: TVyhybka; p_poloha: TVyhybkaPozicia);
+  var
+    odvrat: TVyhybkaOdvrat;
+  begin
+    odvrat.Opacna:=p_vyhybka;
+    odvrat.Poloha:=p_poloha;
+  
+    case p_polohou of
+      VPO_ROVNO:
+        t_odvraty_rovno.Add(odvrat);
+      VPO_ODBOCKA:
+        t_odvraty_odbocka.Add(odvrat);
+    end;
+  end;
+  
   //////////////////////////////////////////////////////////////////////////////
 
   function TVyhybka.DajStav: string;
@@ -912,12 +1485,80 @@ implementation
     else
     begin
       if p_potvrd then t_rucny_zaver:=False
-      else
-      begin
-
-      end;
+      else LogikaES.NastavNudzovyPovel(Dopravna,NPT_ZAV2,self,NPP_ASDF);
     end;
+  end;
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybka.VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
+  begin
+    inherited;
+    p_popis_b:=p_popis_b+'Poloha';
+    p_popis_c:=p_popis_c+'Z·ver';
+    p_popis_d:=p_popis_d+'ätÌtok';
+    p_popis_e:=p_popis_e+'V˝luka';
+
+    p_text_b:=VyhybkaPoziciaNaText(t_poloha);
+
+    if t_rucny_zaver then
+    begin
+      p_text_c:='ruËn˝';
+      p_cervena_c:=True;
+    end
+    else if JeVOdvrate(True) then
+    begin
+      p_text_c:='odvrat jinÈ cesty';
+      p_cervena_c:=True;    
+    end
+    else if not JeVolna(True) then
+    begin
+      p_text_c:='vlakovou/posunovou cestou';
+      p_cervena_c:=True;
+    end
+    else p_text_c:='bez z·veru';
+
+    p_text_d:=t_stitok;
+    if t_stitok<>'' then p_cervena_d:=True;
+
+    p_text_e:=t_vyluka;
+    if t_vyluka<>'' then p_cervena_e:=True;    
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybka.VypisNudzovyPovelZAV2(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+  begin
+    p_popis_a:='(A) N·zov';
+    p_popis_b:='(B) Poloha';
+    p_popis_c:='(C) ätÌtok';
+    p_popis_d:='(E) V˝luka';
+    p_text_a:=Nazov[True,False];
+    p_text_b:=VyhybkaPoziciaNaText(t_poloha);
+
+    p_text_c:=t_stitok;
+    if t_stitok<>'' then p_cervena_c:=True;
+    
+    p_text_d:=t_vyluka;
+    if t_vyluka<>'' then p_cervena_d:=True;    
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybka.VypisNudzovyPovelReset(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+  begin
+    p_popis_a:='(A) N·zov';
+    p_popis_b:='(B) Poloha';
+    p_popis_c:='(C) ätÌtok';
+    p_popis_d:='(E) V˝luka';
+    p_text_a:=Nazov[True,False];
+    p_text_b:=VyhybkaPoziciaNaText(t_poloha);
+
+    p_text_c:=t_stitok;
+    if t_stitok<>'' then p_cervena_c:=True;
+
+    p_text_d:=t_vyluka;
+    if t_vyluka<>'' then p_cervena_d:=True;
   end;
 
   //**************************************************************************//
@@ -1083,7 +1724,11 @@ implementation
           p_povely.Add(VyrobPovel(t_adresy[i],True));
           t_stavy[i]:=SPO_ROZSVECUJE;
         end
-        else if (not (i in rozsvietene)) and (not (t_stavy[i] in SPOS_NESVIETI)) then
+      end;
+
+      for i := Low(t_stavy) to High(t_stavy) do
+      begin
+        if (not (i in rozsvietene)) and (not (t_stavy[i] in SPOS_NESVIETI)) then
         begin
           p_povely.Add(VyrobPovel(t_adresy[i],False));
           t_stavy[i]:=SPO_ZHASINA;
@@ -1139,6 +1784,8 @@ implementation
         t_stavy[i]:=SPO_ZHASINA;
       end;
     end;
+
+    NastavRucnyZaver(False);
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1268,8 +1915,12 @@ implementation
         begin
           if ((not t_spojit_zelenu) or (i<>NOF_Z)) and ((not t_bez_zltej) or (i<>NOF_DZ)) then p_povely.Add(VyrobPovel(t_adresy[i],True));
           if ((not t_bez_zltej) or (i<>NOF_DZ)) then t_stavy[i]:=SPO_ROZSVECUJE;
-        end
-        else if (not (i in rozsvietene)) and (not (t_stavy[i] in SPOS_NESVIETI)) then
+        end;
+      end;
+
+      for i := Low(t_stavy) to High(t_stavy) do
+      begin
+        if (not (i in rozsvietene)) and (not (t_stavy[i] in SPOS_NESVIETI)) then
         begin
           if ((not t_spojit_zelenu) or (i<>NOF_Z)) and ((not t_bez_zltej) or (i<>NOF_DZ)) then p_povely.Add(VyrobPovel(t_adresy[i],False));
           if ((not t_bez_zltej) or (i<>NOF_DZ)) then t_stavy[i]:=SPO_ZHASINA;
@@ -1350,6 +2001,8 @@ implementation
         t_stavy[i]:=SPO_ZHASINA;
       end;
     end;
+
+    NastavRucnyZaver(False);
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1432,12 +2085,18 @@ implementation
     obrys,vypln: TColor32;
     sirka: Integer;
   begin
-    zac_x:=PercentaNaPixely(t_x_zac,p_plan_x_zac,p_plan_x_kon);
-    kon_x:=PercentaNaPixely(t_x_kon,p_plan_x_zac,p_plan_x_kon);
-    zac_y:=PercentaNaPixely(t_y_zac,p_plan_y_zac,p_plan_y_kon);
-    kon_y:=PercentaNaPixely(t_y_kon,p_plan_y_zac,p_plan_y_kon);
+    zac_x:=PercentaNaPixelyX(t_x_zac,p_plan_x_zac,p_plan_x_kon);
+    kon_x:=PercentaNaPixelyX(t_x_kon,p_plan_x_zac,p_plan_x_kon);
+    zac_y:=PercentaNaPixelyY(t_y_zac,p_plan_y_zac,p_plan_y_kon);
+    kon_y:=PercentaNaPixelyY(t_y_kon,p_plan_y_zac,p_plan_y_kon);
 
     sirka:=abs(kon_x-zac_x) div 3;
+
+    if t_stitok<>'' then
+    begin
+      if zac_x<kon_x then p_plan.FillRectS(zac_x-2,zac_y-2,kon_x+2,kon_y+2,clTeal32)
+      else p_plan.FillRectS(kon_x-2,zac_y-2,zac_x+2,kon_y+2,clTeal32);
+    end;
 
     if(t_je_zdroj) then obrys:=clWhite32
     else obrys:=clGray32;
@@ -1455,7 +2114,8 @@ implementation
       begin
         polygon.Add(FixedPoint(zac_x,zac_y));
         polygon.Add(FixedPoint(zac_X+sirka,zac_y));
-        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2));
+        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2-2));
+        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+2));
         polygon.Add(FixedPoint(zac_x+sirka,kon_y));
         polygon.Add(FixedPoint(zac_x,kon_y));
         polygon.Add(FixedPoint(kon_x-sirka,(zac_y+kon_y) div 2));
@@ -1464,7 +2124,8 @@ implementation
       begin
         polygon.Add(FixedPoint(zac_x,zac_y));
         polygon.Add(FixedPoint(zac_x-sirka,zac_y));
-        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2));
+        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2-2));
+        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+2));
         polygon.Add(FixedPoint(zac_x-sirka,kon_y));
         polygon.Add(FixedPoint(zac_x,kon_y));
         polygon.Add(FixedPoint(kon_x+sirka,(zac_y+kon_y) div 2));
@@ -1478,7 +2139,7 @@ implementation
       obal:=polygon.Outline;
       obal.Closed:=True;
       try
-        outline:=obal.Grow(Fixed(4*0.35),0.1);
+        outline:=obal.Grow(Fixed(1),0.1);
         try
           outline.Antialiased:=True;
           outline.FillMode:=pfWinding;
@@ -1534,8 +2195,12 @@ implementation
         begin
           p_povely.Add(VyrobPovel(t_adresy[i],True));
           t_stavy[i]:=SPO_ROZSVECUJE;
-        end
-        else if (not (i in rozsvietene)) and (not (t_stavy[i] in SPOS_NESVIETI)) then
+        end;
+      end;
+
+      for i := Low(t_stavy) to High(t_stavy) do
+      begin
+        if (not (i in rozsvietene)) and (not (t_stavy[i] in SPOS_NESVIETI)) then
         begin
           p_povely.Add(VyrobPovel(t_adresy[i],False));
           t_stavy[i]:=SPO_ZHASINA;
@@ -1609,6 +2274,8 @@ implementation
         t_stavy[i]:=SPO_ZHASINA;
       end;
     end;
+
+    NastavRucnyZaver(False);
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1626,4 +2293,28 @@ implementation
     end;
   end;
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidloZriadovacie.VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
+  begin
+    inherited;
+
+    p_popis_b:=p_popis_b+'N·vesù';
+    p_popis_c:=p_popis_c+'Svieti';
+    p_popis_d:=p_popis_d+'RuËn˝ z·ver';
+    p_popis_e:=p_popis_e+'ätÌtok';
+
+    p_text_b:=NavestNaText(Navest[False]);
+    p_text_c:=NavestNaText(Navest[True]);
+
+    if t_rucny_zaver then
+    begin
+      p_text_d:='¡no';
+      p_cervena_d:=True;
+    end
+    else p_text_d:='Nie';
+
+    p_text_e:=t_stitok;
+    if t_stitok<>'' then p_cervena_e:=True;    
+  end;
 end.

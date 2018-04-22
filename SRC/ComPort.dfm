@@ -5,7 +5,8 @@ object CPort: TCPort
   Height = 150
   Width = 215
   object Timer1: TTimer
-    Interval = 70
+    Enabled = False
+    Interval = 2
     OnTimer = Timer1Timer
     Left = 88
     Top = 24

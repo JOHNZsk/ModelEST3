@@ -276,10 +276,6 @@ object Form1: TForm1
     ShowCaption = False
     TabOrder = 3
     StyleElements = []
-    ExplicitLeft = 488
-    ExplicitTop = 120
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object PaintBox1: TPaintBox32
       Left = 9
       Top = 9
@@ -291,9 +287,6 @@ object Form1: TForm1
       OnMouseUp = PaintBox1MouseUp
       OnMouseLeave = PaintBox1MouseLeave
       OnPaintBuffer = PaintBox1Paint
-      ExplicitLeft = 19
-      ExplicitWidth = 984
-      ExplicitHeight = 192
     end
   end
   object MainMenu1: TMainMenu
@@ -336,6 +329,10 @@ object Form1: TForm1
       object Predefinovanietextov1: TMenuItem
         Caption = 'Predefinovanie textov'
         OnClick = Predefinovanietextov1Click
+      end
+      object Predefinovaniekonfigurcie1: TMenuItem
+        Caption = 'Predefinovanie konfigur'#225'cie'
+        OnClick = Predefinovaniekonfigurcie1Click
       end
     end
     object Koniec1: TMenuItem

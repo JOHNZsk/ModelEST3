@@ -66,6 +66,7 @@ type
     N2: TMenuItem;
     Nacelobrazovku1: TMenuItem;
     PanelOkraj: TPanel;
+    Predefinovaniekonfigurcie1: TMenuItem;
     procedure Diagnostika1Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -88,6 +89,7 @@ type
     procedure Predefinovanietextov1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Nacelobrazovku1Click(Sender: TObject);
+    procedure Predefinovaniekonfigurcie1Click(Sender: TObject);
   private
     { Private declarations }
     t_maximalizovat: Boolean;
@@ -109,7 +111,7 @@ implementation
 {$R *.dfm}
 
 uses ComPort, DiagDialog, LogikaStavadlo, DratotahDialog, DateUtils,
-Generics.Collections, TextyDialog, Splash;
+Generics.Collections, TextyDialog, Splash, KonfigDialog;
 
 procedure TForm1.CreateParams(var Params: TCreateParams);
 begin
@@ -515,6 +517,11 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.Predefinovaniekonfigurcie1Click(Sender: TObject);
+begin
+  KonfigDlg.Show;
+end;
 
 procedure TForm1.Predefinovanietextov1Click(Sender: TObject);
 begin

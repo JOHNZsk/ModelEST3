@@ -1,48 +1,53 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\LogikaNemsova.pas',0,1,7,70,12,0,0,,{1
-File_1=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\RTL\SYS\System.pas',0,1,24132,12,24141,0,0,,
-File_2=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.ExtCtrls.pas',0,1,3082,1,3097,0,0,,
-File_3=TSourceModule,'c:\program files\embarcadero\studio\17.0\source\rtl\common\System.Generics.Collections.pas',0,1,4555,1,4574,0,0,,
-File_4=TSourceModule,'c:\program files\embarcadero\studio\15.0\SOURCE\VCL\Vcl.ExtCtrls.pas',0,1,3077,1,3093,0,0,,
-File_5=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\comport\Source\CPort.pas',0,1,2497,4,2513,0,0,,
-File_6=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\DratotahDialog.pas',0,1,1,27,5,0,0,,
-File_7=TSourceModule,'c:\program files\embarcadero\studio\15.0\SOURCE\VCL\Vcl.Graphics.pas',0,1,4337,1,4353,0,0,,
-File_8=TSourceModule,'c:\program files\embarcadero\studio\15.0\source\rtl\common\System.Generics.Collections.pas',0,1,899,1,915,0,0,,
-File_9=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\starmon-ep\spolocne\src\general\UTCCas.pas',0,1,100,1,1,0,0,,
-File_10=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\starmon-ep\spolocne\src\vlaky\EPRadicSpolKomVlak.pas',0,1,1962,1,1983,0,0,,
-File_11=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\starmon-ep\klient\src\dialogy\EPListDokumentaciaOdjazd.pas',0,1,206,46,240,0,0,,
-File_12=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\starmon-ep\klient\src\epgui1.pas',0,1,2426,1,2454,0,0,,
-File_13=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\starmon-ep\klient\src\dialogy\EPMOdalNeModalDialogVlak.pas',0,1,1,1,1,0,0,,
+File_0=TSourceModule,'C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\Graphics32\GR32_Image.pas',0,1,1068,47,1088,0,0,,
+File_1=TSourceModule,'C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\Graphics32\GR32_LowLevel.pas',0,1,312,1,330,0,0,,
+File_2=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas',0,1,8834,1,8852,0,0,,
+File_3=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\lib\Win32\release\ipwXmlp.pas',0,1,928,26,960,0,0,,
+File_4=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\LogikaNemsova.pas',0,1,7,70,12,0,0,,{1
+File_5=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\RTL\SYS\System.pas',0,1,24132,12,24141,0,0,,
+File_6=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.ExtCtrls.pas',0,1,3082,1,3097,0,0,,
+File_7=TSourceModule,'c:\program files\embarcadero\studio\17.0\source\rtl\common\System.Generics.Collections.pas',0,1,4555,1,4574,0,0,,
+File_8=TSourceModule,'c:\program files\embarcadero\studio\15.0\SOURCE\VCL\Vcl.ExtCtrls.pas',0,1,3077,1,3093,0,0,,
+File_9=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\comport\Source\CPort.pas',0,1,2497,4,2513,0,0,,
+File_10=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\MES3\DratotahDialog.pas',0,1,1,27,5,0,0,,
+File_11=TSourceModule,'c:\program files\embarcadero\studio\15.0\SOURCE\VCL\Vcl.Graphics.pas',0,1,4337,1,4353,0,0,,
+File_12=TSourceModule,'c:\program files\embarcadero\studio\15.0\source\rtl\common\System.Generics.Collections.pas',0,1,899,1,915,0,0,,
+File_13=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\starmon-ep\spolocne\src\general\UTCCas.pas',0,1,100,1,1,0,0,,
+File_14=TSourceModule,'C:\Users\HP\Documents\Embarcadero\Studio\Projects\starmon-ep\spolocne\src\vlaky\EPRadicSpolKomVlak.pas',0,1,1962,1,1983,0,0,,
 
 [Modules]
 Module0=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\ComPort.pas
-Module1=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\StavadloObjekty.pas
-Module2=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LogikaStavadlo.pas
-Module3=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\Splash.pas
-Module4=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\GUI1.pas
-Module5=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\KonfigDialog.pas
-Module6=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LoadConfig.pas
-Module7=default.htm
-Module8=documentation.htm
-Count=9
+Module1=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\MES3.dproj
+Module2=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\KonfigDialog.pas
+Module3=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\GUI1.pas
+Module4=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\StavadloObjekty.pas
+Module5=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\Splash.pas
+Module6=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LogikaStavadlo.pas
+Module7=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LoadConfig.pas
+Module8=default.htm
+Module9=documentation.htm
+Count=10
 EditWindowCount=1
 
 [C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\ComPort.pas]
 ModuleType=TSourceModule
 
-[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\StavadloObjekty.pas]
-ModuleType=TSourceModule
+[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\MES3.dproj]
+ModuleType=TBaseProject
 
-[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LogikaStavadlo.pas]
-ModuleType=TSourceModule
-
-[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\Splash.pas]
+[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\KonfigDialog.pas]
 ModuleType=TSourceModule
 
 [C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\GUI1.pas]
 ModuleType=TSourceModule
 
-[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\KonfigDialog.pas]
+[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\StavadloObjekty.pas]
+ModuleType=TSourceModule
+
+[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\Splash.pas]
+ModuleType=TSourceModule
+
+[C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LogikaStavadlo.pas]
 ModuleType=TSourceModule
 
 [C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LoadConfig.pas]
@@ -55,7 +60,7 @@ ModuleType=TURLModule
 ModuleType=TURLModule
 
 [EditWindow0]
-ViewCount=9
+ViewCount=10
 CurrentEditView=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\ComPort.pas
 View0=0
 View1=1
@@ -66,6 +71,7 @@ View5=5
 View6=6
 View7=7
 View8=8
+View9=9
 PercentageSizes=1
 Create=1
 Visible=1
@@ -106,9 +112,9 @@ WelcomePageURL=bds:/documentation.htm
 [View2]
 CustomEditViewType=TEditView
 Module=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\LogikaStavadlo.pas
-CursorX=49
-CursorY=1331
-TopLine=1314
+CursorX=1
+CursorY=716
+TopLine=698
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -117,9 +123,9 @@ EditViewName=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\
 [View3]
 CustomEditViewType=TEditView
 Module=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\StavadloObjekty.pas
-CursorX=116
-CursorY=341
-TopLine=337
+CursorX=37
+CursorY=852
+TopLine=831
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -139,9 +145,9 @@ EditViewName=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\
 [View5]
 CustomEditViewType=TEditView
 Module=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\KonfigDialog.pas
-CursorX=1
-CursorY=1
-TopLine=1
+CursorX=72
+CursorY=119
+TopLine=19
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -150,9 +156,9 @@ EditViewName=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\
 [View6]
 CustomEditViewType=TEditView
 Module=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\GUI1.pas
-CursorX=1
-CursorY=459
-TopLine=459
+CursorX=17
+CursorY=548
+TopLine=521
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -161,15 +167,26 @@ EditViewName=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\
 [View7]
 CustomEditViewType=TEditView
 Module=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\ComPort.pas
-CursorX=96
-CursorY=42
-TopLine=1
+CursorX=1
+CursorY=319
+TopLine=173
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\ComPort.pas
 
 [View8]
+CustomEditViewType=TEditView
+Module=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\MES3.dpr
+CursorX=28
+CursorY=29
+TopLine=1
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\MES3.dpr
+
+[View9]
 CustomEditViewType=TEditView
 Module=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\Splash.pas
 CursorX=84
@@ -184,8 +201,9 @@ EditViewName=C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\
 Count=0
 
 [Watches]
-Count=1
-Watch0='Length(t_sprava)',256,0,18,1,1,'Watches',1
+Count=2
+Watch0='p_atribut+''="''+IntToStr(i)+''"''',256,0,18,1,1,'Watches',1
+Watch1='p_atribut+''="''+IntToStr(p_odpocet-i)+''"''',256,0,18,1,1,'Watches',1
 
 [WatchWindow]
 WatchColumnWidth=120
@@ -209,7 +227,9 @@ Dockable=1
 StayOnTop=0
 
 [Breakpoints]
-Count=0
+Count=2
+Breakpoint0='C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\KonfigDialog.pas',87,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint1='C:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\SRC\KonfigDialog.pas',109,'',0,1,'',1,0,0,'',1,'','','',0,''
 
 [EmbarcaderoWin32Debugger_AddressBreakpoints]
 Count=0

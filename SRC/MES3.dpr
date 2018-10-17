@@ -12,8 +12,9 @@ uses
   synaser in '..\..\synapse\source\lib\synaser.pas',
   LoadConfig in 'LoadConfig.pas',
   TextyDialog in 'TextyDialog.pas' {TextyDlg},
-  KonfigDialog in 'KonfigDialog.pas' {OKRightDlg},
-  Splash in 'Splash.pas' {Form2};
+  KonfigDialog in 'KonfigDialog.pas' {KonfigDlg},
+  Splash in 'Splash.pas' {Form2},
+  CPortThread in 'CPortThread.pas';
 
 {$R *.res}
 
@@ -27,6 +28,6 @@ begin
   Application.CreateForm(TDiagDlg, DiagDlg);
   Application.CreateForm(TDratotahDlg, DratotahDlg);
   Application.CreateForm(TTextyDlg, TextyDlg);
-  Application.CreateForm(TOKRightDlg, OKRightDlg);
+  Application.CreateForm(TKonfigDlg, KonfigDlg);
   Application.Run;
 end.

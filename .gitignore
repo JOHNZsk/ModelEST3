@@ -66,3 +66,4 @@ __recovery/
 *.stat
 
 /SRC/MES3.dproj.local
+/cfg/*

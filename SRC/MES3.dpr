@@ -14,7 +14,9 @@ uses
   TextyDialog in 'TextyDialog.pas' {TextyDlg},
   KonfigDialog in 'KonfigDialog.pas' {KonfigDlg},
   Splash in 'Splash.pas' {Form2},
-  CPortThread in 'CPortThread.pas';
+  CPortThread in 'CPortThread.pas',
+  Z21Dialog in 'Z21Dialog.pas' {Z21Dlg},
+  Z21GrafDialog in 'Z21GrafDialog.pas' {OKRightDlg};
 
 {$R *.res}
 
@@ -29,5 +31,7 @@ begin
   Application.CreateForm(TDratotahDlg, DratotahDlg);
   Application.CreateForm(TTextyDlg, TextyDlg);
   Application.CreateForm(TKonfigDlg, KonfigDlg);
+  Application.CreateForm(TZ21Dlg, Z21Dlg);
+  Application.CreateForm(TOKRightDlg, OKRightDlg);
   Application.Run;
 end.

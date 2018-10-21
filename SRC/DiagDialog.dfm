@@ -315,7 +315,6 @@ object DiagDlg: TDiagDlg
     end
   end
   object ApplicationEvents1: TApplicationEvents
-    OnIdle = ApplicationEvents1Idle
     Left = 665
     Top = 8
   end

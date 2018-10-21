@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, GR32, StavadloObjekty,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Menus,
-  Vcl.ExtCtrls, GR32_Image;
+  Vcl.ExtCtrls, GR32_Image, Vcl.AppEvnts;
 
 type
   TForm1 = class(TForm)
@@ -51,7 +51,7 @@ type
     ZAM2: TMenuItem;
     SZAM: TMenuItem;
     Panel4: TPanel;
-    VDebug: TLabel;
+    VZ21: TLabel;
     PanelSV: TPanel;
     Label1: TLabel;
     StitokVyluka: TEdit;
@@ -67,6 +67,22 @@ type
     Nacelobrazovku1: TMenuItem;
     PanelOkraj: TPanel;
     Predefinovaniekonfigurcie1: TMenuItem;
+    Z211: TMenuItem;
+    ApplicationEvents1: TApplicationEvents;
+    Z21Panel: TPanel;
+    Z21TeplotaVnitrni: TLabel;
+    Z21ProudZpetny: TLabel;
+    Z21NapetiVnejsi: TLabel;
+    Z21NapetiVnitrni: TLabel;
+    Z21ProudVstup: TLabel;
+    Z21Stav: TLabel;
+    Z21Vystraha: TLabel;
+    Z21ProgramKolejProud: TLabel;
+    Label2: TLabel;
+    ZrusStopBtn: TButton;
+    Panel7: TPanel;
+    Z21M: TMenuItem;
+    StopBtn: TButton;
     procedure Diagnostika1Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -90,6 +106,11 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Nacelobrazovku1Click(Sender: TObject);
     procedure Predefinovaniekonfigurcie1Click(Sender: TObject);
+    procedure Z211Click(Sender: TObject);
+    procedure ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
+    procedure ZrusStopBtnClick(Sender: TObject);
+    procedure Z21MClick(Sender: TObject);
+    procedure StopBtnClick(Sender: TObject);
   private
     { Private declarations }
     t_maximalizovat: Boolean;
@@ -111,7 +132,18 @@ implementation
 {$R *.dfm}
 
 uses ComPort, DiagDialog, LogikaStavadlo, DratotahDialog, DateUtils,
-Generics.Collections, TextyDialog, Splash, KonfigDialog;
+Generics.Collections, TextyDialog, Splash, KonfigDialog, Z21Dialog;
+
+procedure TForm1.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
+begin
+  DiagDlg.AppIdle;
+  Z21Dlg.AppIdle;
+end;
+
+procedure TForm1.ZrusStopBtnClick(Sender: TObject);
+begin
+  Z21Dlg.ZrusSkrat;
+end;
 
 procedure TForm1.CreateParams(var Params: TCreateParams);
 begin
@@ -146,7 +178,7 @@ begin
 
   VJednotka.Caption:='';
   VLoconet.Caption:='';
-  VDebug.Caption:='';
+  VZ21.Caption:='';
   PanelSV.Visible:=False;
 
   DoubleBuffered:=True;
@@ -183,8 +215,20 @@ begin
     PanelPoruch.Width:=Form1.Width div 3;
   end
   else PanelPoruch.Width:=400;
+end;
 
-  VDebug.Caption:=IntToStr(Form1.Width)+'x'+IntToStr(Form1.Height);
+procedure TForm1.Z21MClick(Sender: TObject);
+begin
+  if not Z21Panel.Visible and Z21Dlg.JePripojene then
+  begin
+    Z21Panel.Visible:=True;
+    Z21M.Checked:=True;
+  end
+  else if Z21Panel.Visible then
+  begin
+    Z21Panel.Visible:=False;
+    Z21M.Checked:=False;
+  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -573,11 +617,21 @@ begin
   else if Key=VK_ESCAPE then LogikaES.ZrusStitokVyluku;
 end;
 
+procedure TForm1.StopBtnClick(Sender: TObject);
+begin
+  Z21Dlg.Stop;
+end;
+
 ////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.VypisChybu(p_text: string);
 begin
   DiagDlg.Memo1.Lines.Add(p_text);
+end;
+
+procedure TForm1.Z211Click(Sender: TObject);
+begin
+  Z21Dlg.Show;
 end;
 
 end.

@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'modelK'
-  ClientHeight = 428
+  ClientHeight = 530
   ClientWidth = 1008
   Color = clBlack
   Font.Charset = DEFAULT_CHARSET
@@ -22,31 +22,36 @@ object Form1: TForm1
     Left = 0
     Top = 0
     Width = 1008
-    Height = 38
+    Height = 40
     Align = alTop
     BevelOuter = bvNone
     Caption = 'HorPanel'
+    Color = clBlack
+    ParentBackground = False
     ShowCaption = False
     TabOrder = 0
     object Panel1: TPanel
       Left = 0
       Top = 0
       Width = 305
-      Height = 38
+      Height = 40
       Align = alLeft
       BevelOuter = bvNone
       Caption = 'Panel1'
+      Color = clBlack
+      ParentBackground = False
       ShowCaption = False
       TabOrder = 0
+      ExplicitHeight = 38
       object VJednotka: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 86
-        Height = 32
+        Height = 34
         Align = alLeft
         Caption = 'VJednotka'
-        Color = clBtnFace
+        Color = clBlack
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
         Font.Height = -16
@@ -61,7 +66,7 @@ object Form1: TForm1
       Left = 798
       Top = 0
       Width = 210
-      Height = 38
+      Height = 40
       Align = alRight
       BevelOuter = bvNone
       Caption = 'Panel3'
@@ -69,11 +74,12 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 1
+      ExplicitHeight = 38
       object Cas: TLabel
         Left = 0
         Top = 0
         Width = 210
-        Height = 38
+        Height = 40
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -99,48 +105,73 @@ object Form1: TForm1
       Left = 308
       Top = 3
       Width = 487
-      Height = 35
+      Height = 37
       Margins.Bottom = 0
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel4'
+      Color = clBlack
+      ParentBackground = False
       ShowCaption = False
       TabOrder = 2
-      object VLoconet: TLabel
+      ExplicitHeight = 35
+      object Panel7: TPanel
         Left = 0
         Top = 0
         Width = 487
-        Height = 19
-        Align = alTop
-        Caption = 'VLoconet'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clSilver
-        Font.Height = -16
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ExplicitWidth = 75
-      end
-      object VDebug: TLabel
-        Left = 0
-        Top = 19
-        Width = 487
-        Height = 19
-        Align = alTop
-        Caption = 'VDebug'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clSilver
-        Font.Height = -16
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ExplicitWidth = 63
+        Height = 37
+        Align = alClient
+        BevelOuter = bvNone
+        Caption = 'Panel7'
+        Color = clBlack
+        ParentBackground = False
+        TabOrder = 0
+        ExplicitLeft = 184
+        ExplicitTop = 16
+        ExplicitWidth = 185
+        ExplicitHeight = 41
+        object VLoconet: TLabel
+          Left = 0
+          Top = 19
+          Width = 487
+          Height = 19
+          Align = alTop
+          AutoSize = False
+          Caption = 'VLoconet'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clSilver
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitLeft = 1
+          ExplicitTop = -3
+          ExplicitWidth = 183
+        end
+        object VZ21: TLabel
+          Left = 0
+          Top = 0
+          Width = 487
+          Height = 19
+          Align = alTop
+          AutoSize = False
+          Caption = 'VZ21'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clSilver
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitLeft = 3
+          ExplicitTop = -6
+          ExplicitWidth = 352
+        end
       end
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 295
+    Top = 397
     Width = 1008
     Height = 133
     Align = alBottom
@@ -148,6 +179,7 @@ object Form1: TForm1
     Caption = 'Panel2'
     ShowCaption = False
     TabOrder = 1
+    ExplicitTop = 295
     object PanelRizik: TPanel
       Left = 0
       Top = 0
@@ -195,14 +227,17 @@ object Form1: TForm1
   end
   object Panel5: TPanel
     Left = 0
-    Top = 254
+    Top = 356
     Width = 1008
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
     Caption = 'Panel5'
+    Color = clBlack
+    ParentBackground = False
     ShowCaption = False
     TabOrder = 2
+    ExplicitTop = 254
     object PanelSV: TPanel
       Left = 0
       Top = 0
@@ -261,9 +296,9 @@ object Form1: TForm1
   end
   object PanelOkraj: TPanel
     Left = 0
-    Top = 38
-    Width = 1008
-    Height = 216
+    Top = 40
+    Width = 813
+    Height = 316
     Align = alClient
     BevelOuter = bvNone
     Caption = 'PanelOkraj'
@@ -276,17 +311,223 @@ object Form1: TForm1
     ShowCaption = False
     TabOrder = 3
     StyleElements = []
+    ExplicitTop = 35
+    ExplicitWidth = 1008
+    ExplicitHeight = 216
     object PaintBox1: TPaintBox32
       Left = 9
       Top = 9
-      Width = 990
-      Height = 198
+      Width = 795
+      Height = 298
       Align = alClient
       TabOrder = 0
       OnMouseMove = PaintBox1MouseMove
       OnMouseUp = PaintBox1MouseUp
       OnMouseLeave = PaintBox1MouseLeave
       OnPaintBuffer = PaintBox1Paint
+      ExplicitWidth = 990
+      ExplicitHeight = 198
+    end
+  end
+  object Z21Panel: TPanel
+    AlignWithMargins = True
+    Left = 816
+    Top = 43
+    Width = 189
+    Height = 310
+    Align = alRight
+    BevelOuter = bvNone
+    Caption = 'Z21Panel'
+    Color = clBlack
+    ParentBackground = False
+    ShowCaption = False
+    TabOrder = 4
+    ExplicitHeight = 261
+    object Z21TeplotaVnitrni: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 176
+      Width = 183
+      Height = 16
+      Align = alTop
+      Caption = 'Vn'#250'torn'#225' teplota:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitWidth = 100
+    end
+    object Z21ProudZpetny: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 88
+      Width = 183
+      Height = 16
+      Align = alTop
+      Caption = 'Sp'#228'tn'#253' pr'#250'd: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitWidth = 78
+    end
+    object Z21NapetiVnejsi: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 132
+      Width = 183
+      Height = 16
+      Align = alTop
+      Caption = 'Nap'#225'jacie nap'#228'tie:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitWidth = 107
+    end
+    object Z21NapetiVnitrni: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 154
+      Width = 183
+      Height = 16
+      Align = alTop
+      Caption = 'Nap'#228'tie v ko'#318'ajniciach:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitWidth = 130
+    end
+    object Z21ProudVstup: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 66
+      Width = 183
+      Height = 16
+      Align = alTop
+      Caption = 'Vstupn'#253' pr'#250'd: '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitWidth = 84
+    end
+    object Z21Stav: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 39
+      Width = 183
+      Height = 21
+      Align = alTop
+      Alignment = taCenter
+      Caption = '!!! N'#218'DZOV'#221' STOP !!!'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -17
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 181
+    end
+    object Z21Vystraha: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 198
+      Width = 183
+      Height = 17
+      Align = alTop
+      Alignment = taCenter
+      Caption = 'Zisten'#253' skrat v boosteri'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -14
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitTop = 180
+      ExplicitWidth = 162
+    end
+    object Z21ProgramKolejProud: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 110
+      Width = 183
+      Height = 16
+      Align = alTop
+      Caption = 'Programovacia ko'#318'aj:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ExplicitWidth = 123
+    end
+    object Label2: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 183
+      Height = 30
+      Align = alTop
+      Alignment = taCenter
+      Caption = 'Centr'#225'la Z21'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -25
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 162
+    end
+    object ZrusStopBtn: TButton
+      Left = 0
+      Top = 277
+      Width = 189
+      Height = 33
+      Align = alBottom
+      Caption = 'ZRU'#352' SKRAT/STOP'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      Visible = False
+      OnClick = ZrusStopBtnClick
+      ExplicitTop = 203
+      ExplicitWidth = 207
+    end
+    object StopBtn: TButton
+      Left = 0
+      Top = 244
+      Width = 189
+      Height = 33
+      Align = alBottom
+      Caption = 'STOP'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+      Visible = False
+      OnClick = StopBtnClick
+      ExplicitTop = 203
+      ExplicitWidth = 207
     end
   end
   object MainMenu1: TMainMenu
@@ -296,27 +537,37 @@ object Form1: TForm1
       Caption = 'Funkcie'
       object Drtoah1: TMenuItem
         Caption = 'Dr'#225'to'#357'ah'
-        ShortCut = 119
+        ShortCut = 118
         OnClick = Drtoah1Click
       end
       object Diagnostika1: TMenuItem
-        Caption = 'Technologick'#253' monitor'
-        ShortCut = 120
+        Caption = 'Technologick'#253' monitor LocoNet'
+        ShortCut = 119
         OnClick = Diagnostika1Click
+      end
+      object Z211: TMenuItem
+        Caption = 'Technologick'#253' monitor Z21'
+        ShortCut = 120
+        OnClick = Z211Click
       end
       object N1: TMenuItem
         Caption = '-'
       end
       object Resetnvstidel1: TMenuItem
-        Caption = 'Reset n'#225'v'#283'stidel'
+        Caption = 'Reset n'#225'vestidiel'
         OnClick = Resetnvstidel1Click
       end
       object Resetvhybej1: TMenuItem
-        Caption = 'Reset v'#253'hybek'
+        Caption = 'Reset v'#253'hybiek'
         OnClick = Resetvhybej1Click
       end
       object N2: TMenuItem
         Caption = '-'
+      end
+      object Z21M: TMenuItem
+        Caption = 'Informa'#269'n'#253' panel Z21'
+        ShortCut = 113
+        OnClick = Z21MClick
       end
       object Nacelobrazovku1: TMenuItem
         Caption = 'Na cel'#250' obrazovku'
@@ -434,5 +685,10 @@ object Form1: TForm1
       Caption = 'RVYH'
       OnClick = STAV1Click
     end
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnIdle = ApplicationEvents1Idle
+    Left = 728
+    Top = 136
   end
 end

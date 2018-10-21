@@ -35,6 +35,8 @@ type
     OKBtn: TButton;
     ListBox1: TListBox;
     ListBox2: TListBox;
+    Z21Povolit: TCheckBox;
+    Panel4: TPanel;
     procedure CancelBtnClick(Sender: TObject);
     procedure OKBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -58,7 +60,7 @@ implementation
 
 {$R *.dfm}
 
-uses GUI1, LogikaStavadlo, IniFiles, ComPort, UITypes;
+uses GUI1, LogikaStavadlo, IniFiles, ComPort, UITypes, Z21Dialog;
 
 procedure TForm2.CancelBtnClick(Sender: TObject);
 begin
@@ -168,6 +170,9 @@ begin
       LogikaES.Spusti(konf.Plan,konf.Stitky);
       if (prip.Typ='Loconet') or (prip.Typ='LoconetSIM') then CPort.Pripoj;
       LogikaES.Reset(t_reset_navestidiel,t_reset_vyhybiek);
+
+      if Z21Povolit.Checked then Z21Dlg.Pripoj;
+
       Hide;
     end;
   end;

@@ -106,6 +106,43 @@ object Form2: TForm2
       TabOrder = 1
       OnClick = OKBtnClick
     end
+    object Panel4: TPanel
+      Left = 0
+      Top = 0
+      Width = 185
+      Height = 25
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Panel4'
+      ParentBackground = False
+      ShowCaption = False
+      TabOrder = 2
+      ExplicitLeft = 176
+      ExplicitTop = 8
+      ExplicitHeight = 41
+      object Z21Povolit: TCheckBox
+        Left = 0
+        Top = 0
+        Width = 193
+        Height = 25
+        Align = alLeft
+        Caption = 'Povoli'#357' pripojenie k Z21'
+        Checked = True
+        Color = clBtnFace
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        State = cbChecked
+        TabOrder = 0
+        ExplicitLeft = -8
+        ExplicitTop = 1
+        ExplicitHeight = 23
+      end
+    end
   end
   object Panel2: TPanel
     AlignWithMargins = True

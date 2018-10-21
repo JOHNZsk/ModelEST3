@@ -38,7 +38,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
-    procedure ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
     procedure Button3Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -46,6 +45,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure AppIdle;
   end;
 
 var
@@ -55,26 +55,6 @@ implementation
   uses GUI1;
 
 {$R *.dfm}
-
-procedure TDiagDlg.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
-var
-  text: string;
-begin
-  Label5.Caption:=CPort.PortCislo;
-  Label6.Caption:=IntToStr(Cport.DajPocetPovelov)+' povelov';
-  text:='Loconet '+CPort.PortCislo+' ';
-  if Button1.Enabled then text:=text+'odpojený' else text:=text+'pripojený';
-  text:=text+', povelov vo fronte: '+IntToStr(Cport.DajPocetPovelov);
-
-  if CPort.JeSimulacia then
-  begin
-    SimPripoj.Checked:=True;
-    text:='POZOR SIMULÁTOR! '+text;
-  end
-  else SimPripoj.Checked:=False;
-
-  Form1.VLoconet.Caption:=text;
-end;
 
 procedure TDiagDlg.Button1Click(Sender: TObject);
 begin
@@ -107,6 +87,26 @@ begin
   Memo1.Text:='';
   Edit1.Text:='';
   Edit2.Text:='';
+end;
+
+procedure TDiagDlg.AppIdle;
+var
+  text: string;
+begin
+  Label5.Caption:=CPort.PortCislo;
+  Label6.Caption:=IntToStr(Cport.DajPocetPovelov)+' povelov';
+  text:='Loconet '+CPort.PortCislo+' ';
+  if Button1.Enabled then text:=text+'odpojený' else text:=text+'pripojený';
+  text:=text+', povelov vo fronte: '+IntToStr(Cport.DajPocetPovelov);
+
+  if CPort.JeSimulacia then
+  begin
+    SimPripoj.Checked:=True;
+    text:='POZOR SIMULÁTOR! '+text;
+  end
+  else SimPripoj.Checked:=False;
+
+  Form1.VLoconet.Caption:=text;
 end;
 
 end.

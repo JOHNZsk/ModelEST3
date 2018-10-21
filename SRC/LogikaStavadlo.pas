@@ -670,7 +670,7 @@ begin
     end
     else if(vysledok is TNavestidlo) and (t_postavene_cesty.TryGetValue(vysledok,cesta)) then
     begin
-      if ((vysledok as TNavestidloHlavne).Navest[False]<>CN_STOJ) then cesta.ZrusVolnoznak
+      if ((vysledok is TNavestidloHlavne) and ((vysledok as TNavestidloHlavne).Navest[False]<>CN_STOJ)) or ((vysledok is TNavestidloZriadovacie) and ((vysledok as TNavestidloZriadovacie).Navest[False]<>CN_STOJ)) then cesta.ZrusVolnoznak
       else cesta.AktualizujVolnoznak(True);
     end
     else  if(not (vysledok is TVyhybka)) and ((not (ssAlt in p_shift)) or (not (ssShift in p_shift))) then

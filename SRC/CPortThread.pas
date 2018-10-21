@@ -93,6 +93,8 @@ type
     procedure PridajPovel(p_povel: TBytes);
 
     function DajVystup(p_list: TList<TCPortZprava>): Boolean;
+
+    procedure CakajNaPripojenie;
   end;
 
 implementation
@@ -210,7 +212,7 @@ begin
         t_port.Config(t_rychlost, 8, 'N', SB1, False, t_hwflow);
         sleep(500);
       finally
-        t_vlakno_vystup.Free;
+        t_vlakno_vystup.Release;
       end;
     finally
       t_vlakno_system.Release;
@@ -325,9 +327,9 @@ begin
         begin
           t_vlakno_vystup.Acquire;
           try
-            output:=t_port.RecvBufferEx(@buf,64,100)
+            output:=t_port.RecvBufferEx(@buf,64,10)
           finally
-            t_vlakno_vystup.Free;
+            t_vlakno_vystup.Release;
           end;
         end
         else
@@ -417,6 +419,27 @@ begin
   t_pocbajtov:=0;
   t_akt_bajt:=0;
 end;
+
+procedure TCPortThread.CakajNaPripojenie;
+var
+  stav: Boolean;
+begin
+  stav:=False;
+
+  if not t_simulacia then
+  begin
+    while not stav do
+    begin
+      t_vlakno_vystup.Acquire;
+      try
+        stav:=t_port.InstanceActive
+      finally
+        t_vlakno_vystup.Release;
+      end;
+    end;
+  end;
+end;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -105,6 +105,8 @@ begin
   t_vlakno.Nastav(t_portcislo,t_rychlost,t_hwflow,t_simulacia);
   t_vlakno.Start;
 
+  t_vlakno.CakajNaPripojenie;
+
   Timer1.Enabled:=True;
 
   VydajPovel83;

@@ -133,6 +133,7 @@ implementation
     y_kon:=-1;
     cislo:='???';
     cjednotky:=0;
+    var skupina_pn: Integer:=1;
 
     for j := Low(adresy) to High(adresy) do adresy[j]:=0;
 
@@ -144,6 +145,7 @@ implementation
       else if p_zdroj.AttrName[i]='ykon' then y_kon:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='cislo' then cislo:=p_zdroj.AttrValue[i]
       else if p_zdroj.AttrName[i]='cjednotky' then cjednotky:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='skupinapn' then skupina_pn:=StrToIntDef(p_zdroj.AttrValue[i],1)
       else if p_zdroj.AttrName[i]='cervena' then adresy[NVF_C]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='hornazlta' then adresy[NVF_HZ]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='hornazltakmit' then adresy[NVF_HZ_KMIT]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
@@ -157,7 +159,7 @@ implementation
 
     if(x_zac>=0) and (x_kon>=0) and (y_zac>=0) and (y_kon>=0) and (cislo<>'???') and (cjednotky>0) then
     begin
-      navestidlo:=TNavestidloVchodove.Create(x_zac,x_kon,y_zac,y_kon,cislo,adresy,cjednotky,p_dopravna);
+      navestidlo:=TNavestidloVchodove.Create(x_zac,x_kon,y_zac,y_kon,cislo,adresy,cjednotky,skupina_pn,p_dopravna);
       p_ciel.PridajObjekt(navestidlo);
       Result:=True;
     end
@@ -281,6 +283,7 @@ implementation
     cjednotky:=0;
     spojit_zelenu:=False;
     bez_zltej:=False;
+    var skupina_pn: Integer:=1;
 
     for j := Low(adresy) to High(adresy) do adresy[j]:=0;
 
@@ -292,6 +295,7 @@ implementation
       else if p_zdroj.AttrName[i]='ykon' then y_kon:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='cislo' then cislo:=p_zdroj.AttrValue[i]
       else if p_zdroj.AttrName[i]='cjednotky' then cjednotky:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='skupinapn' then skupina_pn:=StrToIntDef(p_zdroj.AttrValue[i],1)
       else if p_zdroj.AttrName[i]='spojitzelenu' then spojit_zelenu:=p_zdroj.AttrValue[i]='True'
       else if p_zdroj.AttrName[i]='bezzltej' then bez_zltej:=p_zdroj.AttrValue[i]='True'
       else if p_zdroj.AttrName[i]='cervena' then adresy[NOF_C]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
@@ -300,10 +304,10 @@ implementation
       else if p_zdroj.AttrName[i]='biela' then adresy[NOF_B]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='bielakmit' then adresy[NOF_B_KMIT]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
     end;
-      
+
     if(x_zac>=0) and (x_kon>=0) and (y_zac>=0) and (y_kon>=0) and (cislo<>'???') and (cjednotky>0) then
     begin
-      navestidlo:=TNavestidloOdchodove.Create(x_zac,x_kon,y_zac,y_kon,cislo,spojit_zelenu,bez_zltej,adresy,cjednotky,p_dopravna);
+      navestidlo:=TNavestidloOdchodove.Create(x_zac,x_kon,y_zac,y_kon,cislo,spojit_zelenu,bez_zltej,adresy,cjednotky,skupina_pn,p_dopravna);
       p_ciel.PridajObjekt(navestidlo);
       Result:=True;
     end

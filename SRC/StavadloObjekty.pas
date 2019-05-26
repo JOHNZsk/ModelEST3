@@ -7,7 +7,7 @@ interface
 
   function ZaverText(p_hodnota: TZaver): string;
 
-  type TKodJednotky=(KJ_KOLAJCIARA,KJ_NAVESTIDLOZRIADOVACIE,KJ_NAVESTIDLOVCHODOVE,KJ_NAVESTIDLOODCHODOVE,KJ_VYHYBKA,KJ_TEXT,KJ_SULIBRK,KJ_STANOB);
+  type TKodJednotky=(KJ_KOLAJCIARA,KJ_NAVESTIDLOZRIADOVACIE,KJ_NAVESTIDLOVCHODOVE,KJ_NAVESTIDLOODCHODOVE,KJ_VYHYBKA,KJ_TEXT,KJ_SULIBRK,KJ_STANOB,KJ_NASTUPISTE);
 
   function KodJednotkyXML(p_popis: string): TKodJednotky;
   function KodJednotkyNaXML(p_popis: TKodJednotky): string;
@@ -41,7 +41,7 @@ interface
 
   //**************************************************************************//
 
-  type TNavest=(CN_NEZNAMA,CN_STOJ,CN_POSUN_DOVOLENY,CN_VYSTRAHA,CN_VOLNO,CN_OCAK40,CN_40AVYSTRAHA,CN_40A40,CN_40AVOLNO,CN_PRIVOLAVACKA);
+  type TNavest=(CN_NEZNAMA,CN_STOJ,CN_POSUN_DOVOLENY,CN_VYSTRAHA,CN_VOLNO,CN_OCAK40,CN_40AVYSTRAHA,CN_40A40,CN_40AVOLNO,CN_PRIVOLAVACKA,CN_VCRP,CN_40AVCRP);
 
   function NavestNaText(p_hodnota: TNavest): string;
 
@@ -59,7 +59,7 @@ interface
   end;
 
   //**************************************************************************//
-  
+
   type TStavadloObjekt=class(TObject)
     private
       t_cjednotky: Integer;
@@ -220,7 +220,13 @@ interface
   //**************************************************************************//
 
   type TNavestidloHlavne=class(TNavestidlo)
+    protected
+      t_skupina_pn: Integer;
     public
+      property SkupinaPN: Integer read t_skupina_pn;
+
+      constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
+
       procedure Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer); override;
 
       procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); override;
@@ -311,7 +317,7 @@ interface
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
 
     public
-      constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky: Integer; p_dopravna: TDopravna);
+      constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
 
       function RozsvietNavest(p_navest: TNavest; p_povely: TList<TPair<Integer,Boolean>>): Boolean; override;
 
@@ -346,7 +352,7 @@ interface
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
 
     public
-      constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_spojit_zelenu,p_bez_zltej: Boolean; p_adresy: TNavestidloOdchodoveAdresy; p_cjednotky: Integer; p_dopravna: TDopravna);
+      constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_spojit_zelenu,p_bez_zltej: Boolean; p_adresy: TNavestidloOdchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
 
       function RozsvietNavest(p_navest: TNavest; p_povely: TList<TPair<Integer,Boolean>>): Boolean; override;
 
@@ -422,6 +428,7 @@ implementation
     else if(p_popis='KJ_TEXT') then Result:=KJ_TEXT
     else if(p_popis='KJ_SULIBRK') then Result:=KJ_SULIBRK
     else if(p_popis='KJ_STANOB') then Result:=KJ_STANOB
+    else if(p_popis='KJ_NASTUPISTE') then Result:=KJ_NASTUPISTE
     else Result:=KJ_KOLAJCIARA
   end;
 
@@ -437,6 +444,7 @@ implementation
       KJ_TEXT: Result:='KJ_TEXT';
       KJ_SULIBRK: Result:='KJ_SULIBRK';
       KJ_STANOB: Result:='KJ_STANOB';
+      KJ_NASTUPISTE: Result:='KJ_NASTUPISTE';
       else Result:='KJ_KOLAJCIARA';
     end;
   end;
@@ -455,6 +463,7 @@ implementation
       KJ_TEXT: Result:='TXT';
       KJ_SULIBRK: Result:='SUL';
       KJ_STANOB: Result:='SOB';
+      KJ_NASTUPISTE: Result:='NST';
     end;
   end;
 
@@ -524,6 +533,8 @@ implementation
       CN_40A40: Result:='40 a oèakávaj 40';
       CN_40AVOLNO: Result:='40 a vo¾no';
       CN_PRIVOLAVACKA: Result:='Privolávaèka';
+      CN_VCRP: Result:='Jazda pod¾a roz. pomerov';
+      CN_40AVCRP: Result:='40 a jazda pod¾a roz. pomerov';
     end;
   end;
 
@@ -1107,6 +1118,15 @@ implementation
 
   //**************************************************************************//
 
+  constructor TNavestidloHlavne.Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
+  begin
+    inherited Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon,p_cislo,p_cjednotky,p_dopravna);
+
+    t_skupina_pn:=p_skupina_pn;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
   procedure TNavestidloHlavne.Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer);
   var
     zac_x,zac_y,kon_x,kon_y: Integer;
@@ -1580,11 +1600,11 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  constructor TNavestidloVchodove.Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky: Integer; p_dopravna: TDopravna);
+  constructor TNavestidloVchodove.Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
   var
     i: TNavestidloVchodoveFarba;
   begin
-    inherited Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon,p_cislo,p_cjednotky,p_dopravna);
+    inherited Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon,p_cislo,p_cjednotky,p_skupina_pn,p_dopravna);
 
     for i := Low(t_adresy) to High(t_adresy) do
     begin
@@ -1643,6 +1663,8 @@ implementation
     else if svietia=[NVF_HZ_KMIT,NVF_DZ,NVF_PREDV_HZ_KMIT] then Result:=CN_40A40
     else if svietia=[NVF_HZ,NVF_DZ,NVF_PREDV_HZ_KMIT] then Result:=CN_40AVYSTRAHA
     else if svietia=[NVF_C,NVF_B_KMIT,NVF_PREDV_HZ] then Result:=CN_PRIVOLAVACKA
+    else if svietia=[NVF_HZ,NVF_B_KMIT,NVF_PREDV_HZ] then Result:=CN_VCRP
+    else if svietia=[NVF_HZ,NVF_B_KMIT,NVF_DZ,NVF_PREDV_HZ] then Result:=CN_40AVCRP
     else Result:=CN_NEZNAMA;
   end;
 
@@ -1812,11 +1834,11 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  constructor TNavestidloOdchodove.Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_spojit_zelenu,p_bez_zltej: Boolean; p_adresy: TNavestidloOdchodoveAdresy; p_cjednotky: Integer; p_dopravna: TDopravna);
+  constructor TNavestidloOdchodove.Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_spojit_zelenu,p_bez_zltej: Boolean; p_adresy: TNavestidloOdchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
   var
     i: TNavestidloOdchodoveFarba;
   begin
-    inherited Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon,p_cislo,p_cjednotky,p_dopravna);
+    inherited Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon,p_cislo,p_cjednotky,p_skupina_pn,p_dopravna);
 
     t_spojit_zelenu:=p_spojit_zelenu;
     t_bez_zltej:=p_bez_zltej;

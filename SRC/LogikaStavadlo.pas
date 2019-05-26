@@ -92,6 +92,8 @@ type
     procedure ZhodNudzovyPovel;
     procedure VykonajNudzovyPovel;
 
+    function JeDalsiaPN(p_navestidlo: TNavestidloHlavne): Boolean;
+
   public
     { Public declarations }
     property SirkaPlanu: Integer read t_plan_sirka;
@@ -967,25 +969,45 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-procedure TLogikaES.Privolavacka(p_navestidlo: TNavestidloHlavne; p_potvrd: Boolean);
-var
-  povely: TList<TPair<Integer,Boolean>>;
-  povel: TPair<Integer,Boolean>;
+function TLogikaES.JeDalsiaPN(p_navestidlo: TNavestidloHlavne): Boolean;
 begin
-  if p_potvrd then
+  Result:=False;
+
+  for var v_objekt in t_plan do
   begin
-    if(not p_navestidlo.RucnyZaver) then
+    if v_objekt is TNavestidloHlavne then
     begin
-      povely:=TList<TPair<Integer,Boolean>>.Create;
-      try
-        if p_navestidlo.Navest[False] in [CN_STOJ,CN_NEZNAMA] then p_navestidlo.RozsvietNavest(CN_PRIVOLAVACKA,povely);
-        for povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
-      finally
-        povely.Free;
+      if ((v_objekt as TNavestidloHlavne).SkupinaPN=p_navestidlo.SkupinaPN) and ((v_objekt as TNavestidloHlavne).Navest[False]=CN_PRIVOLAVACKA) then
+      begin
+        Result:=True;
+        break;
       end;
     end;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.Privolavacka(p_navestidlo: TNavestidloHlavne; p_potvrd: Boolean);
+begin
+  if not JeDalsiaPN(p_navestidlo) then
+  begin
+    if p_potvrd then
+    begin
+      if(not p_navestidlo.RucnyZaver) then
+      begin
+        var povely:=TList<TPair<Integer,Boolean>>.Create;
+        try
+          if p_navestidlo.Navest[False] in [CN_STOJ,CN_NEZNAMA] then p_navestidlo.RozsvietNavest(CN_PRIVOLAVACKA,povely);
+          for var povel in povely do CPort.VydajPovelB0(povel.Key,povel.Value);
+        finally
+          povely.Free;
+        end;
+      end;
+    end
+    else NastavNudzovyPovel(p_navestidlo.Dopravna,NPT_PRIVOLAVACKA,p_navestidlo,NPP_ASDF);
   end
-  else NastavNudzovyPovel(p_navestidlo.Dopravna,NPT_PRIVOLAVACKA,p_navestidlo,NPP_ASDF);
+  else VytvorPoruchu(Now,p_navestidlo.Dopravna,'Nejde rozsvietiù Ôalöiu PN na zhlavÌ');
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1231,7 +1253,7 @@ begin
     Form1.SSTAV.Visible:=True;
     Form1.STOJ1.Visible:=(t_menu_objekt as TNavestidlo).Navest[False]<>CN_STOJ;
     Form1.DN1.Visible:=((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ) and ((t_menu_objekt as TNavestidlo).JeZdroj);
-    Form1.PN1.Visible:=(t_menu_objekt is TNavestidloHlavne) and ((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ);
+    Form1.PN1.Visible:=(t_menu_objekt is TNavestidloHlavne) and ((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ) and (not JeDalsiaPN(t_menu_objekt as TNavestidloHlavne));
     Form1.SNAV.Visible:=True;
     Form1.ZAM1.Visible:=(not (t_menu_objekt as TNavestidlo).RucnyZaver) and ((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ);
     Form1.ZAM2.Visible:=(t_menu_objekt as TNavestidlo).RucnyZaver;

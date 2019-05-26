@@ -89,6 +89,7 @@ begin
       t_reset_vyhybiek:=subor.ReadBool('Main','ResetVyhybiek',False);
       pocet_konf:=subor.ReadInteger('Main','Konfiguracie',0);
       pocet_prip:=subor.ReadInteger('Main','Pripojenia',0);
+      Z21Povolit.Checked:=subor.ReadBool('Main','Z21Implicitne',False);
 
       ListBox1.Items.BeginUpdate;
       try
@@ -103,7 +104,7 @@ begin
 
             t_konfiguracie.Add(konf);
             ListBox1.AddItem(konf.Nazov,nil);
-            if konf.Predvolene then ListBox1.ItemIndex:=ListBox1.Count-1;        
+            if konf.Predvolene then ListBox1.ItemIndex:=ListBox1.Count-1;
           end;
         end;
       finally

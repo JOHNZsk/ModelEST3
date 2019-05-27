@@ -187,6 +187,8 @@ type
     procedure PotvrdStitokVyluku;
     procedure ZrusStitokVyluku;
 
+    procedure PotvrdPoruchu;
+
     procedure UlozStitkyVyluky;
 
     procedure Spusti(p_subor_plan,p_subor_sv: string);
@@ -1182,6 +1184,16 @@ begin
   Form1.PaintBoxRizika.Invalidate;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.PotvrdPoruchu;
+begin
+  if t_poruchy.Count>0 then
+  begin
+    t_poruchy.Delete(0);
+    Form1.PaintBoxPoruchy.Invalidate;
+  end;
+end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1200,11 +1212,7 @@ begin
         end;
       end
       else if t_je_stitok or t_je_vyluka then PotvrdStitokVyluku
-      else if t_poruchy.Count>0 then
-      begin
-        t_poruchy.Delete(0);
-        Form1.PaintBoxPoruchy.Invalidate;
-      end;
+      else PotvrdPoruchu;
     end;
     Ord('A'):
     begin

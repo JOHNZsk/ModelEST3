@@ -215,6 +215,7 @@ object Form1: TForm1
         Height = 133
         Align = alClient
         TabOrder = 0
+        OnClick = PaintBoxPoruchyClick
         OnPaintBuffer = PaintBoxPoruchyPaintBuffer
       end
     end

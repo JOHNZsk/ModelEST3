@@ -115,6 +115,7 @@ type
     procedure CasDblClick(Sender: TObject);
     procedure Modelovas1Click(Sender: TObject);
     procedure CasClick(Sender: TObject);
+    procedure PaintBoxPoruchyClick(Sender: TObject);
   private
     { Private declarations }
     t_maximalizovat: Boolean;
@@ -381,6 +382,13 @@ begin
     p_ciel.Textout(148,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),p_porucha.Text);
   end
   else p_ciel.Textout(98,p_od,Rect(22,p_od-2,p_ciel.Width-4,p_do),p_porucha.Text);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.PaintBoxPoruchyClick(Sender: TObject);
+begin
+  LogikaES.PotvrdPoruchu;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -679,4 +679,11 @@ object Form1: TForm1
     Left = 728
     Top = 136
   end
+  object CasDvojklikTimer: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = CasDvojklikTimerTimer
+    Left = 368
+    Top = 208
+  end
 end

@@ -505,7 +505,9 @@ begin
 
     if den>0 then text:=text+IntToStr(den)+' - ';
 
-    text:=text+FormatDateTime('hh:nn:ss',t_cas_hodnota);
+    if t_cas_rychlost<=2 then text:=text+FormatDateTime('hh:nn:ss',t_cas_hodnota)
+    else text:=text+FormatDateTime('hh:nn',t_cas_hodnota);
+
     if t_cas_stoji then text:=text+' (stojí)'
     else text:=text+' ('+IntToStr(t_cas_rychlost)+'x)';
     Form1.Cas.Caption:=text;
@@ -2067,6 +2069,7 @@ end;
 procedure TLogikaES.ZastavCas;
 begin
   t_cas_stoji:=True;
+  Timer1Timer(Timer1);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2075,6 +2078,7 @@ procedure TLogikaES.SpustiCas;
 begin
   t_cas_posledny:=Now;
   t_cas_stoji:=False;
+  Timer1Timer(Timer1);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

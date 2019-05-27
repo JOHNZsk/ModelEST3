@@ -84,6 +84,7 @@ type
     Z21M: TMenuItem;
     StopBtn: TButton;
     Modelovas1: TMenuItem;
+    CasDvojklikTimer: TTimer;
     procedure Diagnostika1Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -116,6 +117,7 @@ type
     procedure Modelovas1Click(Sender: TObject);
     procedure CasClick(Sender: TObject);
     procedure PaintBoxPoruchyClick(Sender: TObject);
+    procedure CasDvojklikTimerTimer(Sender: TObject);
   private
     { Private declarations }
     t_maximalizovat: Boolean;
@@ -145,13 +147,34 @@ begin
   Z21Dlg.AppIdle;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TForm1.ZrusStopBtnClick(Sender: TObject);
 begin
   Z21Dlg.ZrusSkrat;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TForm1.CasClick(Sender: TObject);
 begin
+  if not CasDvojklikTimer.Enabled then CasDvojklikTimer.Enabled:=True;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.CasDblClick(Sender: TObject);
+begin
+  CasDvojklikTimer.Enabled:=False;
+  if not CasDlg.Visible then CasDlg.Show;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.CasDvojklikTimerTimer(Sender: TObject);
+begin
+  CasDvojklikTimer.Enabled:=False;
+
   if LogikaES.CasTyp<>TCA_REALNY then
   begin
     if LogikaES.CasStoji then LogikaES.SpustiCas
@@ -159,16 +182,15 @@ begin
   end;
 end;
 
-procedure TForm1.CasDblClick(Sender: TObject);
-begin
-  if not CasDlg.Visible then CasDlg.Show;
-end;
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.CreateParams(var Params: TCreateParams);
 begin
   inherited;
   Params.ExStyle := Params.ExStyle or WS_EX_APPWINDOW;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.Diagnostika1Click(Sender: TObject);
 begin

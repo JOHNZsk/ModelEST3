@@ -141,6 +141,10 @@
             <Form>OKRightDlg</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="CasDialog.pas">
+            <Form>CasDlg</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

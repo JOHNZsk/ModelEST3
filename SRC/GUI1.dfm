@@ -42,7 +42,6 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 0
-      ExplicitHeight = 38
       object VJednotka: TLabel
         AlignWithMargins = True
         Left = 3
@@ -74,7 +73,6 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 1
-      ExplicitHeight = 38
       object Cas: TLabel
         Left = 0
         Top = 0
@@ -96,6 +94,8 @@ object Form1: TForm1
         ParentColor = False
         ParentFont = False
         Layout = tlCenter
+        OnClick = CasClick
+        OnDblClick = CasDblClick
         ExplicitWidth = 186
         ExplicitHeight = 24
       end
@@ -114,7 +114,6 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 2
-      ExplicitHeight = 35
       object Panel7: TPanel
         Left = 0
         Top = 0
@@ -126,10 +125,6 @@ object Form1: TForm1
         Color = clBlack
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = 184
-        ExplicitTop = 16
-        ExplicitWidth = 185
-        ExplicitHeight = 41
         object VLoconet: TLabel
           Left = 0
           Top = 19
@@ -179,7 +174,6 @@ object Form1: TForm1
     Caption = 'Panel2'
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 295
     object PanelRizik: TPanel
       Left = 0
       Top = 0
@@ -237,7 +231,6 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 2
-    ExplicitTop = 254
     object PanelSV: TPanel
       Left = 0
       Top = 0
@@ -311,9 +304,6 @@ object Form1: TForm1
     ShowCaption = False
     TabOrder = 3
     StyleElements = []
-    ExplicitTop = 35
-    ExplicitWidth = 1008
-    ExplicitHeight = 216
     object PaintBox1: TPaintBox32
       Left = 9
       Top = 9
@@ -325,8 +315,6 @@ object Form1: TForm1
       OnMouseUp = PaintBox1MouseUp
       OnMouseLeave = PaintBox1MouseLeave
       OnPaintBuffer = PaintBox1Paint
-      ExplicitWidth = 990
-      ExplicitHeight = 198
     end
   end
   object Z21Panel: TPanel
@@ -342,7 +330,6 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 4
-    ExplicitHeight = 261
     object Z21TeplotaVnitrni: TLabel
       AlignWithMargins = True
       Left = 3
@@ -455,7 +442,6 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = 180
       ExplicitWidth = 162
     end
     object Z21ProgramKolejProud: TLabel
@@ -507,8 +493,6 @@ object Form1: TForm1
       TabOrder = 0
       Visible = False
       OnClick = ZrusStopBtnClick
-      ExplicitTop = 203
-      ExplicitWidth = 207
     end
     object StopBtn: TButton
       Left = 0
@@ -526,8 +510,6 @@ object Form1: TForm1
       TabOrder = 1
       Visible = False
       OnClick = StopBtnClick
-      ExplicitTop = 203
-      ExplicitWidth = 207
     end
   end
   object MainMenu1: TMainMenu
@@ -573,6 +555,11 @@ object Form1: TForm1
         Caption = 'Na cel'#250' obrazovku'
         ShortCut = 122
         OnClick = Nacelobrazovku1Click
+      end
+      object Modelovas1: TMenuItem
+        Caption = 'Modelov'#253' '#269'as'
+        ShortCut = 121
+        OnClick = Modelovas1Click
       end
     end
     object Nastavenia1: TMenuItem

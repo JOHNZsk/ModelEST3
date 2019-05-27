@@ -83,6 +83,7 @@ type
     Panel7: TPanel;
     Z21M: TMenuItem;
     StopBtn: TButton;
+    Modelovas1: TMenuItem;
     procedure Diagnostika1Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -111,6 +112,9 @@ type
     procedure ZrusStopBtnClick(Sender: TObject);
     procedure Z21MClick(Sender: TObject);
     procedure StopBtnClick(Sender: TObject);
+    procedure CasDblClick(Sender: TObject);
+    procedure Modelovas1Click(Sender: TObject);
+    procedure CasClick(Sender: TObject);
   private
     { Private declarations }
     t_maximalizovat: Boolean;
@@ -132,7 +136,7 @@ implementation
 {$R *.dfm}
 
 uses ComPort, DiagDialog, LogikaStavadlo, DratotahDialog, DateUtils,
-Generics.Collections, TextyDialog, Splash, KonfigDialog, Z21Dialog;
+Generics.Collections, TextyDialog, Splash, KonfigDialog, Z21Dialog, CasDialog;
 
 procedure TForm1.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
 begin
@@ -143,6 +147,20 @@ end;
 procedure TForm1.ZrusStopBtnClick(Sender: TObject);
 begin
   Z21Dlg.ZrusSkrat;
+end;
+
+procedure TForm1.CasClick(Sender: TObject);
+begin
+  if LogikaES.CasTyp<>TCA_REALNY then
+  begin
+    if LogikaES.CasStoji then LogikaES.SpustiCas
+    else LogikaES.ZastavCas;
+  end;
+end;
+
+procedure TForm1.CasDblClick(Sender: TObject);
+begin
+  if not CasDlg.Visible then CasDlg.Show;
 end;
 
 procedure TForm1.CreateParams(var Params: TCreateParams);
@@ -236,6 +254,11 @@ end;
 procedure TForm1.Koniec1Click(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TForm1.Modelovas1Click(Sender: TObject);
+begin
+  if not CasDlg.Visible then CasDlg.Show
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

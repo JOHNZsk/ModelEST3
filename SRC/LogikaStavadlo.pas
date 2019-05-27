@@ -38,6 +38,10 @@ type TNudzovyPovelPotvrdTyp=(NPP_ENTER,NPP_ASDF);
 
 type TMenuPolozka=(MK_STAV,MK_STOJ,MK_DN,MK_PN,MK_ZAM1,MK_ZAM2,MK_P1,MK_P2,MK_ZAV1,MK_ZAV2,MK_STIT,MK_VYL,MK_RESET,MK_KPV,MK_KSV,MK_RNAV,MK_RVYH);
 
+type TCasTyp=(TCA_REALNY,TCA_ZRYCHLENY,TCA_LOCONET);
+
+type TCasZlozka=(ZCA_DEN,ZCA_HODINA,ZCA_MINUTA,ZCA_SEKUNDA);
+
 type
   TLogikaES = class(TDataModule)
     Timer1: TTimer;
@@ -83,6 +87,13 @@ type
     t_sv_objekt: TStavadloObjekt;
     t_sv_subor: string;
 
+    t_cas_typ: TCasTyp;
+    t_cas_hodnota: TDateTime;
+    t_cas_rychlost: Integer;
+    t_cas_posledny: TDateTime;
+    t_cas_stoji: Boolean;
+    t_cas_okno: Boolean;
+
     function SkontrolujConfig: Boolean;
 
     procedure AktualizujPanely;
@@ -107,6 +118,11 @@ type
     property NudzovyPovelPrvok: TStavadloObjekt read t_nudzovy_povel_prvok;
     property NudzovyPovelPotvrdTyp: TNudzovyPovelPotvrdTyp read t_nudzovy_povel_potvrd_typ;
     property NudzovyPovelSekvencia: string read t_nudzovy_povel_sekvencia;
+
+    property CasHodnota: TDateTime read t_cas_hodnota;
+    property CasZrychlenie: Integer read t_cas_rychlost;
+    property CasTyp: TCasTyp read t_cas_typ;
+    property CasStoji: Boolean read t_cas_stoji;
 
     procedure VyberJednotku(p_x,p_y: Integer; p_shift: TShiftState; p_stredne: Boolean);
     procedure VyberZrusenie(p_x,p_y: Integer; p_shift: TShiftState);
@@ -175,6 +191,14 @@ type
 
     procedure Spusti(p_subor_plan,p_subor_sv: string);
     procedure Reset(p_navestidla,p_vyhybky: Boolean);
+
+    procedure NastavCas(p_typ: TCasTyp; p_hodnota: TDateTime; p_zrychlenie: Integer);
+    procedure PridajCasZlozka(p_zlozka: TCasZlozka);
+    procedure UberCasZlozka(p_zlozka: TCasZlozka);
+    procedure ZastavCas;
+    procedure SpustiCas;
+    procedure ZapniCasOkno;
+    procedure VypniCasOkno;
   end;
 
 var
@@ -182,7 +206,7 @@ var
 
 implementation
   uses GUI1, DiagDialog, ComPort, IniFiles, Forms, LoadConfig, DratotahDialog,
-  DateUtils, Winapi.Windows, ipwxmlw;
+  DateUtils, Winapi.Windows, ipwxmlw, CasDialog;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -253,6 +277,13 @@ begin
   t_menu_objekt:=nil;
 
   t_sv_subor:='';
+
+  t_cas_typ:=TCA_REALNY;
+  t_cas_hodnota:=Now;
+  t_cas_rychlost:=1;
+  t_cas_posledny:=Now;
+  t_cas_stoji:=True;
+  t_cas_okno:=False;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -451,7 +482,34 @@ procedure TLogikaES.Timer1Timer(Sender: TObject);
 begin
   Form1.PaintBox1.Invalidate;
   Form1.PaintBoxPoruchy.Invalidate;
-  Form1.Cas.Caption:=FormatDateTime('dd.mm.yyyy hh:nn:ss',Now);
+
+  if t_cas_typ=TCA_REALNY then
+  begin
+    var cas:=Now;
+    Form1.Cas.Caption:=FormatDateTime('dd.mm.yyyy hh:nn:ss',cas);
+    if t_cas_okno then CasDlg.AktualizujCas(t_cas_typ,cas,1,False);
+  end
+  else
+  begin
+    if not t_cas_stoji then
+    begin
+      var cas_novy:=Now;
+      t_cas_hodnota:=IncMilliSecond(t_cas_hodnota,MilliSecondsBetween(cas_novy,t_cas_posledny)*t_cas_rychlost);
+      t_cas_posledny:=cas_novy;
+    end;
+
+    var text:='';
+    var den:=DaysBetween(t_cas_hodnota,EncodeDate(2000,1,1));
+
+    if den>0 then text:=text+IntToStr(den)+' - ';
+
+    text:=text+FormatDateTime('hh:nn:ss',t_cas_hodnota);
+    if t_cas_stoji then text:=text+' (stojí)'
+    else text:=text+' ('+IntToStr(t_cas_rychlost)+'x)';
+    Form1.Cas.Caption:=text;
+
+    if t_cas_okno then CasDlg.AktualizujCas(t_cas_typ,t_cas_hodnota,t_cas_rychlost,t_cas_stoji);
+  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1951,4 +2009,82 @@ begin
   Form1.PanelSV.Visible:=False;
   UlozStitkyVyluky;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.NastavCas(p_typ: TCasTyp; p_hodnota: TDateTime; p_zrychlenie: Integer);
+begin
+  t_cas_typ:=p_typ;
+  t_cas_hodnota:=p_hodnota;
+  t_cas_rychlost:=p_zrychlenie;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.PridajCasZlozka(p_zlozka: TCasZlozka);
+begin
+  case p_zlozka of
+    ZCA_DEN: t_cas_hodnota:=IncDay(t_cas_hodnota,1);
+    ZCA_HODINA: t_cas_hodnota:=RecodeHour(t_cas_hodnota,(HourOf(t_cas_hodnota)+1) mod 24);
+    ZCA_MINUTA: t_cas_hodnota:=RecodeMinute(t_cas_hodnota,(MinuteOf(t_cas_hodnota)+1) mod 60);
+    ZCA_SEKUNDA: t_cas_hodnota:=RecodeSecond(t_cas_hodnota,30);
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.UberCasZlozka(p_zlozka: TCasZlozka);
+begin
+  case p_zlozka of
+    ZCA_DEN: t_cas_hodnota:=IncDay(t_cas_hodnota,-1);
+    ZCA_HODINA: 
+    begin
+      if HourOf(t_cas_hodnota)=0 then t_cas_hodnota:=RecodeHour(t_cas_hodnota,23)
+      else t_cas_hodnota:=RecodeHour(t_cas_hodnota,(HourOf(t_cas_hodnota)-1) mod 24);
+
+    end;
+    ZCA_MINUTA: 
+    begin
+      if MinuteOf(t_cas_hodnota)=0 then  t_cas_hodnota:=RecodeMinute(t_cas_hodnota,59)
+      else t_cas_hodnota:=RecodeMinute(t_cas_hodnota,(MinuteOf(t_cas_hodnota)-1) mod 60);
+    end;
+    ZCA_SEKUNDA: t_cas_hodnota:=RecodeSecond(t_cas_hodnota,0);
+  end;
+
+  if t_cas_hodnota<EncodeDate(2000,1,1) then t_cas_hodnota:=EncodeDate(2000,1,1);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ZastavCas;
+begin
+  t_cas_stoji:=True;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.SpustiCas;
+begin
+  t_cas_posledny:=Now;
+  t_cas_stoji:=False;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ZapniCasOkno;
+begin
+  t_cas_okno:=True;
+  if t_cas_typ=TCA_REALNY then CasDlg.AktualizujCas(t_cas_typ,Now,1,False)
+  else CasDlg.AktualizujCas(t_cas_typ,t_cas_hodnota,t_cas_rychlost,t_cas_stoji);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.VypniCasOkno;
+begin
+  t_cas_okno:=False;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 end.

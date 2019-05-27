@@ -16,7 +16,8 @@ uses
   Splash in 'Splash.pas' {Form2},
   CPortThread in 'CPortThread.pas',
   Z21Dialog in 'Z21Dialog.pas' {Z21Dlg},
-  Z21GrafDialog in 'Z21GrafDialog.pas' {OKRightDlg};
+  Z21GrafDialog in 'Z21GrafDialog.pas' {OKRightDlg},
+  CasDialog in 'CasDialog.pas' {CasDlg};
 
 {$R *.res}
 
@@ -33,5 +34,6 @@ begin
   Application.CreateForm(TKonfigDlg, KonfigDlg);
   Application.CreateForm(TZ21Dlg, Z21Dlg);
   Application.CreateForm(TOKRightDlg, OKRightDlg);
+  Application.CreateForm(TCasDlg, CasDlg);
   Application.Run;
 end.

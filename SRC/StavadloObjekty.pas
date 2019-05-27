@@ -1170,8 +1170,8 @@ implementation
 
       polygon.Add(FixedPoint(zac_x,zac_y));
       polygon.Add(FixedPoint(zac_x,kon_y));
+      polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2-1));
       polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+2));
-      polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2-2));
 
       polygon.Antialiased:=True;
       polygon.FillMode:=pfWinding;
@@ -2136,8 +2136,8 @@ implementation
       begin
         polygon.Add(FixedPoint(zac_x,zac_y));
         polygon.Add(FixedPoint(zac_X+sirka,zac_y));
+        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+1));
         polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2-2));
-        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+2));
         polygon.Add(FixedPoint(zac_x+sirka,kon_y));
         polygon.Add(FixedPoint(zac_x,kon_y));
         polygon.Add(FixedPoint(kon_x-sirka,(zac_y+kon_y) div 2));
@@ -2146,8 +2146,8 @@ implementation
       begin
         polygon.Add(FixedPoint(zac_x,zac_y));
         polygon.Add(FixedPoint(zac_x-sirka,zac_y));
+        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+1));
         polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2-2));
-        polygon.Add(FixedPoint(kon_x,(zac_y+kon_y) div 2+2));
         polygon.Add(FixedPoint(zac_x-sirka,kon_y));
         polygon.Add(FixedPoint(zac_x,kon_y));
         polygon.Add(FixedPoint(kon_x+sirka,(zac_y+kon_y) div 2));

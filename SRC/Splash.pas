@@ -172,7 +172,13 @@ begin
       if (prip.Typ='Loconet') or (prip.Typ='LoconetSIM') then CPort.Pripoj;
       LogikaES.Reset(t_reset_navestidiel,t_reset_vyhybiek);
 
-      if Z21Povolit.Checked then Z21Dlg.Pripoj;
+      if Z21Povolit.Checked then Z21Dlg.Pripoj
+      else
+      begin
+        Form1.Z21Panel.Visible:=False;
+        Form1.Z21M.Visible:=False;
+        Form1.Z21M.ShortCut:=0;
+      end;
 
       Hide;
     end;

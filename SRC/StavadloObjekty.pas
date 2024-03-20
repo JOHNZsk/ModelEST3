@@ -264,9 +264,12 @@ interface
       function DajKodJednotky: TKodJednotky; override;
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
 
+      function DajPolohu: TVyhybkaPozicia; virtual;
+
     public
       property Adresa: Integer read t_adresa;
-      property Pozicia: TVyhybkaPozicia read t_poloha;
+      property Poloha: TVyhybkaPozicia read DajPolohu;
+      property PolohaLog: TVyhybkaPozicia read t_poloha;
       property OtocitPolaritu: Boolean read t_otocit_polaritu;
       property RucnyZaver: Boolean read t_rucny_zaver;
       property Stitok: string read t_stitok;
@@ -295,6 +298,32 @@ interface
       procedure PridajOdvrat(p_polohou: TVyhybkaPozicia; p_vyhybka: TVyhybka; p_poloha: TVyhybkaPozicia);
 
       destructor Destroy; override;
+  end;
+
+  TVyhybkaDohlad=class(TVyhybka)
+    private
+      t_dohlad_rovno: Integer;
+      t_dohlad_odbocka: Integer;
+      t_dohlad_reset: Integer;
+
+      t_dohlad_rovno_stav: Boolean;
+      t_dohlad_odbocka_stav: Boolean;
+
+    protected
+      function DajPolohu: TVyhybkaPozicia; override;
+
+    public
+      property DohladRovno: Integer read t_dohlad_rovno;
+      property DohladOdbocka: Integer read t_dohlad_odbocka;
+      property DohladReset: Integer read t_dohlad_reset;
+
+      property DohladRovnoStav: Boolean read t_dohlad_rovno_stav;
+      property DohladOdbockaStav: Boolean read t_dohlad_odbocka_stav;
+
+      constructor Create(p_dohlad_rovno,p_dohlad_odbocka,p_dohlad_reset: Integer; p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc: Integer; p_cislo: string; p_adresa: Integer; p_otocit_pohohu: Boolean; p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc: TKolajCiara; p_cjednotky: Integer; p_dopravna: TDopravna);
+
+      function DajStav: string; override;
+      procedure NastavDohlad(p_adresa: Integer; p_stav: Boolean);
   end;
 
   //**************************************************************************//
@@ -1349,8 +1378,8 @@ implementation
     if t_rucny_zaver then farba:=clAqua32
     else
     begin
-      if t_poloha in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then kolaj_zaver:=t_kolaj_rovno
-      else if t_poloha in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then kolaj_zaver:=t_kolaj_odboc
+      if Poloha in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then kolaj_zaver:=t_kolaj_rovno
+      else if Poloha in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then kolaj_zaver:=t_kolaj_odboc
       else kolaj_zaver:=nil;
 
       if(kolaj_zaver<>nil) and (kolaj_zaver.Zaver=ZVR_POSUNOVA) then farba:=clWhite32
@@ -1358,14 +1387,14 @@ implementation
       else
       begin
         if JeVOdvrate(False) then farba:=clAqua32
-        else if t_poloha in [VPO_ROVNO_OTAZNIK,VPO_ODBOCKA_OTAZNIK] then farba:=clYellow32
+        else if Poloha in [VPO_ROVNO_OTAZNIK,VPO_ODBOCKA_OTAZNIK] then farba:=clYellow32
         else farba:=clGray32;
       end;
     end;
 
-    if t_poloha in [VPO_NEZNAMA,VPO_ROVNO,VPO_ROVNO_OTAZNIK] then VykresliHrubuCiaru(p_plan,5,hrot_x,hrot_y,rovno_x,rovno_y,farba);
+    if Poloha in [VPO_NEZNAMA,VPO_ROVNO,VPO_ROVNO_OTAZNIK] then VykresliHrubuCiaru(p_plan,5,hrot_x,hrot_y,rovno_x,rovno_y,farba);
 
-    if t_poloha in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then VykresliHrubuCiaru(p_plan,5,hrot_x,hrot_y,odboc_x,odboc_y,farba);
+    if Poloha in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then VykresliHrubuCiaru(p_plan,5,hrot_x,hrot_y,odboc_x,odboc_y,farba);
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1375,6 +1404,13 @@ implementation
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
     if p_kodjednotky then Result:=Result+'Výhybka ';
     Result:=Result+t_cislo;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TVyhybka.DajPolohu: TVyhybkaPozicia;
+  begin
+    Result:=t_poloha;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1442,7 +1478,7 @@ implementation
       
         for odvrat in t_odvraty_rovno do
         begin
-          if (odvrat.Opacna.Pozicia=odvrat.Poloha) and (odvrat.Opacna.VyzadujeOdvrat(p_stavanie)) then
+          if (odvrat.Opacna.PolohaLog=odvrat.Poloha) and (odvrat.Opacna.VyzadujeOdvrat(p_stavanie)) then
           begin
             Result:=True;
             break;
@@ -1455,7 +1491,7 @@ implementation
       
         for odvrat in t_odvraty_odbocka do
         begin
-          if (odvrat.Opacna.Pozicia=odvrat.Poloha) and (odvrat.Opacna.VyzadujeOdvrat(p_stavanie)) then
+          if (odvrat.Opacna.PolohaLog=odvrat.Poloha) and (odvrat.Opacna.VyzadujeOdvrat(p_stavanie)) then
           begin        
             Result:=True;
             break;
@@ -1474,7 +1510,7 @@ implementation
   begin
     odvrat.Opacna:=p_vyhybka;
     odvrat.Poloha:=p_poloha;
-  
+
     case p_polohou of
       VPO_ROVNO:
         t_odvraty_rovno.Add(odvrat);
@@ -1482,7 +1518,7 @@ implementation
         t_odvraty_odbocka.Add(odvrat);
     end;
   end;
-  
+
   //////////////////////////////////////////////////////////////////////////////
 
   function TVyhybka.DajStav: string;
@@ -1580,6 +1616,63 @@ implementation
     p_text_d:=t_vyluka;
     if t_vyluka<>'' then p_cervena_d:=True;
   end;
+
+  //**************************************************************************//
+
+  constructor TVyhybkaDohlad.Create(p_dohlad_rovno,p_dohlad_odbocka,p_dohlad_reset: Integer; p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc: Integer; p_cislo: string; p_adresa: Integer; p_otocit_pohohu: Boolean; p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc: TKolajCiara; p_cjednotky: Integer; p_dopravna: TDopravna);
+  begin
+    inherited Create(p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc,p_cislo,p_adresa,p_otocit_pohohu,p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc,p_cjednotky,p_dopravna);
+
+    t_dohlad_rovno:=p_dohlad_rovno;
+    t_dohlad_odbocka:=p_dohlad_odbocka;
+    t_dohlad_reset:=p_dohlad_reset;
+
+    t_dohlad_rovno_stav:=False;
+    t_dohlad_odbocka_stav:=False;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TVyhybkaDohlad.DajPolohu: TVyhybkaPozicia;
+  begin
+    Result:=inherited DajPolohu;
+
+    if (Result in [VPO_ROVNO,VPO_ROVNO_OTAZNIK]) then
+    begin
+      if(not t_dohlad_rovno_stav) or t_dohlad_odbocka_stav then Result:=VPO_NEZNAMA;
+      if(Result=VPO_ROVNO_OTAZNIK) and t_dohlad_rovno_stav and (not t_dohlad_odbocka_stav) then Result:=VPO_ROVNO;
+    end
+    else if (Result in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]) then
+    begin
+      if(not t_dohlad_odbocka_stav) or t_dohlad_rovno_stav then Result:=VPO_NEZNAMA;
+      if(Result=VPO_ODBOCKA_OTAZNIK) and t_dohlad_odbocka_stav and (not t_dohlad_rovno_stav) then Result:=VPO_ODBOCKA;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybkaDohlad.NastavDohlad(p_adresa: Integer; p_stav: Boolean);
+  begin
+    if p_adresa=t_dohlad_rovno then
+    begin
+      t_dohlad_rovno_stav:=p_stav;
+      if p_stav and (DajPolohu=VPO_NEZNAMA) then t_poloha:=VPO_ROVNO_OTAZNIK;
+    end
+    else if p_adresa=t_dohlad_odbocka then
+    begin
+      t_dohlad_odbocka_stav:=p_stav;
+      if p_stav and (DajPolohu=VPO_NEZNAMA) then t_poloha:=VPO_ODBOCKA_OTAZNIK;
+    end
+    else assert(False);
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TVyhybkaDohlad.DajStav: string;
+  begin
+    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' Ruè. záver: '+BoolToStr(t_rucny_zaver,True)+' Doh. rovno: '+BoolToStr(t_dohlad_rovno_stav,True)+' Doh. odboè: '+BoolToStr(t_dohlad_odbocka_stav,True);
+  end;
+
 
   //**************************************************************************//
 

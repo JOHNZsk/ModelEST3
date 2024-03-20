@@ -284,7 +284,7 @@ implementation
 
     for vyhybka in t_vyhybky do
     begin
-      if vyhybka.Vyhybka.Pozicia<>vyhybka.Poloha then
+      if vyhybka.Vyhybka.PolohaLog<>vyhybka.Poloha then
       begin
         if vyhybka.Vyhybka.OtocitPolaritu then
         begin
@@ -325,7 +325,7 @@ implementation
 
     for vyhybka in t_vyhybky do
     begin
-      if vyhybka.Vyhybka.RucnyZaver and (vyhybka.Vyhybka.Pozicia<>vyhybka.Poloha) then
+      if vyhybka.Vyhybka.RucnyZaver and (vyhybka.Vyhybka.Poloha<>vyhybka.Poloha) then
       begin
         Result:=False;
         break;
@@ -359,7 +359,7 @@ implementation
 
     for vyhybka in t_vyhybky do
     begin
-      if vyhybka.Poloha<>vyhybka.Vyhybka.Pozicia then
+      if vyhybka.Poloha<>vyhybka.Vyhybka.Poloha then
       begin
         Result:=False;
         break;

@@ -110,6 +110,8 @@ begin
   Timer1.Enabled:=True;
 
   VydajPovel83;
+  LogikaES.ResetujDohlady(nil);
+
 
   DiagDlg.Button1.Enabled:=False;
 end;
@@ -119,7 +121,7 @@ end;
 procedure TCPort.Timer1Timer(Sender: TObject);
 var
   vstup: TList<TCPortZprava>;
-  vsprava: TCPortZprava;
+  vstup_debug: TList<string>;
 begin
   Timer1.Enabled:=False;
   try
@@ -127,13 +129,24 @@ begin
     begin
       vstup:=TList<TCPortZprava>.Create;
       try
-        if t_vlakno.DajVystup(vstup) then
-        begin
-          for vsprava in vstup do
+        vstup_debug:=TList<string>.Create;
+        try
+          if t_vlakno.DajVystup(vstup,vstup_debug) then
           begin
-            if vsprava is TCPortZpravaB0 then LogikaES.SpracujSpravuB0((vsprava as TCPortZpravaB0).Adresa,(vsprava as TCPortZpravaB0).Smer)
-            else if vsprava is TCPortZpravaBCB4 then LogikaES.SpracujSpravuBCB4((vsprava as TCPortZpravaBCB4).Adresa,(vsprava as TCPortZpravaBCB4).Ack);
+            for var vsprava in vstup do
+            begin
+              if vsprava is TCPortZpravaB0 then LogikaES.SpracujSpravuB0((vsprava as TCPortZpravaB0).Adresa,(vsprava as TCPortZpravaB0).Smer)
+              else if vsprava is TCPortZpravaB2 then LogikaES.SpracujSpravuB2((vsprava as TCPortZpravaB2).Adresa,(vsprava as TCPortZpravaB2).Stav)
+              else if vsprava is TCPortZpravaBCB4 then LogikaES.SpracujSpravuBCB4((vsprava as TCPortZpravaBCB4).Adresa,(vsprava as TCPortZpravaBCB4).Ack);
+            end;
+
+            for var v_debug in vstup_debug do
+            begin
+              if DiagDlg.VypisCele.Checked then DiagDlg.Memo1.Lines.Add(v_debug);
+            end;
           end;
+        finally
+          vstup_debug.Free;
         end;
       finally
         vstup.Free;

@@ -58,6 +58,8 @@ type
     t_zaverovka: TList<TCesta>;
     t_zlozene: TList<TZlozenaCesta>;
 
+    t_dohlady: TDictionary<Integer,TVyhybkaDohlad>;
+
     t_nazvy_dopravni: Boolean;
     t_plan_vyska,t_plan_sirka: Integer;
     t_plan_nazov: string;
@@ -97,6 +99,7 @@ type
     function SkontrolujConfig: Boolean;
 
     procedure AktualizujPanely;
+    procedure ResetujDohlad(p_vyhybka: TVyhybkaDohlad);
 
     function JeZaciatokCesty(p_objekt: TStavadloObjekt; p_posun: Boolean): Boolean;
 
@@ -128,12 +131,14 @@ type
     procedure VyberZrusenie(p_x,p_y: Integer; p_shift: TShiftState);
 
     procedure SpracujSpravuB0(p_adresa: Integer; p_smer: Boolean);
+    procedure SpracujSpravuB2(p_adresa: Integer; p_stav: Boolean);
     procedure SpracujSpravuBCB4(p_adresa: Integer; p_smer: Boolean);
 
     procedure OtestujVyhybky;
     procedure OtestujNavestidla;
     procedure ResetujVyhybky(p_stanoviste: TStanObsluhy; p_potvrd: Boolean);
     procedure ResetujNavestidla(p_stanoviste: TStanObsluhy; p_potvrd: Boolean);
+    procedure ResetujDohlady(p_stanoviste: TStanObsluhy);
 
     procedure ResetujVyhybku(p_vyhybka: TVyhybka; p_potvrd: Boolean);
     procedure ResetujNavestidlo(p_navestidlo: TNavestidlo; p_potvrd: Boolean);
@@ -258,6 +263,8 @@ begin
   t_hitboxy:=TList<THitBox>.Create;
   t_zaverovka:=TList<TCesta>.Create;
   t_zlozene:=TList<TZlozenaCesta>.Create;
+
+  t_dohlady:=TDictionary<Integer,TVyhybkaDohlad>.Create;
 
   t_volby_cesty:=TList<TPair<TStavadloObjekt,Boolean>>.Create;
   t_hint:=nil;
@@ -419,6 +426,12 @@ end;
 procedure TLogikaES.PridajObjekt(p_objekt: TStavadloObjekt);
 begin
   t_plan.Add(p_objekt);
+
+  if p_objekt is TVyhybkaDohlad then
+  begin
+    t_dohlady.AddOrSetValue((p_objekt as TVyhybkaDohlad).DohladRovno,p_objekt as TVyhybkaDohlad);
+    t_dohlady.AddOrSetValue((p_objekt as TVyhybkaDohlad).DohladOdbocka,p_objekt as TVyhybkaDohlad);
+  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -464,6 +477,7 @@ begin
   t_zlozene.Free;
 
   t_nevybavene_stitky.Free;
+  t_dohlady.Free;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -579,8 +593,8 @@ begin
     begin
       if t_stavana_vyhybka.JeVolna(True) then
       begin
-        if t_stavana_vyhybka.Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0(t_stavana_vyhybka.Adresa,not t_stavana_vyhybka.OtocitPolaritu)
-        else if t_stavana_vyhybka.Pozicia in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0(t_stavana_vyhybka.Adresa,t_stavana_vyhybka.OtocitPolaritu);
+        if t_stavana_vyhybka.PolohaLog in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0(t_stavana_vyhybka.Adresa,not t_stavana_vyhybka.OtocitPolaritu)
+        else if t_stavana_vyhybka.PolohaLog in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0(t_stavana_vyhybka.Adresa,t_stavana_vyhybka.OtocitPolaritu);
 
         t_stavana_vyhybka:=nil;
       end
@@ -776,8 +790,8 @@ begin
       begin
         if ((vysledok as TVyhybka).Stitok='') and ((vysledok as TVyhybka).Vyluka='') then
         begin
-          if (vysledok as TVyhybka).Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0((vysledok as TVyhybka).Adresa,not (vysledok as TVyhybka).OtocitPolaritu)
-          else if (vysledok as TVyhybka).Pozicia in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0((vysledok as TVyhybka).Adresa,(vysledok as TVyhybka).OtocitPolaritu);
+          if (vysledok as TVyhybka).PolohaLog in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0((vysledok as TVyhybka).Adresa,not (vysledok as TVyhybka).OtocitPolaritu)
+          else if (vysledok as TVyhybka).PolohaLog in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0((vysledok as TVyhybka).Adresa,(vysledok as TVyhybka).OtocitPolaritu);
         end
         else
         begin
@@ -910,6 +924,20 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+procedure TLogikaES.SpracujSpravuB2(p_adresa: Integer; p_stav: Boolean);
+var
+  objekt: TVyhybkaDohlad;
+begin
+  DiagDlg.Memo1.Lines.Add('Správa B2 adr: '+IntToStr(p_adresa)+' stav: '+BoolToStr(p_stav,True));
+
+  if t_dohlady.TryGetValue(p_adresa,objekt) then (objekt as TVyhybkaDohlad).NastavDohlad(p_adresa,p_stav);
+
+  Form1.PaintBox1.Invalidate;
+  if t_volat_dratotah then DratotahDlg.Obnov;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TLogikaES.SpracujSpravuBCB4(p_adresa: Integer; p_smer: Boolean);
 var
   objekt: TStavadloObjekt;
@@ -972,10 +1000,37 @@ begin
       if (objekt is TVyhybka) and ((p_stanoviste=nil) or (p_stanoviste.Dopravna=objekt.Dopravna)) then ResetujVyhybku((objekt as TVyhybka),p_potvrd);
     end;
 
+    ResetujDohlady(p_stanoviste);
+
     if t_volat_dratotah then DratotahDlg.Obnov;
   end
   else if p_stanoviste<>nil then NastavNudzovyPovel(p_stanoviste.Dopravna,NPT_RESETVYHDOP,p_stanoviste,NPP_ASDF)
   else NastavNudzovyPovel(nil,NPT_RESETVYHGLOBAL,nil,NPP_ASDF);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ResetujDohlady(p_stanoviste: TStanObsluhy);
+var
+  vybavene_resety: TList<Integer>;
+  objekt: TStavadloObjekt;
+begin
+  vybavene_resety:=TList<Integer>.Create;
+  try
+    for objekt in t_plan do
+    begin
+      if (objekt is TVyhybkaDohlad) and ((p_stanoviste=nil) or (p_stanoviste.Dopravna=objekt.Dopravna)) then
+      begin
+        if not vybavene_resety.Contains((objekt as TVyhybkaDohlad).DohladReset) then
+        begin
+          ResetujDohlad(objekt as TVyhybkaDohlad);
+          vybavene_resety.Add((objekt as TVyhybkaDohlad).DohladReset);
+        end;
+      end;
+    end;
+  finally
+    vybavene_resety.Free;
+  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1003,10 +1058,17 @@ procedure TLogikaES.ResetujVyhybku(p_vyhybka: TVyhybka; p_potvrd: Boolean);
 begin
   if p_potvrd then
   begin
-    if p_vyhybka.Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0((p_vyhybka as TVyhybka).Adresa,(p_vyhybka as TVyhybka).OtocitPolaritu)
-    else if p_vyhybka.Pozicia in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0((p_vyhybka as TVyhybka).Adresa,not (p_vyhybka as TVyhybka).OtocitPolaritu);
+    if p_vyhybka.PolohaLog in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK] then CPort.VydajPovelB0((p_vyhybka as TVyhybka).Adresa,(p_vyhybka as TVyhybka).OtocitPolaritu)
+    else if p_vyhybka.PolohaLog in [VPO_ROVNO,VPO_ROVNO_OTAZNIK] then  CPort.VydajPovelB0((p_vyhybka as TVyhybka).Adresa,not (p_vyhybka as TVyhybka).OtocitPolaritu);
   end
   else NastavNudzovyPovel(p_vyhybka.Dopravna,NPT_RESETVYH,p_vyhybka,NPP_ASDF);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TLogikaES.ResetujDohlad(p_vyhybka: TVyhybkaDohlad);
+begin
+  CPort.VydajPovelB0((p_vyhybka as TVyhybkaDohlad).DohladReset,False)
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1299,10 +1361,10 @@ begin
     Form1.ZAM1.Visible:=False;
     Form1.ZAM2.Visible:=False;
     Form1.SZAM.Visible:=False;
-    Form1.P1.Visible:=(t_menu_objekt as TVyhybka).JeVolna(True) and ((t_menu_objekt as TVyhybka).Pozicia in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]);
-    Form1.P2.Visible:=(t_menu_objekt as TVyhybka).JeVolna(True) and ((t_menu_objekt as TVyhybka).Pozicia in [VPO_NEZNAMA,VPO_ROVNO,VPO_ROVNO_OTAZNIK]);
+    Form1.P1.Visible:=(t_menu_objekt as TVyhybka).JeVolna(True) and ((t_menu_objekt as TVyhybka).PolohaLog in [VPO_NEZNAMA,VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]);
+    Form1.P2.Visible:=(t_menu_objekt as TVyhybka).JeVolna(True) and ((t_menu_objekt as TVyhybka).PolohaLog in [VPO_NEZNAMA,VPO_ROVNO,VPO_ROVNO_OTAZNIK]);
     Form1.SVYH.Visible:=True;
-    Form1.ZAV1.Visible:=(not (t_menu_objekt as TVyhybka).RucnyZaver) and ((t_menu_objekt as TVyhybka).Pozicia<>VPO_NEZNAMA);
+    Form1.ZAV1.Visible:=(not (t_menu_objekt as TVyhybka).RucnyZaver) and ((t_menu_objekt as TVyhybka).PolohaLog<>VPO_NEZNAMA);
     Form1.ZAV2.Visible:=(t_menu_objekt as TVyhybka).RucnyZaver;
     Form1.SZAV.Visible:=True;
     Form1.STIT1.Visible:=True;
@@ -1490,7 +1552,7 @@ begin
   begin
     if prvok is TVyhybka then
     begin
-      case (prvok as TVyhybka).Pozicia of
+      case (prvok as TVyhybka).PolohaLog of
         VPO_ROVNO:
         begin
           if (Pos(';'+prvok.Nazov[False,False]+';',';'+p_text_a+';')=0) then

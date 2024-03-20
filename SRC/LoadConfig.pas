@@ -14,7 +14,8 @@ interface
       function NacitajKonfiguraciuPlanNavestidloVchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
       function NacitajKonfiguraciuPlanNavestidloZriadovacie(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
       function NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
-      function NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
+      function NacitajKonfiguraciuPlanVyhybkaDohlad(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
       function NacitajKonfiguraciuPlanText(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
       function NacitajKonfiguraciuPlanStanOb(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
       function NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
@@ -264,6 +265,68 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajKonfiguraciuPlanVyhybkaDohlad(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  var
+    vyhybka: TVyhybkaDohlad;
+    x_hrot,y_hrot,x_rovno,y_rovno,x_odboc,y_odboc: Integer;
+    cislo: string;
+    cjednotky: Integer;
+    adresa: Integer;
+    otocit: Boolean;
+    k_hrot,k_rovno,k_odboc: TKolajCiara;
+    d_rovno,d_odboc,d_reset: Integer;
+    i: Integer;
+  begin
+    x_hrot:=-1;
+    y_hrot:=-1;
+    x_rovno:=-1;
+    y_rovno:=-1;
+    x_odboc:=-1;
+    y_odboc:=-1;
+    cislo:='???';
+    cjednotky:=0;
+    adresa:=0;
+    otocit:=False;
+    k_hrot:=nil;
+    k_rovno:=nil;
+    k_odboc:=nil;
+    d_rovno:=-1;
+    d_odboc:=-1;
+    d_reset:=-1;
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='xhrot' then x_hrot:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='yhrot' then y_hrot:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='xrovno' then x_rovno:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='yrovno' then y_rovno:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='xodboc' then x_odboc:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='yodboc' then y_odboc:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='cislo' then cislo:=p_zdroj.AttrValue[i]
+      else if p_zdroj.AttrName[i]='cjednotky' then cjednotky:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='adresa' then adresa:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='invertovat' then otocit:=p_zdroj.AttrValue[i]='True'
+      else if p_zdroj.AttrName[i]='kolajhrot' then k_hrot:=p_ciel.DajObjekt(KJ_KOLAJCIARA,StrToIntDef(p_zdroj.AttrValue[i],-1)) as TKolajCiara
+      else if p_zdroj.AttrName[i]='kolajrovno' then k_rovno:=p_ciel.DajObjekt(KJ_KOLAJCIARA,StrToIntDef(p_zdroj.AttrValue[i],-1)) as TKolajCiara
+      else if p_zdroj.AttrName[i]='kolajodboc' then k_odboc:=p_ciel.DajObjekt(KJ_KOLAJCIARA,StrToIntDef(p_zdroj.AttrValue[i],-1)) as TKolajCiara
+      else if p_zdroj.AttrName[i]='dohladrovno' then d_rovno:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='dohladodboc' then d_odboc:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+      else if p_zdroj.AttrName[i]='dohladreset' then d_reset:=StrToIntDef(p_zdroj.AttrValue[i],-1)
+    end;
+
+    if(x_hrot>=0) and (y_hrot>=0) and (x_rovno>=0) and (y_rovno>=0) and (x_odboc>=0) and (y_odboc>=0) and (cislo<>'???') and (cjednotky>0) and (k_hrot<>nil) and (k_rovno<>nil) and (k_odboc<>nil) and (d_rovno>=0) and (d_odboc>=0) and (d_reset>=0) then
+    begin
+      vyhybka:=TVyhybkaDohlad.Create(d_rovno,d_odboc,d_reset,x_hrot,y_hrot,x_rovno,y_rovno,x_odboc,y_odboc,cislo,adresa,otocit,k_hrot,k_rovno,k_odboc,cjednotky,p_dopravna);
+      p_ciel.PridajObjekt(vyhybka);
+      Result:=True;
+    end
+    else Result:=Chyba('Chybná výhybka s doh¾adom è. '+IntToStr(p_poradie));
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
   function TConfigLoader.NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
   var
     navestidlo: TNavestidloOdchodove;
@@ -438,6 +501,7 @@ implementation
     poradie_nav_vchodove: Integer;
     poradie_nav_zriadovacie: Integer;
     poradie_vyhybka: Integer;
+    poradie_vyhybka_dohlad: Integer;
     poradie_nav_odchodove: Integer;
     poradie_text: Integer;
     poradie_sulibrk: Integer;
@@ -461,6 +525,7 @@ implementation
     poradie_nav_vchodove:=1;
     poradie_nav_zriadovacie:=1;
     poradie_vyhybka:=1;
+    poradie_vyhybka_dohlad:=1;
     poradie_nav_odchodove:=1;
     poradie_text:=1;
     poradie_sulibrk:=1;
@@ -492,13 +557,19 @@ implementation
         Result:=NacitajKonfiguraciuPlanNavestidloZriadovacie(dopravna,poradie_nav_zriadovacie,p_zdroj,p_ciel);
         Inc(poradie_nav_zriadovacie);
       end
-      else if(nazov='Vyhybka') then 
+      else if(nazov='Vyhybka') then
       begin
         p_zdroj.XPath:='/Konfiguracia/Plan/Dopravna['+IntToStr(p_poradie)+']/Vyhybka['+IntToStr(poradie_vyhybka)+']';
         Result:=NacitajKonfiguraciuPlanVyhybka(dopravna,poradie_vyhybka,p_zdroj,p_ciel);
         Inc(poradie_vyhybka);
       end
-      else if(nazov='NavestidloOdchodove') then 
+      else if(nazov='VyhybkaDohlad') then
+      begin
+        p_zdroj.XPath:='/Konfiguracia/Plan/Dopravna['+IntToStr(p_poradie)+']/VyhybkaDohlad['+IntToStr(poradie_vyhybka_dohlad)+']';
+        Result:=NacitajKonfiguraciuPlanVyhybkaDohlad(dopravna,poradie_vyhybka_dohlad,p_zdroj,p_ciel);
+        Inc(poradie_vyhybka_dohlad);
+      end
+      else if(nazov='NavestidloOdchodove') then
       begin
         p_zdroj.XPath:='/Konfiguracia/Plan/Dopravna['+IntToStr(p_poradie)+']/NavestidloOdchodove['+IntToStr(poradie_nav_odchodove)+']';
         Result:=NacitajKonfiguraciuPlanNavestidloOdchodove(dopravna,poradie_nav_odchodove,p_zdroj,p_ciel);
@@ -540,7 +611,7 @@ implementation
     nazov: string;
   begin
     poradie_dopravna:=1;
-  
+
     poc:=p_zdroj.XChildrenCount;
 
     Result:=True;
@@ -1140,7 +1211,7 @@ implementation
     end
     else if Result then Result:=Chyba('Chýba záverová tabu¾ka');
 
-    if Result and p_zdroj.HasXPath('/Konfiguracia/Zlozene') then
+    if Result and p_zdroj.HasXPath('/Kon  figuracia/Zlozene') then
     begin
       p_zdroj.XPath:='/Konfiguracia/Zlozene';
       Result:=NacitajKonfiguraciuZlozene(p_zdroj,p_ciel);

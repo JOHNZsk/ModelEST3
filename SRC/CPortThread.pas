@@ -30,12 +30,29 @@ type
 
   //**************************************************************************//
 
+  TCPortZpravaB2=class(TCPortZprava)
+    public
+      Adresa: Integer;
+      Stav: Boolean;
+
+      constructor Create(p_adresa: Integer; p_stav: Boolean);
+  end;
+
+  //**************************************************************************//
+
   TCPortZpravaBCB4=class(TCPortZprava)
     public
       Adresa: Integer;
       Ack: Boolean;
 
       constructor Create(p_adresa: Integer; p_ack: Boolean);
+  end;
+
+  //**************************************************************************//
+
+  TCPortDohladVyhybky=record
+    DohladPlus: Integer;
+    DohladMinus: Integer;
   end;
 
   //**************************************************************************//
@@ -58,16 +75,19 @@ type
     t_simbuffer: TBytes;
 
     t_povely: TQueue<TByteDynPoleW>;
+    t_simulacia_dohladov: TDictionary<Integer,TCPortDohladVyhybky>;
 
     t_vlakno_vstup: TCriticalSection;
     t_vlakno_vystup: TCriticalSection;
     t_vlakno_system: TCriticalSection;
 
     t_vystup: TList<TCPortZprava>;
+    t_vystup_debug: TList<string>;
 
     procedure Pripoj;
 
     procedure SpracujSpravuB0;
+    procedure SpracujSpravuB2;
     procedure SpracujSpravuB4;
     procedure SpracujSpravuBC;
 
@@ -78,6 +98,7 @@ type
     procedure PridajBajt(p_bajt: Byte);
 
     procedure NasimulujB4(p_povel: TByteDynPoleW);
+    procedure NasimulujB2(p_povel: TByteDynPoleW);
     procedure ZapisPovel(p_povel: TByteDynPoleW);
   protected
     procedure Execute; override;
@@ -92,7 +113,7 @@ type
     function DajPocetPovelov: Integer;
     procedure PridajPovel(p_povel: TBytes);
 
-    function DajVystup(p_list: TList<TCPortZprava>): Boolean;
+    function DajVystup(p_list: TList<TCPortZprava>; p_vystup_debug: TList<string>): Boolean;
 
     procedure CakajNaPripojenie;
   end;
@@ -113,6 +134,14 @@ constructor TCPortZpravaB0.Create(p_adresa: Integer; p_smer: Boolean);
 begin
   Adresa:=p_adresa;
   Smer:=p_smer;
+end;
+
+//****************************************************************************//
+
+constructor TCPortZpravaB2.Create(p_adresa: Integer; p_stav: Boolean);
+begin
+  Adresa:=p_adresa;
+  Stav:=p_stav;
 end;
 
 //****************************************************************************//
@@ -148,6 +177,7 @@ begin
   t_povely:=TQueue<TByteDynPoleW>.Create;
   t_port:=TBlockSerial.Create;
   t_vystup:=TList<TCPortZprava>.Create;
+  t_vystup_debug:=TList<string>.Create;
 
   SetLength(t_simbuffer,0);
 end;
@@ -162,6 +192,7 @@ begin
   t_povely.Free;
   t_port.Free;
   t_vystup.Free;
+  t_vystup_debug.Free;
 
   t_vlakno_vstup.Free;
   t_vlakno_vystup.Free;
@@ -280,6 +311,25 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+//nerobi ziadny Sync, musi volajuca funkcia
+procedure TCPortThread.NasimulujB2(p_povel: TByteDynPoleW);
+var
+  v_pole: array[0..3] of Byte;
+begin
+  v_pole[0]:=$B2;
+  v_pole[1]:=p_povel.Pole[0] and $7F;
+  v_pole[2]:=0;
+  v_pole[3]:=$FF xor v_pole[0] xor v_pole[1] xor v_pole[2];
+
+  SetLength(t_simbuffer,Length(t_simbuffer)+4);
+  t_simbuffer[Length(t_simbuffer)-4]:=v_pole[0];
+  t_simbuffer[Length(t_simbuffer)-3]:=v_pole[1];
+  t_simbuffer[Length(t_simbuffer)-2]:=v_pole[2];
+  t_simbuffer[Length(t_simbuffer)-1]:=v_pole[3];
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 //nerobi Sync na VlaknoVystup, musi urobit volajuca funkcia
 procedure TCPortThread.ZapisPovel(p_povel: TByteDynPoleW);
 var
@@ -301,7 +351,8 @@ begin
     SetLength(t_simbuffer,Length(p_povel.Pole));
     t_simbuffer:=Copy(p_povel.Pole,0,Length(p_povel.Pole));
 
-    if(p_povel.Pole[0]=$BC) then NasimulujB4(p_povel);
+    if p_povel.Pole[0]=$BC then NasimulujB4(p_povel)
+    else if p_povel.Pole[0]=$B0 then NasimulujB2(p_povel);
   end;
 end;
 
@@ -363,7 +414,7 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-function TCPortThread.DajVystup(p_list: TList<TCPortZprava>): Boolean;
+function TCPortThread.DajVystup(p_list: TList<TCPortZprava>; p_vystup_debug: TList<string>): Boolean;
 var
   i: Integer;
 begin
@@ -376,6 +427,13 @@ begin
       Result:=True;
     end
     else Result:=False;
+
+    if t_vystup_debug.Count>0 then
+    begin
+      p_vystup_debug.AddRange(t_vystup_debug);
+      t_vystup_debug.Clear;
+      Result:=True;
+    end;
   finally
     t_vlakno_vstup.Release;
   end;
@@ -465,6 +523,34 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+procedure TCPortThread.SpracujSpravuB2;
+var
+  adresa: Cardinal;
+  smer: Boolean;
+  test,stav: Boolean;
+begin
+  assert(Length(t_sprava)=3,'Prijata sprava s nespravnou dlzkou');
+  assert((t_opkod xor t_sprava[0] xor t_sprava[1] xor t_sprava[2])=$FF,'Prijata sprava s nespravnym CRC');
+  adresa:=t_sprava[0]+((t_sprava[1] and $0F) shl 7);
+  smer:=(t_sprava[1] and $20)<>0;
+  stav:=(t_sprava[1] and $10)<>0;
+  test:=(t_sprava[1] and $30)<>0;
+
+  //konverzia z formatu loconet na format digitrax
+  adresa:=(adresa shl 1);
+  if smer then adresa:=adresa+1;
+  adresa:=adresa+1;
+
+  t_vlakno_vstup.Acquire;
+  try
+    t_vystup.Add(TCPortZpravaB2.Create(adresa,stav));
+  finally
+    t_vlakno_vstup.Release;
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TCPortThread.SpracujSpravuBC;
 var
   adresa: Cardinal;
@@ -509,6 +595,7 @@ begin
   try
     case t_opkod of
       $B0: SpracujSpravuB0;
+      $B2: SpracujSpravuB2;
       $B4: SpracujSpravuB4;
       $BC: SpracujSpravuBC;
     end;
@@ -531,6 +618,13 @@ begin
     begin
       assert(Length(t_sprava)=0);
       assert(t_akt_bajt=0);
+    end;
+
+    t_vlakno_vstup.Acquire;
+    try
+      t_vystup_debug.Add(IntToHex(p_bajt));
+    finally
+      t_vlakno_vstup.Release;
     end;
 
     t_opkod:=p_bajt;
@@ -566,6 +660,14 @@ begin
   begin
     if(t_opkod<>0) then
     begin
+      t_vlakno_vstup.Acquire;
+      try
+        t_vystup_debug[t_vystup_debug.Count-1]:=t_vystup_debug.Last+','+IntToHex(p_bajt);
+      finally
+        t_vlakno_vstup.Release;
+      end;
+
+
       if (t_pocbajtov=0) and (p_bajt>0) then //nacitanie poctu bajtov
       begin
         t_pocbajtov:=p_bajt-1;

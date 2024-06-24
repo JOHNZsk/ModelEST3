@@ -1,7 +1,7 @@
 unit LoadConfig;
 
 interface
-  uses ipwXmlp, LogikaStavadlo, StavadloObjekty, Cesta;
+  uses ipwXml, LogikaStavadlo, StavadloObjekty, Cesta;
 
   type TConfigLoader=class(TObject)
     private
@@ -10,50 +10,54 @@ interface
 
       function Chyba(p_text: string): Boolean;
 
-      function NacitajKonfiguraciuPlanKolCiara(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuPlanNavestidloVchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
-      function NacitajKonfiguraciuPlanNavestidloZriadovacie(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
-      function NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
-      function NacitajKonfiguraciuPlanVyhybkaDohlad(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuPlanText(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
-      function NacitajKonfiguraciuPlanStanOb(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanKolCiara(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanNavestidloVchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanNavestidloZriadovacie(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanVyhybkaDohlad(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanText(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanStanOb(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuPlanDopravna(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlanDopravna(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuOdvrat(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuOdvrat(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuHitBox(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuHitBox(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuCestaZdroj(p_cesta: TCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuCestaCiel(p_cesta: TCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuCestaKolaj(p_cesta: TCesta; p_poradie,p_poradie_kolaj: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuCestaVyhybka(p_cesta: TCesta; p_poradie,p_poradie_vyhybka: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuCestaZdroj(p_cesta: TCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuCestaCiel(p_cesta: TCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuCestaKolaj(p_cesta: TCesta; p_poradie,p_poradie_kolaj: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuCestaVyhybka(p_cesta: TCesta; p_poradie,p_poradie_vyhybka: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuCesta(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuCesta(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuZlozenaZdroj(p_cesta: TZlozenaCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuZlozenaCiel(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuZlozenaCesta(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuZlozenaZdroj(p_cesta: TZlozenaCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuZlozenaCiel(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuZlozenaCesta(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuZlozena(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuZlozena(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuPlan(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuOdvraty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuHitBoxy(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuZaverovka(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajKonfiguraciuZlozene(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuPlan(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuOdvraty(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuHitBoxy(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuZaverovka(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuZlozene(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajKonfiguraciuObsah(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajKonfiguraciuObsah(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajStitok(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajVyluku(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajText(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajStitok(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajVyluku(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajText(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajDohlad(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajAPN(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
 
-      function NacitajStitky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajVyluky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
-      function NacitajTexty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+      function NacitajStitky(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajVyluky(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajTexty(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajDohlady(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+      function NacitajAPNky(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
     public
       constructor Create(p_nazov,p_stitky: string);
       function NacitajKonfiguraciu(p_ciel: TLogikaES): Boolean;
@@ -82,7 +86,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanKolCiara(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanKolCiara(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     ciara: TKolajCiara;
     x_zac,x_kon,y_zac,y_kon: Integer;
@@ -118,13 +122,14 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanNavestidloVchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanNavestidloVchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     navestidlo: TNavestidloVchodove;
     x_zac,x_kon,y_zac,y_kon: Integer;
     cislo: string;
     cjednotky: Integer;
     adresy: TNavestidloVchodoveAdresy;
+    bezzltej,bezbielej: Boolean;
     i: Integer;
     j: TNavestidloVchodoveFarba;
   begin
@@ -134,6 +139,8 @@ implementation
     y_kon:=-1;
     cislo:='???';
     cjednotky:=0;
+    bezzltej:=False;
+    bezbielej:=False;
     var skupina_pn: Integer:=1;
 
     for j := Low(adresy) to High(adresy) do adresy[j]:=0;
@@ -147,6 +154,8 @@ implementation
       else if p_zdroj.AttrName[i]='cislo' then cislo:=p_zdroj.AttrValue[i]
       else if p_zdroj.AttrName[i]='cjednotky' then cjednotky:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='skupinapn' then skupina_pn:=StrToIntDef(p_zdroj.AttrValue[i],1)
+      else if p_zdroj.AttrName[i]='bezzltej' then bezzltej:=p_zdroj.AttrValue[i]='True'
+      else if p_zdroj.AttrName[i]='bezbielej' then bezbielej:=p_zdroj.AttrValue[i]='True'
       else if p_zdroj.AttrName[i]='cervena' then adresy[NVF_C]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='hornazlta' then adresy[NVF_HZ]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
       else if p_zdroj.AttrName[i]='hornazltakmit' then adresy[NVF_HZ_KMIT]:=StrToIntDef(p_zdroj.AttrValue[i],-1)
@@ -160,7 +169,7 @@ implementation
 
     if(x_zac>=0) and (x_kon>=0) and (y_zac>=0) and (y_kon>=0) and (cislo<>'???') and (cjednotky>0) then
     begin
-      navestidlo:=TNavestidloVchodove.Create(x_zac,x_kon,y_zac,y_kon,cislo,adresy,cjednotky,skupina_pn,p_dopravna);
+      navestidlo:=TNavestidloVchodove.Create(x_zac,x_kon,y_zac,y_kon,cislo,bezzltej,bezbielej,adresy,cjednotky,skupina_pn,p_dopravna);
       p_ciel.PridajObjekt(navestidlo);
       Result:=True;
     end
@@ -169,7 +178,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanNavestidloZriadovacie(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanNavestidloZriadovacie(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     navestidlo: TNavestidloZriadovacie;
     x_zac,x_kon,y_zac,y_kon: Integer;
@@ -212,7 +221,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
   
-  function TConfigLoader.NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanVyhybka(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     vyhybka: TVyhybka;
     x_hrot,y_hrot,x_rovno,y_rovno,x_odboc,y_odboc: Integer;
@@ -267,7 +276,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanVyhybkaDohlad(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanVyhybkaDohlad(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     vyhybka: TVyhybkaDohlad;
     x_hrot,y_hrot,x_rovno,y_rovno,x_odboc,y_odboc: Integer;
@@ -327,7 +336,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanNavestidloOdchodove(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     navestidlo: TNavestidloOdchodove;
     x_zac,x_kon,y_zac,y_kon: Integer;
@@ -379,7 +388,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
   
-  function TConfigLoader.NacitajKonfiguraciuPlanText(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;      
+  function TConfigLoader.NacitajKonfiguraciuPlanText(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     text: TText;
     x_zac,y_zac: Integer;
@@ -420,7 +429,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanStanOb(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanStanOb(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     stan: TStanObsluhy;
     x_zac,y_zac,x_kon,y_kon: Integer;
@@ -460,7 +469,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanSulibrk(p_dopravna: TDopravna; p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     sulibrk: TSulibrk;
     x,y: Integer;
@@ -489,7 +498,7 @@ implementation
   
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlanDopravna(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlanDopravna(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
@@ -531,7 +540,7 @@ implementation
     poradie_sulibrk:=1;
     poradie_stanob:=1;
 
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
     
@@ -603,7 +612,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuPlan(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuPlan(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
@@ -612,7 +621,7 @@ implementation
   begin
     poradie_dopravna:=1;
 
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
     
@@ -635,7 +644,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuOdvrat(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuOdvrat(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     cjvyhybka,cjvyhybkou: Integer;
     poloha,polohou: TVyhybkaPozicia;
@@ -668,13 +677,13 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuOdvraty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuOdvraty(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
     nazov: string;
   begin
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
 
@@ -697,7 +706,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuHitBox(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuHitBox(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     v_hitbox: THitBox;
     x_zac,x_kon,y_zac,y_kon: Integer;
@@ -736,13 +745,13 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuHitBoxy(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuHitBoxy(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
     nazov: string;
   begin  
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
     
@@ -765,7 +774,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuCestaZdroj(p_cesta: TCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuCestaZdroj(p_cesta: TCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     kodjednotky: TKodJednotky;
     cjednotky: Integer;
@@ -793,7 +802,7 @@ implementation
   
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuCestaCiel(p_cesta: TCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuCestaCiel(p_cesta: TCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     kodjednotky: TKodJednotky;
     cjednotky: Integer;
@@ -821,7 +830,7 @@ implementation
   
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuCestaKolaj(p_cesta: TCesta; p_poradie,p_poradie_kolaj: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuCestaKolaj(p_cesta: TCesta; p_poradie,p_poradie_kolaj: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     cjednotky: Integer;
     presah: Boolean;
@@ -849,7 +858,7 @@ implementation
   
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuCestaVyhybka(p_cesta: TCesta; p_poradie,p_poradie_vyhybka: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuCestaVyhybka(p_cesta: TCesta; p_poradie,p_poradie_vyhybka: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     cjednotky: Integer;
     poloha: TVyhybkaPozicia;
@@ -877,7 +886,7 @@ implementation
   
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuCesta(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuCesta(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     cesta: TCesta;
     vlakova,posunova: Boolean;
@@ -918,7 +927,7 @@ implementation
     poradie_kolaj:=1;
     poradie_vyhybka:=1;
     
-    for i := 0 to p_zdroj.XChildrenCount-1 do
+    for i := 0 to p_zdroj.XChildCount-1 do
     begin
       nazov:=p_zdroj.XChildName[i];
 
@@ -958,13 +967,13 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuZaverovka(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuZaverovka(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
     nazov: string;
   begin
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
 
@@ -987,7 +996,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuZlozenaZdroj(p_cesta: TZlozenaCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuZlozenaZdroj(p_cesta: TZlozenaCesta; p_poradie,p_poradie_zdroj: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     kodjednotky: TKodJednotky;
     cjednotky: Integer;
@@ -1015,7 +1024,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuZlozenaCiel(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuZlozenaCiel(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     kodjednotky: TKodJednotky;
     cjednotky: Integer;
@@ -1043,7 +1052,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuZlozenaCesta(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuZlozenaCesta(p_cesta: TZlozenaCesta; p_poradie,p_poradie_ciel: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     ccesty,poradie: Integer;
     v_cesta: TCesta;
@@ -1070,7 +1079,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuZlozena(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuZlozena(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     cesta: TZlozenaCesta;
     vlakova,posunova: Boolean;
@@ -1095,7 +1104,7 @@ implementation
     poradie_ciel:=1;
     poradie_cesta:=1;
 
-    for i := 0 to p_zdroj.XChildrenCount-1 do
+    for i := 0 to p_zdroj.XChildCount-1 do
     begin
       nazov:=p_zdroj.XChildName[i];
 
@@ -1129,13 +1138,13 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuZlozene(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuZlozene(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
     nazov: string;
   begin
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
 
@@ -1158,7 +1167,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajKonfiguraciuObsah(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajKonfiguraciuObsah(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     i: Integer;
     vyska,sirka: Integer;
@@ -1211,7 +1220,7 @@ implementation
     end
     else if Result then Result:=Chyba('Chýba záverová tabu¾ka');
 
-    if Result and p_zdroj.HasXPath('/Kon  figuracia/Zlozene') then
+    if Result and p_zdroj.HasXPath('/Konfiguracia/Zlozene') then
     begin
       p_zdroj.XPath:='/Konfiguracia/Zlozene';
       Result:=NacitajKonfiguraciuZlozene(p_zdroj,p_ciel);
@@ -1223,11 +1232,12 @@ implementation
 
   function TConfigLoader.NacitajKonfiguraciu(p_ciel: TLogikaES): Boolean;
   var
-    parser: TipwXMLp;
+    parser: TipwXML;
   begin
-    parser:=TipwXMLp.Create(nil);
+    parser:=TipwXML.Create(nil);
     try
-      parser.ParseFile(t_nazov);
+      parser.InputFile:=t_nazov;
+      parser.Parse;
 
       if parser.HasXPath('/Konfiguracia') then
       begin
@@ -1242,7 +1252,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajStitok(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajStitok(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     i: Integer;
     kj: TKodJednotky;
@@ -1276,13 +1286,13 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajStitky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajStitky(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
     nazov: string;
   begin
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
 
@@ -1305,7 +1315,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajVyluku(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajVyluku(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     i: Integer;
     kj: TKodJednotky;
@@ -1338,7 +1348,7 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajText(p_poradie: Integer; p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajText(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     i: Integer;
     kj: TKodJednotky;
@@ -1370,13 +1380,71 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajVyluky(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajDohlad(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+  var
+    i: Integer;
+    kj: TKodJednotky;
+    cj: Integer;
+    objekt: TStavadloObjekt;
+  begin
+    Result:=True;
+
+    kj:=KJ_VYHYBKA;
+    cj:=0;
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='kodjednotky' then kj:=KodJednotkyXML(p_zdroj.AttrValue[i])
+      else if p_zdroj.AttrName[i]='cjednotky' then cj:=StrToIntDef(p_zdroj.AttrValue[i],0)
+    end;
+
+    objekt:=LogikaES.DajObjekt(kj,cj);
+
+    if objekt<>nil then
+    begin
+      if objekt is TVyhybkaDohlad then (objekt as TVyhybkaDohlad).NastavDohladVypnuty(True)
+      else Result:=Chyba('Vyradenie dohladu na niecom co nema dohlad');
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajAPN(p_poradie: Integer; p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+  var
+    i: Integer;
+    kj: TKodJednotky;
+    cj: Integer;
+    objekt: TStavadloObjekt;
+  begin
+    Result:=True;
+
+    kj:=KJ_NAVESTIDLOVCHODOVE;
+    cj:=0;
+
+    for i := 0 to p_zdroj.AttrCount-1 do
+    begin
+      if p_zdroj.AttrName[i]='kodjednotky' then kj:=KodJednotkyXML(p_zdroj.AttrValue[i])
+      else if p_zdroj.AttrName[i]='cjednotky' then cj:=StrToIntDef(p_zdroj.AttrValue[i],0)
+    end;
+
+    objekt:=LogikaES.DajObjekt(kj,cj);
+
+    if objekt<>nil then
+    begin
+      if objekt is TNavestidloHlavne then (objekt as TNavestidloHlavne).NastavAPN(True)
+      else Result:=Chyba('APN na niecom co nema privolavacku');
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajVyluky(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
     nazov: string;
   begin
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
 
@@ -1399,13 +1467,13 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  function TConfigLoader.NacitajTexty(p_zdroj: TipwXMLp; p_ciel: TLogikaES): Boolean;
+  function TConfigLoader.NacitajTexty(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
   var
     poc: Integer;
     i: Integer;
     nazov: string;
   begin
-    poc:=p_zdroj.XChildrenCount;
+    poc:=p_zdroj.XChildCount;
 
     Result:=True;
 
@@ -1428,39 +1496,114 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
+  function TConfigLoader.NacitajDohlady(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+  var
+    poc: Integer;
+    i: Integer;
+    nazov: string;
+  begin
+    poc:=p_zdroj.XChildCount;
+
+    Result:=True;
+
+    for i := 0 to poc-1 do
+    begin
+      nazov:=p_zdroj.XChildName[i];
+
+      if(nazov='Dohlad') then
+      begin
+        p_zdroj.XPath:='/StitkyVyluky/Dohlady/Dohlad['+IntToStr(i+1)+']';
+        Result:=NacitajDohlad(i+1,p_zdroj,p_ciel);
+      end
+      else Result:=Chyba('Neplatný element '+nazov+'v zozname textov');
+
+      p_zdroj.XPath:='/StitkyVyluky/Dohlady';
+
+      if not Result then break;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  function TConfigLoader.NacitajAPNky(p_zdroj: TipwXML; p_ciel: TLogikaES): Boolean;
+  var
+    poc: Integer;
+    i: Integer;
+    nazov: string;
+  begin
+    poc:=p_zdroj.XChildCount;
+
+    Result:=True;
+
+    for i := 0 to poc-1 do
+    begin
+      nazov:=p_zdroj.XChildName[i];
+
+      if(nazov='APN') then
+      begin
+        p_zdroj.XPath:='/StitkyVyluky/APNky/APN['+IntToStr(i+1)+']';
+        Result:=NacitajAPN(i+1,p_zdroj,p_ciel);
+      end
+      else Result:=Chyba('Neplatný element '+nazov+'v zozname textov');
+
+      p_zdroj.XPath:='/StitkyVyluky/APNky';
+
+      if not Result then break;
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
   function TConfigLoader.NacitajStitkyVyluky(p_ciel: TLogikaES): Boolean;
   var
-    parser: TipwXMLp;
+    parser: TipwXML;
   begin
     Result:=True;
 
-    parser:=TipwXMLp.Create(nil);
     try
-      parser.ParseFile(t_nazov_stitky);
+      parser:=TipwXML.Create(nil);
+      try
+        parser.InputFile:=t_nazov_stitky;
+        parser.Parse;
 
-      if parser.HasXPath('/StitkyVyluky') then
-      begin
-        if parser.HasXPath('/StitkyVyluky/Stitky') then
+        if parser.HasXPath('/StitkyVyluky') then
         begin
-          parser.XPath:='/StitkyVyluky/Stitky';
-          Result:=NacitajStitky(parser,p_ciel);
-        end;
+          if parser.HasXPath('/StitkyVyluky/Stitky') then
+          begin
+            parser.XPath:='/StitkyVyluky/Stitky';
+            Result:=NacitajStitky(parser,p_ciel);
+          end;
 
-        if parser.HasXPath('/StitkyVyluky/Vyluky') then
-        begin
-          parser.XPath:='/StitkyVyluky/Vyluky';
-          Result:=NacitajVyluky(parser,p_ciel);
-        end;
+          if parser.HasXPath('/StitkyVyluky/Vyluky') then
+          begin
+            parser.XPath:='/StitkyVyluky/Vyluky';
+            Result:=NacitajVyluky(parser,p_ciel);
+          end;
 
-        if parser.HasXPath('/StitkyVyluky/Texty') then
-        begin
-          parser.XPath:='/StitkyVyluky/Texty';
-          Result:=NacitajTexty(parser,p_ciel);
-        end;
-      end
-      else Result:=Chyba('V konfiguraci chybí výchozí prvek XML');
-    finally
-      parser.Free;
+          if parser.HasXPath('/StitkyVyluky/Texty') then
+          begin
+            parser.XPath:='/StitkyVyluky/Texty';
+            Result:=NacitajTexty(parser,p_ciel);
+          end;
+
+          if parser.HasXPath('/StitkyVyluky/Dohlady') then
+          begin
+            parser.XPath:='/StitkyVyluky/Dohlady';
+            Result:=NacitajDohlady(parser,p_ciel);
+          end;
+
+          if parser.HasXPath('/StitkyVyluky/APNky') then
+          begin
+            parser.XPath:='/StitkyVyluky/APNky';
+            Result:=NacitajAPNky(parser,p_ciel);
+          end;
+        end
+        else Result:=Chyba('V konfiguraci chybí výchozí prvek XML');
+      finally
+        parser.Free;
+      end;
+    except
+      Result:=False;
     end;
   end;
 end.

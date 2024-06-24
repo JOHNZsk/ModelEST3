@@ -85,10 +85,15 @@ type
     StopBtn: TButton;
     Modelovas1: TMenuItem;
     CasDvojklikTimer: TTimer;
+    N3: TMenuItem;
+    ProgramovanieadriesaFREDov1: TMenuItem;
+    DOH1: TMenuItem;
+    DOH2: TMenuItem;
+    APN1: TMenuItem;
+    APN2: TMenuItem;
     procedure Diagnostika1Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
-    procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure Koniec1Click(Sender: TObject);
     procedure Drtoah1Click(Sender: TObject);
@@ -100,10 +105,8 @@ type
     procedure STAV1Click(Sender: TObject);
     procedure PaintBoxRizikaPaintBuffer(Sender: TObject);
     procedure PaintBox1MouseLeave(Sender: TObject);
-    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure StitokVylukaKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure StitokVylukaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Predefinovanietextov1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Nacelobrazovku1Click(Sender: TObject);
@@ -118,6 +121,9 @@ type
     procedure CasClick(Sender: TObject);
     procedure PaintBoxPoruchyClick(Sender: TObject);
     procedure CasDvojklikTimerTimer(Sender: TObject);
+    procedure ProgramovanieadriesaFREDov1Click(Sender: TObject);
+    procedure STAV1DrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect; Selected: Boolean);
+    procedure STOJ1DrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect; Selected: Boolean);
   private
     { Private declarations }
     t_maximalizovat: Boolean;
@@ -139,7 +145,8 @@ implementation
 {$R *.dfm}
 
 uses ComPort, DiagDialog, LogikaStavadlo, DratotahDialog, DateUtils,
-Generics.Collections, TextyDialog, Splash, KonfigDialog, Z21Dialog, CasDialog;
+Generics.Collections, TextyDialog, Splash, KonfigDialog, Z21Dialog, CasDialog,
+ProgDialog, Vcl.Themes;
 
 procedure TForm1.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
 begin
@@ -257,6 +264,8 @@ begin
   end
   else PanelPoruch.Width:=400;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.Z21MClick(Sender: TObject);
 begin
@@ -532,6 +541,8 @@ begin
         NPT_RESETVYHGLOBAL: LogikaES.VypisNudzovyPovelVyhybky(nil,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
         NPT_PRIVOLAVACKA: (LogikaES.NudzovyPovelPrvok as TNavestidloHlavne).VypisNudzovyPovelPrivolavacka(popis_a,popis_b,popis_c,popis_d,text_a,text_b,text_c,text_d,cervena_a,cervena_b,cervena_c,cervena_d);
         NPT_ZAV2: (LogikaES.NudzovyPovelPrvok as TVyhybka).VypisNudzovyPovelZAV2(popis_a,popis_b,popis_c,popis_d,text_a,text_b,text_c,text_d,cervena_a,cervena_b,cervena_c,cervena_d);
+        NPT_DOH1,NPT_DOH2: (LogikaES.NudzovyPovelPrvok as TVyhybkaDohlad).VypisNudzovyPovelDOH(popis_a,popis_b,popis_c,popis_d,popis_e,text_a,text_b,text_c,text_d,text_e,cervena_a,cervena_b,cervena_c,cervena_d,cervena_e);
+        NPT_APN1,NPT_APN2: (LogikaES.NudzovyPovelPrvok as TNavestidloHlavne).VypisNudzovyPovelAPN(popis_a,popis_b,popis_c,popis_d,popis_e,text_a,text_b,text_c,text_d,text_e,cervena_a,cervena_b,cervena_c,cervena_d,cervena_e);
         NPT_KPV: LogikaES.VypisNudzovyPovelKPV(LogikaES.NudzovyPovelDopravna,popis_a,popis_b,popis_c,popis_d,popis_e,text_a,text_b,text_c,text_d,text_e,cervena_a,cervena_b,cervena_c,cervena_d,cervena_e);
         NPT_KSV: LogikaES.VypisNudzovyPovelKSV(LogikaES.NudzovyPovelDopravna,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
         NPT_RESETNAVDOP: LogikaES.VypisNudzovyPovelNavestidla(LogikaES.NudzovyPovelDopravna,popis_a,popis_b,popis_c,text_a,text_b,text_c,cervena_a,cervena_b,cervena_c);
@@ -620,9 +631,18 @@ begin
   KonfigDlg.Show;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TForm1.Predefinovanietextov1Click(Sender: TObject);
 begin
   TextyDlg.Show;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.ProgramovanieadriesaFREDov1Click(Sender: TObject);
+begin
+  ProgDlg.Show;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -653,6 +673,10 @@ begin
   else if Sender=P2 then LogikaES.SpracujMenu(MK_P2)
   else if Sender=ZAV1 then LogikaES.SpracujMenu(MK_ZAV1)
   else if Sender=ZAV2 then LogikaES.SpracujMenu(MK_ZAV2)
+  else if Sender=DOH1 then LogikaES.SpracujMenu(MK_DOH1)
+  else if Sender=DOH2 then LogikaES.SpracujMenu(MK_DOH2)
+  else if Sender=APN1 then LogikaES.SpracujMenu(MK_APN1)
+  else if Sender=APN2 then LogikaES.SpracujMenu(MK_APN2)
   else if Sender=STIT1 then LogikaES.SpracujMenu(MK_STIT)
   else if Sender=VYL1 then LogikaES.SpracujMenu(MK_VYL)
   else if Sender=RESET1 then LogikaES.SpracujMenu(MK_RESET)
@@ -664,11 +688,68 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+procedure TForm1.STAV1DrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect; Selected: Boolean);
+var
+  LStyles: TCustomStyleServices;
+  Text: string;
+const
+  ColorStates: array[Boolean] of TStyleColor = (scComboBoxDisabled, scComboBox);
+begin
+
+ LStyles := StyleServices;
+
+ Text := StringReplace((Sender as TMenuItem).Caption,'&','',[rfReplaceAll]);
+
+ ACanvas.Brush.Color := LStyles.GetStyleColor(ColorStates[(Sender as TMenuItem).Enabled]);
+ ACanvas.Font.Color  := clRed;
+
+ if Selected then
+ begin
+   ACanvas.Brush.Color := LStyles.GetSystemColor(clHighlight);
+   ACanvas.Font.Color  := clRed;
+ end;
+
+ ACanvas.FillRect(ARect);
+ ACanvas.TextOut(ARect.Left + 40, ARect.Top +4, Text);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TForm1.StitokVylukaKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key=VK_RETURN then LogikaES.PotvrdStitokVyluku
   else if Key=VK_ESCAPE then LogikaES.ZrusStitokVyluku;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.STOJ1DrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect; Selected: Boolean);
+var
+  LStyles: TCustomStyleServices;
+  Text: string;
+const
+  ColorStates: array[Boolean] of TStyleColor = (scComboBoxDisabled, scComboBox);
+  FontColorStates: array[Boolean] of TStyleFont = (sfPopupMenuItemTextDisabled, sfPopupMenuItemTextNormal);
+begin
+
+ LStyles := StyleServices;
+
+ Text := StringReplace((Sender as TMenuItem).Caption,'&','',[rfReplaceAll]);
+
+ ACanvas.Brush.Color := LStyles.GetStyleColor(ColorStates[(Sender as TMenuItem).Enabled]);
+ ACanvas.Font.Color  := LStyles.GetStyleFontColor(FontColorStates[(Sender as TMenuItem).Enabled]);
+
+ if Selected then
+ begin
+   ACanvas.Brush.Color := LStyles.GetSystemColor(clHighlight);
+   ACanvas.Font.Color  := LStyles.GetSystemColor(clHighlightText);
+ end;
+
+ ACanvas.FillRect(ARect);
+ ACanvas.TextOut(ARect.Left + 40, ARect.Top +4, Text);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.StopBtnClick(Sender: TObject);
 begin
@@ -681,6 +762,8 @@ procedure TForm1.VypisChybu(p_text: string);
 begin
   DiagDlg.Memo1.Lines.Add(p_text);
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.Z211Click(Sender: TObject);
 begin

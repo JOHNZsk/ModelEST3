@@ -26,7 +26,7 @@ function Porucha(p_cas: TDateTime; p_dopravna: TDopravna; p_text: string): TPoru
 
 //****************************************************************************//
 
-type TNudzovyPovelTyp=(NPT_STAV,NPT_RESETNAV,NPT_RESETVYH,NPT_RESETNAVGLOBAL,NPT_RESETVYHGLOBAL,NPT_PRIVOLAVACKA,NPT_ZAV2,NPT_ZRUSVYLUKU,NPT_ZRUSSTITOK,NPT_KPV,NPT_KSV,NPT_RESETNAVDOP,NPT_RESETVYHDOP);
+type TNudzovyPovelTyp=(NPT_STAV,NPT_RESETNAV,NPT_RESETVYH,NPT_RESETNAVGLOBAL,NPT_RESETVYHGLOBAL,NPT_PRIVOLAVACKA,NPT_ZAV2,NPT_DOH1,NPT_DOH2,NPT_APN1,NPT_APN2,NPT_ZRUSVYLUKU,NPT_ZRUSSTITOK,NPT_KPV,NPT_KSV,NPT_RESETNAVDOP,NPT_RESETVYHDOP);
 
 function NudzovyPovelTypText(p_hodnota: TNudzovyPovelTyp): string;
 
@@ -36,7 +36,7 @@ type TNudzovyPovelPotvrdTyp=(NPP_ENTER,NPP_ASDF);
 
 //****************************************************************************//
 
-type TMenuPolozka=(MK_STAV,MK_STOJ,MK_DN,MK_PN,MK_ZAM1,MK_ZAM2,MK_P1,MK_P2,MK_ZAV1,MK_ZAV2,MK_STIT,MK_VYL,MK_RESET,MK_KPV,MK_KSV,MK_RNAV,MK_RVYH);
+type TMenuPolozka=(MK_STAV,MK_STOJ,MK_DN,MK_PN,MK_ZAM1,MK_ZAM2,MK_P1,MK_P2,MK_ZAV1,MK_ZAV2,MK_DOH1,MK_DOH2,MK_APN1,MK_APN2,MK_STIT,MK_VYL,MK_RESET,MK_KPV,MK_KSV,MK_RNAV,MK_RVYH);
 
 type TCasTyp=(TCA_REALNY,TCA_ZRYCHLENY,TCA_LOCONET);
 
@@ -213,7 +213,7 @@ var
 
 implementation
   uses GUI1, DiagDialog, ComPort, IniFiles, Forms, LoadConfig, DratotahDialog,
-  DateUtils, Winapi.Windows, ipwxmlw, CasDialog;
+  DateUtils, Winapi.Windows, ipwxml, CasDialog;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -246,6 +246,10 @@ begin
     NPT_RESETVYHGLOBAL,NPT_RESETVYHDOP: Result:='Reset všetkých výhybiek';
     NPT_PRIVOLAVACKA: Result:='Rozsvietenie priv. návesti';
     NPT_ZAV2: Result:='Zrušenie ruè. záveru';
+    NPT_DOH1: Result:='Vyradenie doh¾adových obvodov výhybky';
+    NPT_DOH2: Result:='Zrušenie vyradenia doh¾adu výhybky';
+    NPT_APN1: Result:='Vynútenie automatickej priv. návesti';
+    NPT_APN2: Result:='Zrušenie vynútenia aut. priv. návesti';
     NPT_ZRUSVYLUKU: Result:='Zrušenie výluky';
     NPT_ZRUSSTITOK: Result:='Zrušenie štítka';
     NPT_KPV: Result:='Kontrola polohy výhybiek';
@@ -845,7 +849,7 @@ begin
     end;
 
     if(vysledok<>nil) and (ssCtrl in p_shift) and ((vysledok is TNavestidlo) or (vysledok is TKolajCiara) or (vysledok is TVyhybka) or (vysledok is TStanObsluhy)) then ZobrazMenu(p_x,p_y,vysledok)
-    else if(vysledok<>nil) and (vysledok is TNavestidloHlavne) and ((vysledok as TNavestidloHlavne).Navest[False]=CN_PRIVOLAVACKA) then
+    else if(vysledok<>nil) and (vysledok is TNavestidloHlavne) and ((vysledok as TNavestidloHlavne).Navest[False]=CN_PRIVOLAVACKA) and ((not (vysledok as TNavestidloHlavne).APN) or (not t_postavene_cesty.TryGetValue(vysledok,cesta))) then
     begin
       povely:=TList<TPair<Integer,Boolean>>.Create;
       try
@@ -854,7 +858,6 @@ begin
       finally
         povely.Free;
       end;
-
     end
     else if (vysledok<>nil) and (t_postavene_cesty.TryGetValue(vysledok,cesta)) then
     begin
@@ -1229,6 +1232,26 @@ begin
     NPT_RESETVYHGLOBAL: ResetujVyhybky(nil,True);
     NPT_PRIVOLAVACKA: Privolavacka((t_nudzovy_povel_prvok as TNavestidloHlavne),True);
     NPT_ZAV2: (t_nudzovy_povel_prvok as TVyhybka).NastavRucnyZaver(False,True);
+    NPT_DOH1:
+    begin
+      (t_nudzovy_povel_prvok as TVyhybkaDohlad).NastavDohladVypnuty(True);
+      UlozStitkyVyluky;
+    end;
+    NPT_DOH2:
+    begin
+      (t_nudzovy_povel_prvok as TVyhybkaDohlad).NastavDohladVypnuty(False);
+      UlozStitkyVyluky;
+    end;
+    NPT_APN1:
+    begin
+      (t_nudzovy_povel_prvok as TNavestidloHlavne).NastavAPN(True);
+      UlozStitkyVyluky;
+    end;
+    NPT_APN2:
+    begin
+      (t_nudzovy_povel_prvok as TNavestidloHlavne).NastavAPN(False);
+      UlozStitkyVyluky;
+    end;
     NPT_ZRUSVYLUKU:
     begin
       if t_nudzovy_povel_prvok is TVyhybka then (t_nudzovy_povel_prvok as TVyhybka).NastavVyluku('')
@@ -1366,6 +1389,10 @@ begin
     Form1.SVYH.Visible:=True;
     Form1.ZAV1.Visible:=(not (t_menu_objekt as TVyhybka).RucnyZaver) and ((t_menu_objekt as TVyhybka).PolohaLog<>VPO_NEZNAMA);
     Form1.ZAV2.Visible:=(t_menu_objekt as TVyhybka).RucnyZaver;
+    Form1.DOH1.Visible:=(t_menu_objekt is TVyhybkaDohlad) and (not (t_menu_objekt as TVyhybkaDohlad).DohladVypnuty);
+    Form1.DOH2.Visible:=(t_menu_objekt is TVyhybkaDohlad) and ((t_menu_objekt as TVyhybkaDohlad).DohladVypnuty);
+    Form1.APN1.Visible:=False;
+    Form1.APN2.Visible:=False;
     Form1.SZAV.Visible:=True;
     Form1.STIT1.Visible:=True;
     Form1.VYL1.Visible:=True;
@@ -1393,6 +1420,10 @@ begin
     Form1.SVYH.Visible:=False;
     Form1.ZAV1.Visible:=False;
     Form1.ZAV2.Visible:=False;
+    Form1.DOH1.Visible:=False;
+    Form1.DOH2.Visible:=False;
+    Form1.APN1.Visible:=(t_menu_objekt is TNavestidloHlavne) and ((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ) and (not (t_menu_objekt as TNavestidloHlavne).APN);
+    Form1.APN2.Visible:=(t_menu_objekt is TNavestidloHlavne) and ((t_menu_objekt as TNavestidlo).Navest[False]=CN_STOJ) and (t_menu_objekt as TNavestidloHlavne).APN;
     Form1.SZAV.Visible:=False;
     Form1.STIT1.Visible:=True;
     Form1.VYL1.Visible:=False;
@@ -1420,6 +1451,10 @@ begin
     Form1.SVYH.Visible:=False;
     Form1.ZAV1.Visible:=False;
     Form1.ZAV2.Visible:=False;
+    Form1.DOH1.Visible:=False;
+    Form1.DOH2.Visible:=False;
+    Form1.APN1.Visible:=False;
+    Form1.APN2.Visible:=False;
     Form1.SZAV.Visible:=False;
     Form1.STIT1.Visible:=True;
     Form1.VYL1.Visible:=True;
@@ -1447,6 +1482,10 @@ begin
     Form1.SVYH.Visible:=False;
     Form1.ZAV1.Visible:=False;
     Form1.ZAV2.Visible:=False;
+    Form1.DOH1.Visible:=False;
+    Form1.DOH2.Visible:=False;
+    Form1.APN1.Visible:=False;
+    Form1.APN2.Visible:=False;
     Form1.SZAV.Visible:=False;
     Form1.STIT1.Visible:=False;
     Form1.VYL1.Visible:=False;
@@ -1496,6 +1535,10 @@ begin
     MK_P2: if (t_menu_objekt as TVyhybka).JeVolna(True) then CPort.VydajPovelB0((t_menu_objekt as TVyhybka).Adresa,(t_menu_objekt as TVyhybka).OtocitPolaritu);
     MK_ZAV1: (t_menu_objekt as TVyhybka).NastavRucnyZaver(True,False);
     MK_ZAV2: (t_menu_objekt as TVyhybka).NastavRucnyZaver(False,False);
+    MK_DOH1: NastavNudzovyPovel(t_menu_objekt.Dopravna,NPT_DOH1,t_menu_objekt,NPP_ASDF);
+    MK_DOH2: NastavNudzovyPovel(t_menu_objekt.Dopravna,NPT_DOH2,t_menu_objekt,NPP_ENTER);
+    MK_APN1: NastavNudzovyPovel(t_menu_objekt.Dopravna,NPT_APN1,t_menu_objekt,NPP_ASDF);
+    MK_APN2: NastavNudzovyPovel(t_menu_objekt.Dopravna,NPT_APN2,t_menu_objekt,NPP_ASDF);
     MK_STIT: ZadajStitok(t_menu_objekt);
     MK_VYL: ZadajVyluku(t_menu_objekt);
     MK_RESET:
@@ -1963,13 +2006,14 @@ end;
 
 procedure TLogikaES.UlozStitkyVyluky;
 var
-  ciel: TipwXMLw;
+  ciel: TipwXML;
   prvok: TStavadloObjekt;
 begin
-  ciel:=TipwXMLw.Create(nil);
+  ciel:=TipwXML.Create(nil);
   try
     ciel.OutputFile:=t_sv_subor;
-    ciel.WriteXMLDeclaration('1.0',True,False);
+    ciel.Overwrite:=True;
+    //ciel.WriteXMLDeclaration('1.0',True,False);
     ciel.StartElement('StitkyVyluky','');
     try
       ciel.StartElement('Stitky','');
@@ -1980,11 +2024,11 @@ begin
           begin
             ciel.StartElement('Stitok','');
             try
-              ciel.WriteAttribute('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
-              ciel.WriteAttribute('cjednotky','',IntToStr(prvok.CisloJednotky));
-              if (prvok is TVyhybka) then ciel.WriteString((prvok as TVyhybka).Stitok)
-              else if (prvok is TNavestidlo) then ciel.WriteString((prvok as TNavestidlo).Stitok)
-              else ciel.WriteString((prvok as TKolajCiara).Stitok);
+              ciel.PutAttr('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
+              ciel.PutAttr('cjednotky','',IntToStr(prvok.CisloJednotky));
+              if (prvok is TVyhybka) then ciel.PutString((prvok as TVyhybka).Stitok)
+              else if (prvok is TNavestidlo) then ciel.PutString((prvok as TNavestidlo).Stitok)
+              else ciel.PutString((prvok as TKolajCiara).Stitok);
             finally
               ciel.EndElement;
             end;
@@ -2002,10 +2046,10 @@ begin
           begin
             ciel.StartElement('Vyluka','');
             try
-              ciel.WriteAttribute('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
-              ciel.WriteAttribute('cjednotky','',IntToStr(prvok.CisloJednotky));
-              if (prvok is TVyhybka) then ciel.WriteString((prvok as TVyhybka).Vyluka)
-              else ciel.WriteString((prvok as TKolajCiara).Vyluka);
+              ciel.PutAttr('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
+              ciel.PutAttr('cjednotky','',IntToStr(prvok.CisloJednotky));
+              if (prvok is TVyhybka) then ciel.PutString((prvok as TVyhybka).Vyluka)
+              else ciel.PutString((prvok as TKolajCiara).Vyluka);
             finally
               ciel.EndElement;
             end;
@@ -2023,9 +2067,47 @@ begin
           begin
             ciel.StartElement('Text','');
             try
-              ciel.WriteAttribute('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
-              ciel.WriteAttribute('cjednotky','',IntToStr(prvok.CisloJednotky));
-              ciel.WriteString((prvok as TText).DajPredefText);
+              ciel.PutAttr('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
+              ciel.PutAttr('cjednotky','',IntToStr(prvok.CisloJednotky));
+              ciel.PutString((prvok as TText).DajPredefText);
+            finally
+              ciel.EndElement;
+            end;
+          end;
+        end;
+      finally
+        ciel.EndElement;
+      end;
+
+      ciel.StartElement('Dohlady','');
+      try
+        for prvok in t_plan do
+        begin
+          if (prvok is TVyhybkaDohlad) and ((prvok as TVyhybkaDohlad).DohladVypnuty) then
+          begin
+            ciel.StartElement('Dohlad','');
+            try
+              ciel.PutAttr('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
+              ciel.PutAttr('cjednotky','',IntToStr(prvok.CisloJednotky));
+            finally
+              ciel.EndElement;
+            end;
+          end;
+        end;
+      finally
+        ciel.EndElement;
+      end;
+
+      ciel.StartElement('APNky','');
+      try
+        for prvok in t_plan do
+        begin
+          if (prvok is TNavestidloHlavne) and ((prvok as TNavestidloHlavne).APN) then
+          begin
+            ciel.StartElement('APN','');
+            try
+              ciel.PutAttr('kodjednotky','',KodJednotkyNaXML(prvok.KodJednotky));
+              ciel.PutAttr('cjednotky','',IntToStr(prvok.CisloJednotky));
             finally
               ciel.EndElement;
             end;
@@ -2037,7 +2119,7 @@ begin
     finally
       ciel.EndElement;
     end;
-    ciel.Close;
+    ciel.Save;
   finally
     ciel.Free;
   end;

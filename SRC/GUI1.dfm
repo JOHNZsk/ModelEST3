@@ -11,12 +11,10 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = False
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyUp = FormKeyUp
   OnResize = FormResize
-  PixelsPerInch = 96
   TextHeight = 13
   object HorPanel: TPanel
     Left = 0
@@ -30,6 +28,7 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 1004
     object Panel1: TPanel
       Left = 0
       Top = 0
@@ -73,6 +72,7 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 1
+      ExplicitLeft = 794
       object Cas: TLabel
         Left = 0
         Top = 0
@@ -114,6 +114,7 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 2
+      ExplicitWidth = 483
       object Panel7: TPanel
         Left = 0
         Top = 0
@@ -124,7 +125,9 @@ object Form1: TForm1
         Caption = 'Panel7'
         Color = clBlack
         ParentBackground = False
+        ShowCaption = False
         TabOrder = 0
+        ExplicitWidth = 483
         object VLoconet: TLabel
           Left = 0
           Top = 19
@@ -174,6 +177,8 @@ object Form1: TForm1
     Caption = 'Panel2'
     ShowCaption = False
     TabOrder = 1
+    ExplicitTop = 396
+    ExplicitWidth = 1004
     object PanelRizik: TPanel
       Left = 0
       Top = 0
@@ -186,6 +191,7 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 0
+      ExplicitWidth = 704
       object PaintBoxRizika: TPaintBox32
         Left = 0
         Top = 0
@@ -194,6 +200,7 @@ object Form1: TForm1
         Align = alClient
         TabOrder = 0
         OnPaintBuffer = PaintBoxRizikaPaintBuffer
+        ExplicitWidth = 704
       end
     end
     object PanelPoruch: TPanel
@@ -208,6 +215,7 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 1
+      ExplicitLeft = 704
       object PaintBoxPoruchy: TPaintBox32
         Left = 0
         Top = 0
@@ -232,6 +240,8 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 2
+    ExplicitTop = 355
+    ExplicitWidth = 1004
     object PanelSV: TPanel
       Left = 0
       Top = 0
@@ -244,6 +254,7 @@ object Form1: TForm1
       ParentBackground = False
       ShowCaption = False
       TabOrder = 0
+      ExplicitWidth = 1004
       object Label1: TLabel
         AlignWithMargins = True
         Left = 5
@@ -284,6 +295,7 @@ object Form1: TForm1
         TabOrder = 0
         Text = 'StitokVyluka'
         OnKeyUp = StitokVylukaKeyUp
+        ExplicitWidth = 905
         ExplicitHeight = 32
       end
     end
@@ -305,6 +317,8 @@ object Form1: TForm1
     ShowCaption = False
     TabOrder = 3
     StyleElements = []
+    ExplicitWidth = 809
+    ExplicitHeight = 315
     object PaintBox1: TPaintBox32
       Left = 9
       Top = 9
@@ -316,6 +330,8 @@ object Form1: TForm1
       OnMouseUp = PaintBox1MouseUp
       OnMouseLeave = PaintBox1MouseLeave
       OnPaintBuffer = PaintBox1Paint
+      ExplicitWidth = 791
+      ExplicitHeight = 297
     end
   end
   object Z21Panel: TPanel
@@ -331,6 +347,8 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 4
+    ExplicitLeft = 812
+    ExplicitHeight = 309
     object Z21TeplotaVnitrni: TLabel
       AlignWithMargins = True
       Left = 3
@@ -494,6 +512,7 @@ object Form1: TForm1
       TabOrder = 0
       Visible = False
       OnClick = ZrusStopBtnClick
+      ExplicitTop = 276
     end
     object StopBtn: TButton
       Left = 0
@@ -511,6 +530,7 @@ object Form1: TForm1
       TabOrder = 1
       Visible = False
       OnClick = StopBtnClick
+      ExplicitTop = 243
     end
   end
   object MainMenu1: TMainMenu
@@ -552,15 +572,23 @@ object Form1: TForm1
         ShortCut = 113
         OnClick = Z21MClick
       end
-      object Nacelobrazovku1: TMenuItem
-        Caption = 'Na cel'#250' obrazovku'
-        ShortCut = 122
-        OnClick = Nacelobrazovku1Click
+      object ProgramovanieadriesaFREDov1: TMenuItem
+        Caption = 'Programovanie adries a FREDov'
+        ShortCut = 114
+        OnClick = ProgramovanieadriesaFREDov1Click
+      end
+      object N3: TMenuItem
+        Caption = '-'
       end
       object Modelovas1: TMenuItem
         Caption = 'Modelov'#253' '#269'as'
         ShortCut = 121
         OnClick = Modelovas1Click
+      end
+      object Nacelobrazovku1: TMenuItem
+        Caption = 'Na cel'#250' obrazovku'
+        ShortCut = 122
+        OnClick = Nacelobrazovku1Click
       end
     end
     object Nastavenia1: TMenuItem
@@ -581,6 +609,7 @@ object Form1: TForm1
   end
   object PopupMenu1: TPopupMenu
     MenuAnimation = [maTopToBottom]
+    OwnerDraw = True
     Left = 328
     Top = 208
     object NAZOV1: TMenuItem
@@ -590,6 +619,7 @@ object Form1: TForm1
     object STAV1: TMenuItem
       Caption = 'STAV'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object SSTAV: TMenuItem
       Caption = '-'
@@ -597,14 +627,17 @@ object Form1: TForm1
     object STOJ1: TMenuItem
       Caption = 'STOJ'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object DN1: TMenuItem
       Caption = 'DN'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object PN1: TMenuItem
       Caption = 'PN'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object SNAV: TMenuItem
       Caption = '-'
@@ -612,10 +645,22 @@ object Form1: TForm1
     object ZAM1: TMenuItem
       Caption = 'ZAM>'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object ZAM2: TMenuItem
       Caption = 'ZAM<'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
+    end
+    object APN1: TMenuItem
+      Caption = 'APN>'
+      OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
+    end
+    object APN2: TMenuItem
+      Caption = 'APN<'
+      OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object SZAM: TMenuItem
       Caption = '-'
@@ -623,10 +668,12 @@ object Form1: TForm1
     object P1: TMenuItem
       Caption = 'P+'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object P2: TMenuItem
       Caption = 'P-'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object SVYH: TMenuItem
       Caption = '-'
@@ -634,10 +681,12 @@ object Form1: TForm1
     object ZAV1: TMenuItem
       Caption = 'ZAV>'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object ZAV2: TMenuItem
       Caption = 'ZAV<'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object SZAV: TMenuItem
       Caption = '-'
@@ -645,33 +694,50 @@ object Form1: TForm1
     object STIT1: TMenuItem
       Caption = 'STIT'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object VYL1: TMenuItem
       Caption = 'VYL'
       OnClick = STAV1Click
+      OnDrawItem = STOJ1DrawItem
     end
     object SVYL: TMenuItem
       Caption = '-'
     end
+    object DOH1: TMenuItem
+      Caption = 'DOH<'
+      OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
+    end
+    object DOH2: TMenuItem
+      Caption = 'DOH>'
+      OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
+    end
     object RESET1: TMenuItem
       Caption = 'RESET'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object KPV1: TMenuItem
       Caption = 'KPV'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object KSV1: TMenuItem
       Caption = 'KSV'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object RNAV1: TMenuItem
       Caption = 'RNAV'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
     object RVYH1: TMenuItem
       Caption = 'RVYH'
       OnClick = STAV1Click
+      OnDrawItem = STAV1DrawItem
     end
   end
   object ApplicationEvents1: TApplicationEvents

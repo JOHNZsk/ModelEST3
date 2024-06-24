@@ -222,15 +222,20 @@ interface
   type TNavestidloHlavne=class(TNavestidlo)
     protected
       t_skupina_pn: Integer;
+      t_apn: Boolean;
     public
       property SkupinaPN: Integer read t_skupina_pn;
+      property APN: Boolean read t_apn;
 
       constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
+
+      procedure NastavAPN(p_apn: Boolean);
 
       procedure Vykresli(p_plan: TBitmap32; p_plan_x_zac,p_plan_x_kon,p_plan_y_zac,p_plan_y_kon: Integer); override;
 
       procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); override;
       procedure VypisNudzovyPovelPrivolavacka(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
+      procedure VypisNudzovyPovelAPN(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);      
   end;
 
   //**************************************************************************//
@@ -302,6 +307,8 @@ interface
 
   TVyhybkaDohlad=class(TVyhybka)
     private
+      t_dohlad_vypnuty: Boolean;
+
       t_dohlad_rovno: Integer;
       t_dohlad_odbocka: Integer;
       t_dohlad_reset: Integer;
@@ -319,11 +326,16 @@ interface
 
       property DohladRovnoStav: Boolean read t_dohlad_rovno_stav;
       property DohladOdbockaStav: Boolean read t_dohlad_odbocka_stav;
+      property DohladVypnuty: Boolean read t_dohlad_vypnuty;
 
       constructor Create(p_dohlad_rovno,p_dohlad_odbocka,p_dohlad_reset: Integer; p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc: Integer; p_cislo: string; p_adresa: Integer; p_otocit_pohohu: Boolean; p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc: TKolajCiara; p_cjednotky: Integer; p_dopravna: TDopravna);
 
       function DajStav: string; override;
       procedure NastavDohlad(p_adresa: Integer; p_stav: Boolean);
+      procedure NastavDohladVypnuty(p_stav: Boolean);
+
+      procedure VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean); override;
+      procedure VypisNudzovyPovelDOH(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
   end;
 
   //**************************************************************************//
@@ -337,6 +349,7 @@ interface
 
   type TNavestidloVchodove=class(TNavestidloHlavne)
     private
+      t_bez_dolneho_svetla,t_bez_bielej: Boolean;
       t_adresy: TNavestidloVchodoveAdresy;
       t_stavy: array[TNavestidloVchodoveFarba] of TSvetloPozicia;
 
@@ -346,7 +359,7 @@ interface
       function DajNazov(p_kodjednotky, p_dopravna: Boolean): string; override;
 
     public
-      constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
+      constructor Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_bez_dolneho_svetla,p_bez_bielej: Boolean; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
 
       function RozsvietNavest(p_navest: TNavest; p_povely: TList<TPair<Integer,Boolean>>): Boolean; override;
 
@@ -1152,6 +1165,14 @@ implementation
     inherited Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon,p_cislo,p_cjednotky,p_dopravna);
 
     t_skupina_pn:=p_skupina_pn;
+    t_apn:=False;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidloHlavne.NastavAPN(p_apn: Boolean);
+  begin
+    t_apn:=p_apn;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1247,6 +1268,11 @@ implementation
       p_text_d:='¡no';
       p_cervena_d:=True;
     end
+    else if t_apn then
+    begin
+      p_text_d:='APN';
+      p_cervena_d:=True;    
+    end
     else p_text_d:='Nie';
 
     p_text_e:=t_stitok;
@@ -1276,6 +1302,38 @@ implementation
     p_text_d:=t_stitok;
     if t_stitok<>'' then p_cervena_d:=True;
   end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TNavestidloHlavne.VypisNudzovyPovelAPN(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
+  begin
+    p_popis_a:='(A) N·zov';
+    p_text_a:=Nazov[True,False];
+
+    p_popis_b:='(B) N·vesù';
+    p_text_b:=NavestNaText(Navest[False]);
+    if not (Navest[False] in [CN_STOJ,CN_NEZNAMA]) then p_cervena_b:=True;
+
+    p_popis_c:='(C) RuËn˝ z·ver';
+    if t_rucny_zaver then
+    begin
+      p_text_c:='¡no';
+      p_cervena_c:=True;
+    end
+    else p_text_c:='Nie';
+
+    p_popis_d:='(D) ätÌtok';
+    p_text_d:=t_stitok;
+    if t_stitok<>'' then p_cervena_d:=True;
+
+    p_popis_e:='(E) APN';
+    if t_apn then
+    begin
+      p_text_e:='¡no';
+      p_cervena_e:=True;
+    end
+    else p_text_e:='Nie';    
+  end;  
 
   //**************************************************************************//
 
@@ -1623,6 +1681,8 @@ implementation
   begin
     inherited Create(p_x_hrot,p_y_hrot,p_x_rovno,p_y_rovno,p_x_odboc,p_y_odboc,p_cislo,p_adresa,p_otocit_pohohu,p_kolaj_hrot,p_kolaj_rovno,p_kolaj_odboc,p_cjednotky,p_dopravna);
 
+    t_dohlad_vypnuty:=False;
+
     t_dohlad_rovno:=p_dohlad_rovno;
     t_dohlad_odbocka:=p_dohlad_odbocka;
     t_dohlad_reset:=p_dohlad_reset;
@@ -1637,15 +1697,18 @@ implementation
   begin
     Result:=inherited DajPolohu;
 
-    if (Result in [VPO_ROVNO,VPO_ROVNO_OTAZNIK]) then
+    if not t_dohlad_vypnuty then
     begin
-      if(not t_dohlad_rovno_stav) or t_dohlad_odbocka_stav then Result:=VPO_NEZNAMA;
-      if(Result=VPO_ROVNO_OTAZNIK) and t_dohlad_rovno_stav and (not t_dohlad_odbocka_stav) then Result:=VPO_ROVNO;
-    end
-    else if (Result in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]) then
-    begin
-      if(not t_dohlad_odbocka_stav) or t_dohlad_rovno_stav then Result:=VPO_NEZNAMA;
-      if(Result=VPO_ODBOCKA_OTAZNIK) and t_dohlad_odbocka_stav and (not t_dohlad_rovno_stav) then Result:=VPO_ODBOCKA;
+      if (Result in [VPO_ROVNO,VPO_ROVNO_OTAZNIK]) then
+      begin
+        if(not t_dohlad_rovno_stav) or t_dohlad_odbocka_stav then Result:=VPO_NEZNAMA;
+        if(Result=VPO_ROVNO_OTAZNIK) and t_dohlad_rovno_stav and (not t_dohlad_odbocka_stav) then Result:=VPO_ROVNO;
+      end
+      else if (Result in [VPO_ODBOCKA,VPO_ODBOCKA_OTAZNIK]) then
+      begin
+        if(not t_dohlad_odbocka_stav) or t_dohlad_rovno_stav then Result:=VPO_NEZNAMA;
+        if(Result=VPO_ODBOCKA_OTAZNIK) and t_dohlad_odbocka_stav and (not t_dohlad_rovno_stav) then Result:=VPO_ODBOCKA;
+      end;
     end;
   end;
 
@@ -1653,26 +1716,84 @@ implementation
 
   procedure TVyhybkaDohlad.NastavDohlad(p_adresa: Integer; p_stav: Boolean);
   begin
-    if p_adresa=t_dohlad_rovno then
+    if not t_dohlad_vypnuty then
     begin
-      t_dohlad_rovno_stav:=p_stav;
-      if p_stav and (DajPolohu=VPO_NEZNAMA) then t_poloha:=VPO_ROVNO_OTAZNIK;
-    end
-    else if p_adresa=t_dohlad_odbocka then
+      if p_adresa=t_dohlad_rovno then
+      begin
+        t_dohlad_rovno_stav:=p_stav;
+        if p_stav and (DajPolohu=VPO_NEZNAMA) then t_poloha:=VPO_ROVNO_OTAZNIK;
+      end
+      else if p_adresa=t_dohlad_odbocka then
+      begin
+        t_dohlad_odbocka_stav:=p_stav;
+        if p_stav and (DajPolohu=VPO_NEZNAMA) then t_poloha:=VPO_ODBOCKA_OTAZNIK;
+      end
+      else assert(False);
+    end;
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybkaDohlad.NastavDohladVypnuty(p_stav: Boolean);
+  begin
+    t_dohlad_vypnuty:=p_stav;
+
+    if not t_dohlad_vypnuty then
     begin
-      t_dohlad_odbocka_stav:=p_stav;
-      if p_stav and (DajPolohu=VPO_NEZNAMA) then t_poloha:=VPO_ODBOCKA_OTAZNIK;
-    end
-    else assert(False);
+      t_dohlad_rovno_stav:=False;
+      t_dohlad_odbocka_stav:=False;
+    end;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
 
   function TVyhybkaDohlad.DajStav: string;
   begin
-    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' RuË. z·ver: '+BoolToStr(t_rucny_zaver,True)+' Doh. rovno: '+BoolToStr(t_dohlad_rovno_stav,True)+' Doh. odboË: '+BoolToStr(t_dohlad_odbocka_stav,True);
+    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' RuË. z·ver: '+BoolToStr(t_rucny_zaver,True);
+
+    if not t_dohlad_vypnuty then Result:=Result+' Doh. rovno: '+BoolToStr(t_dohlad_rovno_stav,True)+' Doh. odboË: '+BoolToStr(t_dohlad_odbocka_stav,True)
+    else Result:=Result+' Doh. rovno: vyraden˝ Doh. odboË: vyraden˝';
   end;
 
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybkaDohlad.VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
+  begin
+    inherited;
+
+    p_text_b:=VyhybkaPoziciaNaText(t_poloha);
+  end;
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  procedure TVyhybkaDohlad.VypisNudzovyPovelDOH(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
+  begin
+    p_popis_a:='(A) N·zov';
+    p_popis_b:='(B) Poloha';
+    p_popis_c:='(C) ätÌtok';
+    p_popis_d:='(E) V˝luka';
+    p_popis_e:='(F) Dohæad';  
+      
+    p_text_a:=Nazov[True,False];
+    p_text_b:=VyhybkaPoziciaNaText(t_poloha);
+
+    p_text_c:=t_stitok;
+    if t_stitok<>'' then p_cervena_c:=True;
+
+    p_text_d:=t_vyluka;
+    if t_vyluka<>'' then p_cervena_d:=True;
+
+    if t_dohlad_vypnuty then
+    begin
+      p_text_e:='Vyraden˝';
+      p_cervena_e:=True;
+    end
+    else
+    begin
+      p_text_e:='AktÌvny';
+      p_cervena_e:=False;    
+    end;
+  end;
 
   //**************************************************************************//
 
@@ -1693,11 +1814,14 @@ implementation
 
   //////////////////////////////////////////////////////////////////////////////
 
-  constructor TNavestidloVchodove.Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
+  constructor TNavestidloVchodove.Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon: Integer; p_cislo: string; p_bez_dolneho_svetla,p_bez_bielej: Boolean; p_adresy: TNavestidloVchodoveAdresy; p_cjednotky,p_skupina_pn: Integer; p_dopravna: TDopravna);
   var
     i: TNavestidloVchodoveFarba;
   begin
     inherited Create(p_x_zac,p_x_kon,p_y_zac,p_y_kon,p_cislo,p_cjednotky,p_skupina_pn,p_dopravna);
+
+    t_bez_dolneho_svetla:=p_bez_dolneho_svetla;
+    t_bez_bielej:=p_bez_bielej;
 
     for i := Low(t_adresy) to High(t_adresy) do
     begin
@@ -1740,7 +1864,7 @@ implementation
 
     for i := Low(t_stavy) to High(t_stavy) do
     begin
-      if t_stavy[i]=SPO_NEZNAMA then
+      if((not t_bez_dolneho_svetla) or (i<>NVF_DZ)) and ((not t_bez_bielej) or (i<>NVF_B_KMIT)) and (t_stavy[i]=SPO_NEZNAMA) then
       begin
         Result:=CN_NEZNAMA;
         Exit;
@@ -1794,32 +1918,44 @@ implementation
       end;
       CN_VYSTRAHA:
       begin
-        rozsvietene:=[NVF_HZ,NVF_PREDV_Z];
+        if not t_apn then rozsvietene:=[NVF_HZ,NVF_PREDV_Z]
+        else rozsvietene:=[NVF_C,NVF_B_KMIT,NVF_PREDV_HZ];
+        
         Result:=True;
       end;
       CN_VOLNO:
       begin
-        rozsvietene:=[NVF_Z,NVF_PREDV_Z];
+        if not t_apn then rozsvietene:=[NVF_Z,NVF_PREDV_Z]
+        else rozsvietene:=[NVF_C,NVF_B_KMIT,NVF_PREDV_HZ];
+        
         Result:=True;
       end;
       CN_OCAK40:
       begin
-        rozsvietene:=[NVF_HZ_KMIT,NVF_PREDV_Z];
+        if not t_apn then rozsvietene:=[NVF_HZ_KMIT,NVF_PREDV_Z]
+        else rozsvietene:=[NVF_C,NVF_B_KMIT,NVF_PREDV_HZ];
+        
         Result:=True;
       end;
       CN_40AVYSTRAHA:
       begin
-        rozsvietene:=[NVF_HZ,NVF_DZ,NVF_PREDV_HZ_KMIT];
+        if not t_apn then rozsvietene:=[NVF_HZ,NVF_DZ,NVF_PREDV_HZ_KMIT]
+        else rozsvietene:=[NVF_C,NVF_B_KMIT,NVF_PREDV_HZ];
+        
         Result:=True;
       end;
       CN_40A40:
       begin
-        rozsvietene:=[NVF_HZ_KMIT,NVF_DZ,NVF_PREDV_HZ_KMIT];
+        if not t_apn then rozsvietene:=[NVF_HZ_KMIT,NVF_DZ,NVF_PREDV_HZ_KMIT]
+        else rozsvietene:=[NVF_C,NVF_B_KMIT,NVF_PREDV_HZ];
+        
         Result:=True;
       end;
       CN_40AVOLNO:
       begin
-        rozsvietene:=[NVF_Z,NVF_DZ,NVF_PREDV_HZ_KMIT];
+        if not t_apn then rozsvietene:=[NVF_Z,NVF_DZ,NVF_PREDV_HZ_KMIT]
+        else rozsvietene:=[NVF_C,NVF_B_KMIT,NVF_PREDV_HZ];
+        
         Result:=True;
       end;
       CN_PRIVOLAVACKA:
@@ -1836,8 +1972,8 @@ implementation
       begin
         if (i in rozsvietene) and (not (t_stavy[i] in SPOS_SVIETI)) then
         begin
-          p_povely.Add(VyrobPovel(t_adresy[i],True));
-          t_stavy[i]:=SPO_ROZSVECUJE;
+          if((not t_bez_dolneho_svetla) or (i<>NVF_DZ)) and ((not t_bez_bielej) or (i<>NVF_B_KMIT)) then p_povely.Add(VyrobPovel(t_adresy[i],True));
+          if((not t_bez_dolneho_svetla) or (i<>NVF_DZ)) and ((not t_bez_bielej) or (i<>NVF_B_KMIT)) then t_stavy[i]:=SPO_ROZSVECUJE;
         end
       end;
 
@@ -1845,8 +1981,8 @@ implementation
       begin
         if (not (i in rozsvietene)) and (not (t_stavy[i] in SPOS_NESVIETI)) then
         begin
-          p_povely.Add(VyrobPovel(t_adresy[i],False));
-          t_stavy[i]:=SPO_ZHASINA;
+          if((not t_bez_dolneho_svetla) or (i<>NVF_DZ)) and ((not t_bez_bielej) or (i<>NVF_B_KMIT)) then p_povely.Add(VyrobPovel(t_adresy[i],False));
+          if((not t_bez_dolneho_svetla) or (i<>NVF_DZ)) and ((not t_bez_bielej) or (i<>NVF_B_KMIT)) then t_stavy[i]:=SPO_ZHASINA;
         end;
       end;
     end;
@@ -1877,7 +2013,10 @@ implementation
   var
     i: TNavestidloVchodoveFarba;
   begin
-    for i := Low(t_adresy) to High(t_adresy) do p_adresy.Add(t_adresy[i]);
+    for i := Low(t_adresy) to High(t_adresy) do
+    begin
+      if((not t_bez_dolneho_svetla) or (i<>NVF_DZ)) and ((not t_bez_bielej) or (i<>NVF_B_KMIT)) then p_adresy.Add(t_adresy[i]);
+    end;
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1895,7 +2034,7 @@ implementation
       end
       else
       begin
-        p_povely.Add(VyrobPovel(t_adresy[i],False));
+        if((not t_bez_dolneho_svetla) or (i<>NVF_DZ)) and ((not t_bez_bielej) or (i<>NVF_B_KMIT)) then p_povely.Add(VyrobPovel(t_adresy[i],False));
         t_stavy[i]:=SPO_ZHASINA;
       end;
     end;
@@ -2001,12 +2140,16 @@ implementation
       end;
       CN_VOLNO:
       begin
-        rozsvietene:=[NOF_Z];
+        if not t_apn then rozsvietene:=[NOF_Z]
+        else rozsvietene:=[NOF_C,NOF_B_KMIT];
+        
         Result:=True;
       end;
       CN_40AVOLNO:
       begin
-        rozsvietene:=[NOF_Z,NOF_DZ];
+        if not t_apn then rozsvietene:=[NOF_Z,NOF_DZ]
+        else rozsvietene:=[NOF_C,NOF_B_KMIT];
+        
         Result:=True;
       end;
       CN_POSUN_DOVOLENY:

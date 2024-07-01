@@ -1,4 +1,4 @@
-unit Z21Dialog;
+Ôªøunit Z21Dialog;
 
 interface
 
@@ -301,7 +301,7 @@ begin
 
       if Length(data)>0 then SpracujData(data);
     end
-    else Memo1.Lines.Add('NepripojenÈ');
+    else Memo1.Lines.Add('Nepripojen√©');
 
     Inc(t_cas_komunikacie);
 
@@ -421,11 +421,11 @@ end;
 
 procedure TZ21Dlg.SpracujSpravu004061(p_data: TIdBytes);
 begin
-  if(p_data[0]=$00) then t_stav:='OdpojenÈ nap·janie'
-  else if(p_data[1]=$01) then t_stav:='V prev·dzke'
+  if(p_data[0]=$00) then t_stav:='Odpojen√© nap√°janie'
+  else if(p_data[1]=$01) then t_stav:='V prev√°dzke'
   else if(p_data[1]=$02) then t_stav:='Programovanie'
   else if(p_data[1]=$08) then t_stav:='!!! SKRAT !!!'
-  else if(p_data[1]=$82) then Memo1.Lines.Add('X spr·va - zl˝ prÌkaz');
+  else if(p_data[1]=$82) then Memo1.Lines.Add('X spr√°va - zl√Ω pr√≠kaz');
 
   AppIdle;
 end;
@@ -434,7 +434,7 @@ end;
 
 procedure TZ21Dlg.SpracujSpravu004081(p_data: TIdBytes);
 begin
-  if(p_data[0]=$00) then t_stav:='!!! N⁄DZOV› STOP !!!';
+  if(p_data[0]=$00) then t_stav:='!!! N√öDZOV√ù STOP !!!';
 
   AppIdle;
 end;
@@ -475,20 +475,20 @@ begin
   t_prud_vstupny:=FloatToStrF((p_data[1]*256+p_data[0])/1000,ffGeneral,3,5)+' A';
   t_prud_prog_kolaj:=FloatToStrF((p_data[3]*256+p_data[2])/1000,ffGeneral,3,5)+' A';
   t_prud_spatny:=FloatToStrF((p_data[5]*256+p_data[4])/1000,ffGeneral,3,5)+' A';
-  t_teplota_vnutorna:=IntToStr(p_data[7]*256+p_data[6])+' ∞C';
+  t_teplota_vnutorna:=IntToStr(p_data[7]*256+p_data[6])+' ¬∞C';
   t_napatie_vstupne:=FloatToStrF((p_data[9]*256+p_data[8])/1000,ffGeneral,3,5)+' V';
   t_napatie_vnutorne:=FloatToStrF((p_data[11]*256+p_data[10])/1000,ffGeneral,3,5)+' V';
 
   if(p_data[12] and $04)>0 then      t_stav:='!!! SKRAT !!!'
-  else if(p_data[12] and $01)>0 then t_stav:='!!! N⁄DZOV› STOP !!!'
-  else if(p_data[12] and $02)>0 then t_stav:='OdpojenÈ nap·janie'
+  else if(p_data[12] and $01)>0 then t_stav:='!!! N√öDZOV√ù STOP !!!'
+  else if(p_data[12] and $02)>0 then t_stav:='Odpojen√© nap√°janie'
   else if(p_data[12] and $20)>0 then t_stav:='Programovanie'
-  else t_stav:='V prev·dzke';
+  else t_stav:='V prev√°dzke';
 
-  if(p_data[13] and $08)>0 then      t_vystraha:='Zisten˝ skrat v Z21'
-  else if(p_data[13] and $04)>0 then t_vystraha:='Zisten˝ skrat v boosteri'
-  else if(p_data[13] and $02)>0 then t_vystraha:='MalÈ vstupnÈ nap‰tie'
-  else if(p_data[13] and $01)>0 then t_vystraha:='Centr·la sa prehrieva'
+  if(p_data[13] and $08)>0 then      t_vystraha:='Zisten√Ω skrat v Z21'
+  else if(p_data[13] and $04)>0 then t_vystraha:='Zisten√Ω skrat v boosteri'
+  else if(p_data[13] and $02)>0 then t_vystraha:='Mal√© vstupn√© nap√§tie'
+  else if(p_data[13] and $01)>0 then t_vystraha:='Centr√°la sa prehrieva'
   else t_vystraha:='';
 end;
 
@@ -589,12 +589,12 @@ var
   text: string;
 begin
 
-  text:='Centr·la Z21 ';
+  text:='Centr√°la Z21 ';
   if t_vyrobne_cislo>0 then text:=text+IntToStr(t_vyrobne_cislo)+' ';
   if t_verzia<>'' then text:=text+'(v. '+t_verzia+') ';
 
 
-  if not IdUDPClient1.Connected then text:=text+'odpojen·' else text:=text+'pripojen·';
+  if not IdUDPClient1.Connected then text:=text+'odpojen√°' else text:=text+'pripojen√°';
   // text:=text+', povelov vo fronte: '+IntToStr(Cport.DajPocetPovelov);
 
   if IdUDPClient1.Connected then
@@ -603,14 +603,14 @@ begin
 
     Form1.Z21Stav.Caption:=t_stav;
     FOrm1.Z21Vystraha.Caption:=t_vystraha;
-    Form1.Z21ProudVstup.Caption:='Vstupn˝ pr˙d: '+t_prud_vstupny;
-    Form1.Z21ProgramKolejProud.Caption:='Programovacia koæaj: '+t_prud_prog_kolaj;
-    Form1.Z21ProudZpetny.Caption:='Sp‰tn˝ pr˙d: '+t_prud_spatny;
-    Form1.Z21TeplotaVnitrni.Caption:='Vn˙torn· teplota: '+t_teplota_vnutorna;
-    Form1.Z21NapetiVnejsi.Caption:='Nap·jacie nap‰tie: '+t_napatie_vstupne;
-    Form1.Z21NapetiVnitrni.Caption:='Nap‰tie v koæajniciach: '+t_napatie_vnutorne;
+    Form1.Z21ProudVstup.Caption:='Vstupn√Ω pr√∫d: '+t_prud_vstupny;
+    Form1.Z21ProgramKolejProud.Caption:='Programovacia koƒæaj: '+t_prud_prog_kolaj;
+    Form1.Z21ProudZpetny.Caption:='Sp√§tn√Ω pr√∫d: '+t_prud_spatny;
+    Form1.Z21TeplotaVnitrni.Caption:='Vn√∫torn√° teplota: '+t_teplota_vnutorna;
+    Form1.Z21NapetiVnejsi.Caption:='Nap√°jacie nap√§tie: '+t_napatie_vstupne;
+    Form1.Z21NapetiVnitrni.Caption:='Nap√§tie v koƒæajniciach: '+t_napatie_vnutorne;
 
-    if (t_stav='!!! SKRAT !!!') or (t_stav='!!! N⁄DZOV› STOP !!!') or (t_stav='OdpojenÈ nap·janie') then
+    if (t_stav='!!! SKRAT !!!') or (t_stav='!!! N√öDZOV√ù STOP !!!') or (t_stav='Odpojen√© nap√°janie') then
     begin
       if not Form1.ZrusStopBtn.Visible then Form1.ZrusStopBtn.Visible:=True;
       if Form1.StopBtn.Visible then Form1.StopBtn.Visible:=False;
@@ -619,7 +619,7 @@ begin
     begin
       if Form1.ZrusStopBtn.Visible then Form1.ZrusStopBtn.Visible:=False;
 
-      if (t_stav='V prev·dzke') then
+      if (t_stav='V prev√°dzke') then
       begin
         if not Form1.StopBtn.Visible then Form1.StopBtn.Visible:=True;
       end

@@ -7,11 +7,9 @@ object TextyDlg: TTextyDlg
   ClientWidth = 545
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     AlignWithMargins = True
     Left = 8
@@ -27,9 +25,8 @@ object TextyDlg: TTextyDlg
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 0
-    ExplicitLeft = 0
-    ExplicitTop = 289
-    ExplicitWidth = 419
+    ExplicitTop = 296
+    ExplicitWidth = 525
     object OKBtn: TButton
       AlignWithMargins = True
       Left = 375
@@ -46,7 +43,7 @@ object TextyDlg: TTextyDlg
       ModalResult = 1
       TabOrder = 0
       OnClick = OKBtnClick
-      ExplicitLeft = 300
+      ExplicitLeft = 371
     end
     object CancelBtn: TButton
       AlignWithMargins = True
@@ -64,7 +61,7 @@ object TextyDlg: TTextyDlg
       ModalResult = 2
       TabOrder = 1
       OnClick = CancelBtnClick
-      ExplicitLeft = 334
+      ExplicitLeft = 450
     end
   end
   object ListView1: TListView
@@ -98,9 +95,7 @@ object TextyDlg: TTextyDlg
     TabOrder = 1
     ViewStyle = vsReport
     OnClick = ListView1Click
-    ExplicitLeft = 352
-    ExplicitTop = 176
-    ExplicitWidth = 250
-    ExplicitHeight = 150
+    ExplicitWidth = 525
+    ExplicitHeight = 280
   end
 end

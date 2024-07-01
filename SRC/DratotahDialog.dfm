@@ -7,12 +7,10 @@
   ClientWidth = 722
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
   OnHide = FormHide
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object PageControl1: TPageControl
     AlignWithMargins = True
     Left = 8
@@ -26,16 +24,16 @@
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 615
+    ExplicitWidth = 702
+    ExplicitHeight = 300
     object TabSheet1: TTabSheet
       Caption = 'V'#253'hybky'
-      ExplicitWidth = 607
       object ListViewVyhybky: TListView
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 692
-        Height = 267
+        Height = 265
         Align = alClient
         Columns = <
           item
@@ -63,13 +61,13 @@
         ParentDoubleBuffered = False
         TabOrder = 0
         ViewStyle = vsReport
-        ExplicitWidth = 601
+        ExplicitWidth = 688
+        ExplicitHeight = 264
       end
     end
     object Návestidlá: TTabSheet
       Caption = 'N'#225'vestidl'#225
       ImageIndex = 1
-      ExplicitWidth = 607
       object ListViewNavestidla: TListView
         AlignWithMargins = True
         Left = 3

@@ -1,4 +1,4 @@
-unit DratotahDialog;
+Ôªøunit DratotahDialog;
 
 interface
 
@@ -9,7 +9,7 @@ type
   TDratotahDlg = class(TForm)
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
-    N·vestidl·: TTabSheet;
+    N√°vestidl√°: TTabSheet;
     ListViewVyhybky: TListView;
     ListViewNavestidla: TListView;
     procedure FormShow(Sender: TObject);

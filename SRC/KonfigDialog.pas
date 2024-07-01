@@ -1,4 +1,4 @@
-unit KonfigDialog;
+﻿unit KonfigDialog;
 
 interface
 
@@ -95,8 +95,6 @@ procedure TKonfigDlg.PrehoditHitBox;
 var
   konf: TStringList;
   text: string;
-
-  i,j,k,l: Integer;
 begin
   konf:=TStringList.Create;
   try

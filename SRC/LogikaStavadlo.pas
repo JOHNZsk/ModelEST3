@@ -1,4 +1,4 @@
-unit LogikaStavadlo;
+Ôªøunit LogikaStavadlo;
 
 interface
 
@@ -240,21 +240,21 @@ function NudzovyPovelTypText(p_hodnota: TNudzovyPovelTyp): string;
 begin
   case p_hodnota of
     NPT_STAV: Result:='Stav prvku';
-    NPT_RESETNAV: Result:='Reset n·vestidla';
-    NPT_RESETVYH: Result:='Reset v˝hybky';
-    NPT_RESETNAVGLOBAL,NPT_RESETNAVDOP: Result:='Reset vöetk˝ch n·vestidiel';
-    NPT_RESETVYHGLOBAL,NPT_RESETVYHDOP: Result:='Reset vöetk˝ch v˝hybiek';
-    NPT_PRIVOLAVACKA: Result:='Rozsvietenie priv. n·vesti';
-    NPT_ZAV2: Result:='Zruöenie ruË. z·veru';
-    NPT_DOH1: Result:='Vyradenie dohæadov˝ch obvodov v˝hybky';
-    NPT_DOH2: Result:='Zruöenie vyradenia dohæadu v˝hybky';
-    NPT_APN1: Result:='Vyn˙tenie automatickej priv. n·vesti';
-    NPT_APN2: Result:='Zruöenie vyn˙tenia aut. priv. n·vesti';
-    NPT_ZRUSVYLUKU: Result:='Zruöenie v˝luky';
-    NPT_ZRUSSTITOK: Result:='Zruöenie ötÌtka';
-    NPT_KPV: Result:='Kontrola polohy v˝hybiek';
-    NPT_KSV: Result:='Kontrola ötÌtkov a v˝luk';
-    else Result:='N˙dzov˝ povel';
+    NPT_RESETNAV: Result:='Reset n√°vestidla';
+    NPT_RESETVYH: Result:='Reset v√Ωhybky';
+    NPT_RESETNAVGLOBAL,NPT_RESETNAVDOP: Result:='Reset v≈°etk√Ωch n√°vestidiel';
+    NPT_RESETVYHGLOBAL,NPT_RESETVYHDOP: Result:='Reset v≈°etk√Ωch v√Ωhybiek';
+    NPT_PRIVOLAVACKA: Result:='Rozsvietenie priv. n√°vesti';
+    NPT_ZAV2: Result:='Zru≈°enie ruƒç. z√°veru';
+    NPT_DOH1: Result:='Vyradenie dohƒæadov√Ωch obvodov v√Ωhybky';
+    NPT_DOH2: Result:='Zru≈°enie vyradenia dohƒæadu v√Ωhybky';
+    NPT_APN1: Result:='Vyn√∫tenie automatickej priv. n√°vesti';
+    NPT_APN2: Result:='Zru≈°enie vyn√∫tenia aut. priv. n√°vesti';
+    NPT_ZRUSVYLUKU: Result:='Zru≈°enie v√Ωluky';
+    NPT_ZRUSSTITOK: Result:='Zru≈°enie ≈°t√≠tka';
+    NPT_KPV: Result:='Kontrola polohy v√Ωhybiek';
+    NPT_KSV: Result:='Kontrola ≈°t√≠tkov a v√Ωluk';
+    else Result:='N√∫dzov√Ω povel';
   end;
 end;
 
@@ -526,7 +526,7 @@ begin
     if t_cas_rychlost<=2 then text:=text+FormatDateTime('hh:nn:ss',t_cas_hodnota)
     else text:=text+FormatDateTime('hh:nn',t_cas_hodnota);
 
-    if t_cas_stoji then text:=text+' (stojÌ)'
+    if t_cas_stoji then text:=text+' (stoj√≠)'
     else text:=text+' ('+IntToStr(t_cas_rychlost)+'x)';
     Form1.Cas.Caption:=text;
 
@@ -553,7 +553,7 @@ begin
       if not jednotky.Contains(objekt.DajJednotku) then jednotky.Add(objekt.DajJednotku)
       else
       begin
-        DiagDlg.Memo1.Lines.Insert(0,'DuplicitnÌ jednotka: '+IntToStr(Ord(objekt.KodJednotky))+'/'+IntToStr(objekt.CisloJednotky));
+        DiagDlg.Memo1.Lines.Insert(0,'Duplicitn√≠ jednotka: '+IntToStr(Ord(objekt.KodJednotky))+'/'+IntToStr(objekt.CisloJednotky));
         Result:=False;
       end;
     end;
@@ -570,7 +570,7 @@ begin
         if not cesty.ContainsKey(cesta.Cislo) then cesty.Add(cesta.Cislo,cesta)
         else
         begin
-          DiagDlg.Memo1.Lines.Insert(0,'DuplicitnÌ cesta: '+IntToStr(cesta.Cislo));
+          DiagDlg.Memo1.Lines.Insert(0,'Duplicitn√≠ cesta: '+IntToStr(cesta.Cislo));
           Result:=False;
         end;
       end;
@@ -604,7 +604,7 @@ begin
       end
       else
       begin
-        VytvorPoruchu(Now,t_stavana_vyhybka.Dopravna,'Nie s˙ splnenÈ podmienky pre prestavenie');
+        VytvorPoruchu(Now,t_stavana_vyhybka.Dopravna,'Nie s√∫ splnen√© podmienky pre prestavenie');
 
         t_stavana_vyhybka:=nil;
       end;
@@ -683,7 +683,7 @@ begin
             if t_nevybavene_stitky.Count>0 then NastavStitok(t_nevybavene_stitky.First)
             else cesta.Postav;
           end
-          else VytvorPoruchu(Now,zdroj.Dopravna,'Cestu nejde navoliù');
+          else VytvorPoruchu(Now,zdroj.Dopravna,'Cestu nejde navoli≈•');
 
           break;
         end;
@@ -931,7 +931,7 @@ procedure TLogikaES.SpracujSpravuB2(p_adresa: Integer; p_stav: Boolean);
 var
   objekt: TVyhybkaDohlad;
 begin
-  DiagDlg.Memo1.Lines.Add('Spr·va B2 adr: '+IntToStr(p_adresa)+' stav: '+BoolToStr(p_stav,True));
+  DiagDlg.Memo1.Lines.Add('Spr√°va B2 adr: '+IntToStr(p_adresa)+' stav: '+BoolToStr(p_stav,True));
 
   if t_dohlady.TryGetValue(p_adresa,objekt) then (objekt as TVyhybkaDohlad).NastavDohlad(p_adresa,p_stav);
 
@@ -1134,7 +1134,7 @@ begin
     end
     else NastavNudzovyPovel(p_navestidlo.Dopravna,NPT_PRIVOLAVACKA,p_navestidlo,NPP_ASDF);
   end
-  else VytvorPoruchu(Now,p_navestidlo.Dopravna,'Nejde rozsvietiù Ôalöiu PN na zhlavÌ');
+  else VytvorPoruchu(Now,p_navestidlo.Dopravna,'Nejde rozsvieti≈• ƒèal≈°iu PN na zhlav√≠');
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1215,7 +1215,7 @@ end;
 procedure TLogikaES.ZhodNudzovyPovel;
 begin
   t_je_nudzovy_povel:=False;
-  VytvorPoruchu(Now,t_nudzovy_povel_dopravna,'Nespr·vne heslo');
+  VytvorPoruchu(Now,t_nudzovy_povel_dopravna,'Nespr√°vne heslo');
   Form1.PaintBoxRizika.Invalidate;
 end;
 
@@ -1575,11 +1575,11 @@ procedure TLogikaES.VypisNudzovyPovelKPV(p_dopravna: TDopravna; out p_popis_a: s
 var
   prvok: TStavadloObjekt;
 begin
-  p_popis_a:='(A) Z·kladn·';
-  p_popis_b:='(B) OpaËn·';
-  p_popis_c:='(C) Z·kladn· nepotvrden·';
-  p_popis_d:='(D) OpaËn· nepotvrden·';
-  p_popis_e:='(E) Nezn·ma/bez dohæadu';
+  p_popis_a:='(A) Z√°kladn√°';
+  p_popis_b:='(B) Opaƒçn√°';
+  p_popis_c:='(C) Z√°kladn√° nepotvrden√°';
+  p_popis_d:='(D) Opaƒçn√° nepotvrden√°';
+  p_popis_e:='(E) Nezn√°ma/bez dohƒæadu';
   p_text_a:='';
   p_text_b:='';
   p_text_c:='';
@@ -1650,9 +1650,9 @@ procedure TLogikaES.VypisNudzovyPovelKSV(p_dopravna: TDopravna; out p_popis_a: s
 var
   prvok: TStavadloObjekt;
 begin
-  p_popis_a:='(A) ätÌtok';
-  p_popis_b:='(B) V˝luka';
-  p_popis_c:='(C) Bez ötÌtku/v˝luky';
+  p_popis_a:='(A) ≈†t√≠tok';
+  p_popis_b:='(B) V√Ωluka';
+  p_popis_c:='(C) Bez ≈°t√≠tku/v√Ωluky';
   p_text_a:='';
   p_text_b:='';
   p_text_c:='';
@@ -1740,8 +1740,8 @@ var
   prvok: TStavadloObjekt;
 begin
   p_popis_a:='(A) Stoj';
-  p_popis_b:='(B) Voænoznak';
-  p_popis_c:='(C) RuËn˝ z·ver';
+  p_popis_b:='(B) Voƒænoznak';
+  p_popis_c:='(C) Ruƒçn√Ω z√°ver';
   p_text_a:='';
   p_text_b:='';
   p_text_c:='';
@@ -1780,9 +1780,9 @@ procedure TLogikaES.VypisNudzovyPovelVyhybky(p_dopravna: TDopravna; out p_popis_
 var
   prvok: TStavadloObjekt;
 begin
-  p_popis_a:='(A) Bez z·veru';
-  p_popis_b:='(B) RuËn˝ z·ver';
-  p_popis_c:='(C) Z·ver VC';
+  p_popis_a:='(A) Bez z√°veru';
+  p_popis_b:='(B) Ruƒçn√Ω z√°ver';
+  p_popis_c:='(C) Z√°ver VC';
   p_text_a:='';
   p_text_b:='';
   p_text_c:='';
@@ -2139,8 +2139,8 @@ begin
       begin
         if cesta.Value=t_stavana_cesta then
         begin
-          if t_je_stitok then VytvorPoruchu(Now,cesta.Key.Dopravna,'Cestu nejde navoliù - ötÌtok');
-          if t_je_vyluka then VytvorPoruchu(Now,cesta.Key.Dopravna,'Cestu nejde navoliù - v˝luka');
+          if t_je_stitok then VytvorPoruchu(Now,cesta.Key.Dopravna,'Cestu nejde navoli≈• - ≈°t√≠tok');
+          if t_je_vyluka then VytvorPoruchu(Now,cesta.Key.Dopravna,'Cestu nejde navoli≈• - v√Ωluka');
 
           t_stavana_cesta.Zrus;
           cesta.Key.ZrusJeZdroj;

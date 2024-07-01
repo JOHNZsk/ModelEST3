@@ -1,4 +1,4 @@
-unit CasDialog;
+﻿unit CasDialog;
 
 interface
 
@@ -144,7 +144,7 @@ begin
       SekundyT.Text:=SekundyL.Caption;
     end;
 
-    if p_stoji then CasSTOP.Caption:='Spusti�'
+    if p_stoji then CasSTOP.Caption:='Spustiť'
     else CasSTOP.Caption:='STOP';
   finally
     t_potlac_zmeny:=False;

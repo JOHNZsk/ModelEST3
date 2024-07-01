@@ -1,4 +1,4 @@
-unit ComPort;
+﻿unit ComPort;
 
 interface
 

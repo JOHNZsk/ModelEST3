@@ -1,4 +1,4 @@
-unit Z21GrafDialog;
+﻿unit Z21GrafDialog;
 
 interface
 

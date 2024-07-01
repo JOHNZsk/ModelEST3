@@ -1,4 +1,4 @@
-unit TextyDialog;
+﻿unit TextyDialog;
 
 interface
 

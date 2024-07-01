@@ -1,4 +1,4 @@
-unit GUI1;
+Ôªøunit GUI1;
 
 interface
 
@@ -508,7 +508,7 @@ begin
     if LogikaES.NudzovyPovel then
     begin
       if(LogikaES.NudzovyPovelDopravna<>nil) then text_dopravna:=LogikaES.NudzovyPovelDopravna.Nazov
-      else text_dopravna:='Glob·lny';
+      else text_dopravna:='Glob√°lny';
 
       if tmp.TextWidth(text_dopravna)>max_sirka then max_sirka:=tmp.TextWidth(text_dopravna);
 
@@ -564,9 +564,9 @@ begin
       if max_popis+tmp.TextWidth(text_e)>max_sirka then max_sirka:=max_popis+tmp.TextWidth(text_e)+8;
 
       case LogikaES.NudzovyPovelPotvrdTyp of
-        NPP_ENTER: text_potvrd:='PotvrÔ (ENTER)';
-        NPP_ASDF: text_potvrd:='PotvrÔ (ASDF): ';
-        else text_potvrd:='PotvrÔ';
+        NPP_ENTER: text_potvrd:='Potvrƒè (ENTER)';
+        NPP_ASDF: text_potvrd:='Potvrƒè (ASDF): ';
+        else text_potvrd:='Potvrƒè';
       end;
 
       text_potvrd:=text_potvrd+LogikaES.NudzovyPovelSekvencia;

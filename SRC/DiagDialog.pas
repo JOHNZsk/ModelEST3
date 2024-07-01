@@ -1,4 +1,4 @@
-unit DiagDialog;
+Ôªøunit DiagDialog;
 
 interface
 
@@ -96,13 +96,13 @@ begin
   Label5.Caption:=CPort.PortCislo;
   Label6.Caption:=IntToStr(Cport.DajPocetPovelov)+' povelov';
   text:='Loconet '+CPort.PortCislo+' ';
-  if Button1.Enabled then text:=text+'odpojen˝' else text:=text+'pripojen˝';
+  if Button1.Enabled then text:=text+'odpojen√Ω' else text:=text+'pripojen√Ω';
   text:=text+', povelov vo fronte: '+IntToStr(Cport.DajPocetPovelov);
 
   if CPort.JeSimulacia then
   begin
     SimPripoj.Checked:=True;
-    text:='POZOR SIMUL¡TOR! '+text;
+    text:='POZOR SIMUL√ÅTOR! '+text;
   end
   else SimPripoj.Checked:=False;
 

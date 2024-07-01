@@ -1,4 +1,4 @@
-unit LoadConfig;
+Ôªøunit LoadConfig;
 
 interface
   uses ipwXml, LogikaStavadlo, StavadloObjekty, Cesta;
@@ -79,7 +79,7 @@ implementation
 
   function TConfigLoader.Chyba(p_text: string): Boolean;
   begin
-    Form1.VypisChybu('Chyba pri naËÌtanÌ konfigur·cie: '+p_text);
+    Form1.VypisChybu('Chyba pri naƒç√≠tan√≠ konfigur√°cie: '+p_text);
 
     Result:=False;
   end;
@@ -117,7 +117,7 @@ implementation
       p_ciel.PridajObjekt(ciara);
       Result:=True;
     end
-    else Result:=Chyba('Chybn· koæajov· Ëiara Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Chybn√° koƒæajov√° ƒçiara ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -173,7 +173,7 @@ implementation
       p_ciel.PridajObjekt(navestidlo);
       Result:=True;
     end
-    else Result:=Chyba('ChybnÈ vchodovÈ n·vestidlo Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Chybn√© vchodov√© n√°vestidlo ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -216,7 +216,7 @@ implementation
       p_ciel.PridajObjekt(navestidlo);
       Result:=True;
     end
-    else Result:=Chyba('ChybnÈ vchodovÈ n·vestidlo Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Chybn√© vchodov√© n√°vestidlo ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -269,7 +269,7 @@ implementation
       p_ciel.PridajObjekt(vyhybka);
       Result:=True;
     end
-    else Result:=Chyba('Chybn· v˝hybka Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Chybn√° v√Ωhybka ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -331,7 +331,7 @@ implementation
       p_ciel.PridajObjekt(vyhybka);
       Result:=True;
     end
-    else Result:=Chyba('Chybn· v˝hybka s dohæadom Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Chybn√° v√Ωhybka s dohƒæadom ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -383,7 +383,7 @@ implementation
       p_ciel.PridajObjekt(navestidlo);
       Result:=True;
     end
-    else Result:=Chyba('ChybnÈ odchodovÈ n·vestidlo Ë. '+IntToStr(p_poradie));    
+    else Result:=Chyba('Chybn√© odchodov√© n√°vestidlo ƒç. '+IntToStr(p_poradie));    
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -424,7 +424,7 @@ implementation
       p_ciel.PridajObjekt(text);
       Result:=True;
     end
-    else Result:=Chyba('ChybnÈ poloûka textu Ë. '+IntToStr(p_poradie));    
+    else Result:=Chyba('Chybn√© polo≈æka textu ƒç. '+IntToStr(p_poradie));    
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -464,7 +464,7 @@ implementation
       p_ciel.PridajObjekt(stan);
       Result:=True;
     end
-    else Result:=Chyba('ChybnÈ poloûka stan. obsluhy Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Chybn√© polo≈æka stan. obsluhy ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -493,7 +493,7 @@ implementation
       p_ciel.PridajObjekt(sulibrk);
       Result:=True;
     end
-    else Result:=Chyba('Chybn˝ öulibrk Ë. '+IntToStr(p_poradie));    
+    else Result:=Chyba('Chybn√Ω ≈°ulibrk ƒç. '+IntToStr(p_poradie));    
   end;
   
   //////////////////////////////////////////////////////////////////////////////
@@ -602,7 +602,7 @@ implementation
         NacitajKonfiguraciuPlanSulibrk(dopravna,poradie_sulibrk,p_zdroj,p_ciel);
         Inc(poradie_sulibrk);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v pl·ne dopravne '+IntToStr(p_poradie));
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v pl√°ne dopravne '+IntToStr(p_poradie));
 
       p_zdroj.XPath:='/Konfiguracia/Plan/Dopravna['+IntToStr(p_poradie)+']';
 
@@ -672,7 +672,7 @@ implementation
       vyhybkou.PridajOdvrat(polohou,vyhybka,poloha);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn˝ odvrat');
+    else Result:=Chyba('Neplatn√Ω odvrat');
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -696,7 +696,7 @@ implementation
         p_zdroj.XPath:='/Konfiguracia/Odvraty/Odvrat['+IntToStr(i+1)+']';
         Result:=NacitajKonfiguraciuOdvrat(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v odvratoch');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v odvratoch');
 
       p_zdroj.XPath:='/Konfiguracia/Odvraty';
 
@@ -740,7 +740,7 @@ implementation
       p_ciel.PridajHitBox(v_hitbox);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn˝ hitbox');
+    else Result:=Chyba('Neplatn√Ω hitbox');
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -764,7 +764,7 @@ implementation
         p_zdroj.XPath:='/Konfiguracia/HitBoxy/HitBox['+IntToStr(i+1)+']';
         Result:=NacitajKonfiguraciuHitBox(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v hitboxoch');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v hitboxoch');
 
       p_zdroj.XPath:='/Konfiguracia/HitBoxy';
 
@@ -797,7 +797,7 @@ implementation
       p_cesta.PridajZdroj(v_zdroj);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn˝ zdroj Ë. '+IntToStr(p_poradie_zdroj)+' v cestÏ Ë. '+IntToStr(p_poradie));  
+    else Result:=Chyba('Neplatn√Ω zdroj ƒç. '+IntToStr(p_poradie_zdroj)+' v cestƒõ ƒç. '+IntToStr(p_poradie));  
   end;
   
   //////////////////////////////////////////////////////////////////////////////
@@ -825,7 +825,7 @@ implementation
       p_cesta.PridajCiel(v_ciel);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn˝ zdroj Ë. '+IntToStr(p_poradie_ciel)+' v cestÏ Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Neplatn√Ω zdroj ƒç. '+IntToStr(p_poradie_ciel)+' v cestƒõ ƒç. '+IntToStr(p_poradie));
   end;
   
   //////////////////////////////////////////////////////////////////////////////
@@ -853,7 +853,7 @@ implementation
       p_cesta.PridajKolaj(v_kolaj,presah);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn˝ koæaj Ë. '+IntToStr(p_poradie_kolaj)+' v ceste Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Neplatn√Ω koƒæaj ƒç. '+IntToStr(p_poradie_kolaj)+' v ceste ƒç. '+IntToStr(p_poradie));
   end;
   
   //////////////////////////////////////////////////////////////////////////////
@@ -881,7 +881,7 @@ implementation
       p_cesta.PridajVyhybku(v_vyhybka,poloha);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn· v˝hybka Ë. '+IntToStr(p_poradie_vyhybka)+' v ceste Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Neplatn√° v√Ωhybka ƒç. '+IntToStr(p_poradie_vyhybka)+' v ceste ƒç. '+IntToStr(p_poradie));
   end;
   
   //////////////////////////////////////////////////////////////////////////////
@@ -955,7 +955,7 @@ implementation
         Result:=NacitajKonfiguraciuCestaVyhybka(cesta,p_poradie,poradie_vyhybka,p_zdroj,p_ciel);
         Inc(poradie_vyhybka);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v ceste '+IntToStr(p_poradie));
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v ceste '+IntToStr(p_poradie));
 
       p_zdroj.XPath:='/Konfiguracia/Zaverovka/Cesta['+IntToStr(p_poradie)+']';
 
@@ -986,7 +986,7 @@ implementation
         p_zdroj.XPath:='/Konfiguracia/Zaverovka/Cesta['+IntToStr(i+1)+']';
         Result:=NacitajKonfiguraciuCesta(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v z·verovke');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v z√°verovke');
 
       p_zdroj.XPath:='/Konfiguracia/Zaverovka';
 
@@ -1019,7 +1019,7 @@ implementation
       p_cesta.PridajZdroj(v_zdroj);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn˝ zdroj Ë. '+IntToStr(p_poradie_zdroj)+' v makre Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Neplatn√Ω zdroj ƒç. '+IntToStr(p_poradie_zdroj)+' v makre ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1047,7 +1047,7 @@ implementation
       p_cesta.PridajCiel(v_ciel);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn˝ zdroj Ë. '+IntToStr(p_poradie_ciel)+' v makre Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Neplatn√Ω zdroj ƒç. '+IntToStr(p_poradie_ciel)+' v makre ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1074,7 +1074,7 @@ implementation
       p_cesta.PridajCestu(v_cesta,poradie);
       Result:=True;
     end
-    else Result:=Chyba('Neplatn· dielËia cesta Ë. '+IntToStr(p_poradie_ciel)+' v makre Ë. '+IntToStr(p_poradie));
+    else Result:=Chyba('Neplatn√° dielƒçia cesta ƒç. '+IntToStr(p_poradie_ciel)+' v makre ƒç. '+IntToStr(p_poradie));
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1126,7 +1126,7 @@ implementation
         Result:=NacitajKonfiguraciuZlozenaCesta(cesta,p_poradie,poradie_cesta,p_zdroj,p_ciel);
         Inc(poradie_cesta);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v makre '+IntToStr(p_poradie));
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v makre '+IntToStr(p_poradie));
 
       p_zdroj.XPath:='/Konfiguracia/Zlozene/Zlozena['+IntToStr(p_poradie)+']';
 
@@ -1157,7 +1157,7 @@ implementation
         p_zdroj.XPath:='/Konfiguracia/Zlozene/Zlozena['+IntToStr(i+1)+']';
         Result:=NacitajKonfiguraciuZlozena(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v zozname makier');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v zozname makier');
 
       p_zdroj.XPath:='/Konfiguracia/Zlozene';
 
@@ -1195,7 +1195,7 @@ implementation
       Result:=NacitajKonfiguraciuPlan(p_zdroj,p_ciel);
       p_zdroj.XPath:='/Konfiguracia';
     end
-    else Result:=Chyba('Ch˝ba pl·n koæajiska');
+    else Result:=Chyba('Ch√Ωba pl√°n koƒæajiska');
 
     if Result and p_zdroj.HasXPath('/Konfiguracia/Odvraty') then
     begin
@@ -1210,7 +1210,7 @@ implementation
       Result:=NacitajKonfiguraciuHitBoxy(p_zdroj,p_ciel);
       p_zdroj.XPath:='/Konfiguracia';
     end
-    else if Result then Result:=Chyba('Ch˝ba definÌcia hitboxov');
+    else if Result then Result:=Chyba('Ch√Ωba defin√≠cia hitboxov');
 
     if Result and p_zdroj.HasXPath('/Konfiguracia/Zaverovka') then
     begin
@@ -1218,7 +1218,7 @@ implementation
       Result:=NacitajKonfiguraciuZaverovka(p_zdroj,p_ciel);
       p_zdroj.XPath:='/Konfiguracia';
     end
-    else if Result then Result:=Chyba('Ch˝ba z·verov· tabuæka');
+    else if Result then Result:=Chyba('Ch√Ωba z√°verov√° tabuƒæka');
 
     if Result and p_zdroj.HasXPath('/Konfiguracia/Zlozene') then
     begin
@@ -1244,7 +1244,7 @@ implementation
         parser.XPath:='/Konfiguracia';
         Result:=NacitajKonfiguraciuObsah(parser,p_ciel);
       end
-      else Result:=Chyba('V konfiguraci chybÌ v˝chozÌ prvek XML');
+      else Result:=Chyba('V konfiguraci chyb√≠ v√Ωchoz√≠ prvek XML');
     finally
       parser.Free;
     end;
@@ -1280,7 +1280,7 @@ implementation
       if objekt is TKolajCiara then (objekt as TKolajCiara).NastavStitok(text)
       else if objekt is TVyhybka then (objekt as TVyhybka).NastavStitok(text)
       else if objekt is TNavestidlo then (objekt as TNavestidlo).NastavStitok(text)
-      else Result:=Chyba('V˝luka na prvku, ktor˝ nem· v˝luky');
+      else Result:=Chyba('V√Ωluka na prvku, ktor√Ω nem√° v√Ωluky');
     end;
   end;
 
@@ -1305,7 +1305,7 @@ implementation
         p_zdroj.XPath:='/StitkyVyluky/Stitky/Stitok['+IntToStr(i+1)+']';
         Result:=NacitajStitok(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v zozname ötÌtkov');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v zozname ≈°t√≠tkov');
 
       p_zdroj.XPath:='/StitkyVyluky/Stitky';
 
@@ -1342,7 +1342,7 @@ implementation
     begin
       if objekt is TKolajCiara then (objekt as TKolajCiara).NastavVyluku(text)
       else if objekt is TVyhybka then (objekt as TVyhybka).NastavVyluku(text)
-      else Result:=Chyba('V˝luka na prvku, ktor˝ nem· v˝luky');
+      else Result:=Chyba('V√Ωluka na prvku, ktor√Ω nem√° v√Ωluky');
     end;
   end;
 
@@ -1374,7 +1374,7 @@ implementation
     if objekt<>nil then
     begin
       if objekt is TText then (objekt as TText).NastavPredefText(text)
-      else Result:=Chyba('Text na prvku, ktor˝ nie je textom');
+      else Result:=Chyba('Text na prvku, ktor√Ω nie je textom');
     end;
   end;
 
@@ -1457,7 +1457,7 @@ implementation
         p_zdroj.XPath:='/StitkyVyluky/Vyluky/Vyluka['+IntToStr(i+1)+']';
         Result:=NacitajVyluku(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v zozname v˝luk');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v zozname v√Ωluk');
 
       p_zdroj.XPath:='/StitkyVyluky/Vyluky';
 
@@ -1486,7 +1486,7 @@ implementation
         p_zdroj.XPath:='/StitkyVyluky/Texty/Text['+IntToStr(i+1)+']';
         Result:=NacitajText(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v zozname textov');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v zozname textov');
 
       p_zdroj.XPath:='/StitkyVyluky/Texty';
 
@@ -1515,7 +1515,7 @@ implementation
         p_zdroj.XPath:='/StitkyVyluky/Dohlady/Dohlad['+IntToStr(i+1)+']';
         Result:=NacitajDohlad(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v zozname textov');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v zozname textov');
 
       p_zdroj.XPath:='/StitkyVyluky/Dohlady';
 
@@ -1544,7 +1544,7 @@ implementation
         p_zdroj.XPath:='/StitkyVyluky/APNky/APN['+IntToStr(i+1)+']';
         Result:=NacitajAPN(i+1,p_zdroj,p_ciel);
       end
-      else Result:=Chyba('Neplatn˝ element '+nazov+'v zozname textov');
+      else Result:=Chyba('Neplatn√Ω element '+nazov+'v zozname textov');
 
       p_zdroj.XPath:='/StitkyVyluky/APNky';
 
@@ -1598,7 +1598,7 @@ implementation
             Result:=NacitajAPNky(parser,p_ciel);
           end;
         end
-        else Result:=Chyba('V konfiguraci chybÌ v˝chozÌ prvek XML');
+        else Result:=Chyba('V konfiguraci chyb√≠ v√Ωchoz√≠ prvek XML');
       finally
         parser.Free;
       end;

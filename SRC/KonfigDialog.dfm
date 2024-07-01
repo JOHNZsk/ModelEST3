@@ -7,10 +7,8 @@ object KonfigDlg: TKonfigDlg
   ClientWidth = 384
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object OKBtn: TButton
     Left = 300
     Top = 8
@@ -45,7 +43,7 @@ object KonfigDlg: TKonfigDlg
     Left = 16
     Top = 80
     Width = 121
-    Height = 21
+    Height = 23
     TabOrder = 3
     Text = 
       'c:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\S' +

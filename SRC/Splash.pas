@@ -1,4 +1,4 @@
-unit Splash;
+ï»¿unit Splash;
 
 interface
 
@@ -146,7 +146,7 @@ begin
       subor.Free;
     end;
   except
-    MessageDlg('Nepodarilo sa naèíta systémovú konfiguráciu',mtError,[mbOK],0);
+    MessageDlg('Nepodarilo sa naÄÃ­taÅ¥ systÃ©movÃº konfigurÃ¡ciu',mtError,[mbOK],0);
     Close;
   end;
 end;

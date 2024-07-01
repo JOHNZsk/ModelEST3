@@ -7,14 +7,12 @@ object CasDlg: TCasDlg
   ClientWidth = 594
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   PopupMode = pmExplicit
   PopupParent = Form1.Owner
   Position = poScreenCenter
   OnHide = FormHide
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object GroupBox1: TGroupBox
     AlignWithMargins = True
     Left = 121
@@ -28,68 +26,64 @@ object CasDlg: TCasDlg
     Align = alClient
     Caption = 'Modelov'#253' '#269'as'
     TabOrder = 1
-    ExplicitLeft = 312
-    ExplicitTop = 56
-    ExplicitWidth = 185
-    ExplicitHeight = 105
+    ExplicitWidth = 461
+    ExplicitHeight = 133
     object HodinyTextPanel: TPanel
       Left = 2
-      Top = 76
+      Top = 78
       Width = 461
-      Height = 31
+      Height = 29
       Align = alClient
       BevelOuter = bvNone
       Caption = 'HodinyTextPanel'
       ShowCaption = False
       TabOrder = 2
-      ExplicitTop = 15
-      ExplicitHeight = 50
+      ExplicitWidth = 457
+      ExplicitHeight = 28
       object Panel15: TPanel
         Left = 90
         Top = 0
         Width = 61
-        Height = 31
+        Height = 29
         Align = alClient
         BevelOuter = bvNone
         Caption = 'Panel15'
         ShowCaption = False
         TabOrder = 1
-        ExplicitLeft = 120
-        ExplicitTop = 16
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        ExplicitWidth = 57
+        ExplicitHeight = 28
       end
       object Panel16: TPanel
         Left = 241
         Top = 0
         Width = 20
-        Height = 31
+        Height = 29
         Align = alRight
         BevelOuter = bvNone
         Caption = 'Panel16'
         ShowCaption = False
         TabOrder = 3
-        ExplicitLeft = 96
-        ExplicitHeight = 39
+        ExplicitLeft = 237
+        ExplicitHeight = 28
       end
       object Panel17: TPanel
         Left = 351
         Top = 0
         Width = 20
-        Height = 31
+        Height = 29
         Align = alRight
         BevelOuter = bvNone
         Caption = 'Panel17'
         ShowCaption = False
         TabOrder = 5
-        ExplicitLeft = 96
-        ExplicitHeight = 39
+        ExplicitLeft = 347
+        ExplicitHeight = 28
       end
       object HodinyT: TEdit
         Left = 151
         Top = 0
         Width = 90
-        Height = 31
+        Height = 29
         Align = alRight
         Alignment = taCenter
         Font.Charset = DEFAULT_CHARSET
@@ -103,14 +97,14 @@ object CasDlg: TCasDlg
         TabOrder = 2
         Text = '88'
         OnEnter = DniTEnter
-        ExplicitLeft = 0
-        ExplicitHeight = 39
+        ExplicitLeft = 147
+        ExplicitHeight = 33
       end
       object MinutyT: TEdit
         Left = 261
         Top = 0
         Width = 90
-        Height = 31
+        Height = 29
         Align = alRight
         Alignment = taCenter
         Font.Charset = DEFAULT_CHARSET
@@ -124,15 +118,14 @@ object CasDlg: TCasDlg
         TabOrder = 4
         Text = '88'
         OnEnter = DniTEnter
-        ExplicitLeft = 181
-        ExplicitTop = -3
-        ExplicitHeight = 39
+        ExplicitLeft = 257
+        ExplicitHeight = 33
       end
       object SekundyT: TEdit
         Left = 371
         Top = 0
         Width = 90
-        Height = 31
+        Height = 29
         Align = alRight
         Alignment = taCenter
         Font.Charset = DEFAULT_CHARSET
@@ -146,14 +139,14 @@ object CasDlg: TCasDlg
         TabOrder = 6
         Text = '88'
         OnEnter = DniTEnter
-        ExplicitLeft = 2
+        ExplicitLeft = 367
         ExplicitHeight = 33
       end
       object DniT: TEdit
         Left = 0
         Top = 0
         Width = 90
-        Height = 31
+        Height = 29
         Align = alLeft
         Alignment = taCenter
         Font.Charset = DEFAULT_CHARSET
@@ -180,18 +173,18 @@ object CasDlg: TCasDlg
       Caption = 'HodinySpodPanel'
       ShowCaption = False
       TabOrder = 3
-      ExplicitTop = 89
+      ExplicitTop = 106
+      ExplicitWidth = 457
       object Label9: TLabel
         AlignWithMargins = True
         Left = 187
         Top = 6
-        Width = 49
+        Width = 55
         Height = 16
         Margins.Top = 6
         Align = alLeft
         Caption = 'Zr'#253'chlenie'
-        ExplicitLeft = 171
-        ExplicitHeight = 25
+        ExplicitHeight = 15
       end
       object CasNastav: TButton
         Left = 386
@@ -211,7 +204,6 @@ object CasDlg: TCasDlg
         Caption = 'STOP'
         TabOrder = 2
         OnClick = CasSTOPClick
-        ExplicitLeft = 0
       end
       object CasReset: TButton
         Left = 0
@@ -222,14 +214,13 @@ object CasDlg: TCasDlg
         Caption = 'Reset'
         TabOrder = 3
         OnClick = CasResetClick
-        ExplicitLeft = 8
       end
       object CasZrychlenie: TComboBox
         AlignWithMargins = True
-        Left = 242
+        Left = 248
         Top = 3
         Width = 91
-        Height = 21
+        Height = 23
         Align = alLeft
         TabOrder = 0
         Text = '1'
@@ -240,12 +231,11 @@ object CasDlg: TCasDlg
           '4'
           '6'
           '8')
-        ExplicitLeft = 236
       end
     end
     object HodinyLabelPanel: TPanel
       Left = 2
-      Top = 35
+      Top = 37
       Width = 461
       Height = 41
       Align = alTop
@@ -253,8 +243,7 @@ object CasDlg: TCasDlg
       Caption = 'HodinyLabelPanel'
       ShowCaption = False
       TabOrder = 1
-      ExplicitLeft = 29
-      ExplicitTop = 3
+      ExplicitWidth = 457
       object Panel2: TPanel
         AlignWithMargins = True
         Left = 151
@@ -268,9 +257,7 @@ object CasDlg: TCasDlg
         Caption = 'Panel2'
         ShowCaption = False
         TabOrder = 2
-        ExplicitLeft = 1
-        ExplicitTop = 4
-        ExplicitHeight = 33
+        ExplicitLeft = 147
         object HodinyL: TLabel
           Left = 24
           Top = 0
@@ -298,8 +285,6 @@ object CasDlg: TCasDlg
           Caption = '>>'
           TabOrder = 0
           OnClick = DniPClick
-          ExplicitLeft = 437
-          ExplicitHeight = 34
         end
         object HodinyM: TButton
           Left = 0
@@ -310,7 +295,6 @@ object CasDlg: TCasDlg
           Caption = '<<'
           TabOrder = 1
           OnClick = DniMClick
-          ExplicitHeight = 34
         end
       end
       object Panel4: TPanel
@@ -326,7 +310,7 @@ object CasDlg: TCasDlg
         Caption = 'Panel2'
         ShowCaption = False
         TabOrder = 4
-        ExplicitLeft = 371
+        ExplicitLeft = 257
         object MinutyL: TLabel
           Left = 24
           Top = 0
@@ -354,8 +338,6 @@ object CasDlg: TCasDlg
           Caption = '>>'
           TabOrder = 0
           OnClick = DniPClick
-          ExplicitLeft = 68
-          ExplicitHeight = 32
         end
         object MinutyM: TButton
           Left = 0
@@ -366,7 +348,6 @@ object CasDlg: TCasDlg
           Caption = '<<'
           TabOrder = 1
           OnClick = DniMClick
-          ExplicitHeight = 32
         end
       end
       object Panel6: TPanel
@@ -382,6 +363,7 @@ object CasDlg: TCasDlg
         Caption = 'Panel2'
         ShowCaption = False
         TabOrder = 6
+        ExplicitLeft = 367
         object SekundyL: TLabel
           Left = 24
           Top = 0
@@ -409,8 +391,6 @@ object CasDlg: TCasDlg
           Caption = '30'
           TabOrder = 0
           OnClick = DniPClick
-          ExplicitLeft = 68
-          ExplicitHeight = 32
         end
         object SekundyM: TButton
           Left = 0
@@ -421,7 +401,6 @@ object CasDlg: TCasDlg
           Caption = '0'
           TabOrder = 1
           OnClick = DniMClick
-          ExplicitHeight = 32
         end
       end
       object Panel8: TPanel
@@ -437,9 +416,6 @@ object CasDlg: TCasDlg
         Caption = 'Panel2'
         ShowCaption = False
         TabOrder = 0
-        ExplicitLeft = 460
-        ExplicitTop = 4
-        ExplicitHeight = 33
         object DniL: TLabel
           Left = 24
           Top = 0
@@ -467,8 +443,6 @@ object CasDlg: TCasDlg
           Caption = '>>'
           TabOrder = 0
           OnClick = DniPClick
-          ExplicitLeft = 68
-          ExplicitHeight = 32
         end
         object DniM: TButton
           Left = 0
@@ -479,7 +453,6 @@ object CasDlg: TCasDlg
           Caption = '<<'
           TabOrder = 1
           OnClick = DniMClick
-          ExplicitHeight = 32
         end
       end
       object Panel12: TPanel
@@ -497,9 +470,7 @@ object CasDlg: TCasDlg
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 1
-        ExplicitLeft = 144
-        ExplicitTop = 16
-        ExplicitWidth = 185
+        ExplicitWidth = 57
       end
       object Panel13: TPanel
         Left = 241
@@ -516,7 +487,7 @@ object CasDlg: TCasDlg
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 3
-        ExplicitLeft = -113
+        ExplicitLeft = 237
       end
       object Panel14: TPanel
         Left = 351
@@ -533,13 +504,12 @@ object CasDlg: TCasDlg
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 5
-        ExplicitLeft = 357
-        ExplicitTop = -3
+        ExplicitLeft = 347
       end
     end
     object HodinyNadpisPanel: TPanel
       Left = 2
-      Top = 15
+      Top = 17
       Width = 461
       Height = 20
       Align = alTop
@@ -547,7 +517,7 @@ object CasDlg: TCasDlg
       Caption = 'HodinyNadpisPanel'
       ShowCaption = False
       TabOrder = 0
-      ExplicitTop = 0
+      ExplicitWidth = 457
       object Label2: TLabel
         Left = 0
         Top = 0
@@ -601,8 +571,7 @@ object CasDlg: TCasDlg
         Caption = 'Panel9'
         ShowCaption = False
         TabOrder = 1
-        ExplicitLeft = 257
-        ExplicitTop = -2
+        ExplicitLeft = 237
       end
       object Panel10: TPanel
         Left = 90
@@ -614,10 +583,7 @@ object CasDlg: TCasDlg
         Caption = 'Panel10'
         ShowCaption = False
         TabOrder = 0
-        ExplicitLeft = 184
-        ExplicitTop = 8
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        ExplicitWidth = 57
       end
       object Panel11: TPanel
         Left = 351
@@ -629,8 +595,7 @@ object CasDlg: TCasDlg
         Caption = 'Panel11'
         ShowCaption = False
         TabOrder = 2
-        ExplicitLeft = 367
-        ExplicitTop = -2
+        ExplicitLeft = 347
       end
     end
   end
@@ -652,6 +617,6 @@ object CasDlg: TCasDlg
       'Loconet')
     TabOrder = 0
     OnClick = CasTypClick
-    ExplicitHeight = 9
+    ExplicitHeight = 133
   end
 end

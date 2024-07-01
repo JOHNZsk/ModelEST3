@@ -1,4 +1,4 @@
-unit CPortThread;
+﻿unit CPortThread;
 
 interface
 

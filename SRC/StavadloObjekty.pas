@@ -1,4 +1,4 @@
-unit StavadloObjekty;
+Ôªøunit StavadloObjekty;
 
 interface
   uses Graphics, GR32, Generics.Collections;
@@ -450,11 +450,11 @@ implementation
   function ZaverText(p_hodnota: TZaver): string;
   begin
     case p_hodnota of
-      ZVR_NENI: Result:='bez z·veru';
-      ZVR_RUCNY,ZVR_PREDBEZNY: Result:='nerozlÌöen˝';
-      ZVR_PRESAH: Result:='drûan˝ cestou';
-      ZVR_POSUNOVA: Result:='posunov· cesta';
-      ZVR_VLAKOVA: Result:='vlakov· cesta';
+      ZVR_NENI: Result:='bez z√°veru';
+      ZVR_RUCNY,ZVR_PREDBEZNY: Result:='nerozl√≠≈°en√Ω';
+      ZVR_PRESAH: Result:='dr≈æan√Ω cestou';
+      ZVR_POSUNOVA: Result:='posunov√° cesta';
+      ZVR_VLAKOVA: Result:='vlakov√° cesta';
     end;
   end;
 
@@ -525,11 +525,11 @@ implementation
   function VyhybkaPoziciaNaText(p_popis: TVyhybkaPozicia): string;
   begin
     case p_popis of
-      VPO_NEZNAMA: Result:='Nezn·ma/medzipoloha';
-      VPO_ROVNO: Result:='Z·kladn·';
-      VPO_ODBOCKA: Result:='OdboËn·';
-      VPO_ROVNO_OTAZNIK: Result:='Z·kladn·, bez dohæadu';
-      VPO_ODBOCKA_OTAZNIK: Result:='OdboËn·, bez dohæadu';
+      VPO_NEZNAMA: Result:='Nezn√°ma/medzipoloha';
+      VPO_ROVNO: Result:='Z√°kladn√°';
+      VPO_ODBOCKA: Result:='Odboƒçn√°';
+      VPO_ROVNO_OTAZNIK: Result:='Z√°kladn√°, bez dohƒæadu';
+      VPO_ODBOCKA_OTAZNIK: Result:='Odboƒçn√°, bez dohƒæadu';
     end;
   end;
 
@@ -538,7 +538,7 @@ implementation
   function SvetloPoziciaNaText(p_hodnota: TSvetloPozicia): string;
   begin
     case p_hodnota of
-      SPO_NEZNAMA: Result:='Nezn·ma';
+      SPO_NEZNAMA: Result:='Nezn√°ma';
       SPO_ZHASNUTE: Result:='Nesvieti';
       SPO_ZHASINA: Result:='K zhasnutiu';
       SPO_ROZSVECUJE: Result:='K rozsvieteniu';
@@ -565,18 +565,18 @@ implementation
   function NavestNaText(p_hodnota: TNavest): string;
   begin
     case p_hodnota of
-      CN_NEZNAMA: Result:='Nezn·ma/pochybn·';
+      CN_NEZNAMA: Result:='Nezn√°ma/pochybn√°';
       CN_STOJ: Result:='Stoj';
-      CN_POSUN_DOVOLENY: Result:='Posun dovolen˝';
-      CN_VYSTRAHA: Result:='V˝straha';
-      CN_VOLNO: Result:='Voæno';
-      CN_OCAK40: Result:='OËak·vaj 40';
-      CN_40AVYSTRAHA: Result:='40 a v˝straha';
-      CN_40A40: Result:='40 a oËak·vaj 40';
-      CN_40AVOLNO: Result:='40 a voæno';
-      CN_PRIVOLAVACKA: Result:='Privol·vaËka';
-      CN_VCRP: Result:='Jazda podæa roz. pomerov';
-      CN_40AVCRP: Result:='40 a jazda podæa roz. pomerov';
+      CN_POSUN_DOVOLENY: Result:='Posun dovolen√Ω';
+      CN_VYSTRAHA: Result:='V√Ωstraha';
+      CN_VOLNO: Result:='Voƒæno';
+      CN_OCAK40: Result:='Oƒçak√°vaj 40';
+      CN_40AVYSTRAHA: Result:='40 a v√Ωstraha';
+      CN_40A40: Result:='40 a oƒçak√°vaj 40';
+      CN_40AVOLNO: Result:='40 a voƒæno';
+      CN_PRIVOLAVACKA: Result:='Privol√°vaƒçka';
+      CN_VCRP: Result:='Jazda podƒæa roz. pomerov';
+      CN_40AVCRP: Result:='40 a jazda podƒæa roz. pomerov';
     end;
   end;
 
@@ -644,7 +644,7 @@ implementation
 
   function TStavadloObjekt.DajStav: string;
   begin
-    Result:='Stav prvku nie je k dispozÌcii';
+    Result:='Stav prvku nie je k dispoz√≠cii';
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -667,7 +667,7 @@ implementation
 
   procedure TStavadloObjekt.VypisNudzovyPovelStav(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
   begin
-    p_popis_a:='(A) N·zov';
+    p_popis_a:='(A) N√°zov';
     p_popis_b:='(B) ';
     p_popis_c:='(C) ';
     p_popis_d:='(D) ';
@@ -769,7 +769,7 @@ implementation
   function TText.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'textov˝ prvok ';
+    if p_kodjednotky then Result:=Result+'textov√Ω prvok ';
     Result:=Result+t_text;
   end;
 
@@ -874,7 +874,7 @@ implementation
   function TStanObsluhy.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'stanoviöte obsluhy ';
+    if p_kodjednotky then Result:=Result+'stanovi≈°te obsluhy ';
     Result:=Result+t_nazov;
   end;
 
@@ -982,7 +982,7 @@ implementation
   function TSulibrk.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    Result:=Result+'Kontroln˝ prvok';
+    Result:=Result+'Kontroln√Ω prvok';
   end;
 
   //**************************************************************************//
@@ -1040,14 +1040,14 @@ implementation
   begin
     inherited;
 
-    p_popis_b:=p_popis_b+'Z·ver';
+    p_popis_b:=p_popis_b+'Z√°ver';
     p_text_b:=ZaverText(t_zaver);
 
-    p_popis_c:=p_popis_c+'ätÌtok';
+    p_popis_c:=p_popis_c+'≈†t√≠tok';
     p_text_c:=t_stitok;
     if t_stitok<>'' then p_cervena_c:=True;
 
-    p_popis_d:=p_popis_d+'V˝luka';
+    p_popis_d:=p_popis_d+'V√Ωluka';
     p_text_d:=t_vyluka;
     if t_vyluka<>'' then p_cervena_d:=True;    
   end;
@@ -1099,7 +1099,7 @@ implementation
   function TKolajCiara.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'Koæaj ';
+    if p_kodjednotky then Result:=Result+'Koƒæaj ';
 
     Result:=Result+t_cislo;
   end;
@@ -1137,23 +1137,23 @@ implementation
 
   procedure TNavestidlo.VypisNudzovyPovelReset(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
   begin
-    p_popis_a:='(A) N·zov';
+    p_popis_a:='(A) N√°zov';
     p_text_a:=Nazov[True,False];
 
-    p_popis_b:='(B) N·vesù';
+    p_popis_b:='(B) N√°ves≈•';
     p_text_b:=NavestNaText(Navest[False]);
     if not (Navest[False] in [CN_STOJ,CN_NEZNAMA]) then p_cervena_b:=True;
 
 
-    p_popis_c:='(C) RuËn˝ z·ver';
-    if t_rucny_zaver then p_text_c:='¡no'
+    p_popis_c:='(C) Ruƒçn√Ω z√°ver';
+    if t_rucny_zaver then p_text_c:='√Åno'
     else
     begin
       p_cervena_c:=True;
       p_text_c:='Nie';
     end;
 
-    p_popis_d:='(D) ätÌtok';
+    p_popis_d:='(D) ≈†t√≠tok';
     p_text_d:=t_stitok;
     if t_stitok<>'' then p_cervena_d:=True;
   end;
@@ -1255,17 +1255,17 @@ implementation
   begin
     inherited;
 
-    p_popis_b:=p_popis_b+'N·vesù';
+    p_popis_b:=p_popis_b+'N√°ves≈•';
     p_popis_c:=p_popis_c+'Svieti';
-    p_popis_d:=p_popis_d+'UzamknutÈ';
-    p_popis_e:=p_popis_e+'ätÌtok';
+    p_popis_d:=p_popis_d+'Uzamknut√©';
+    p_popis_e:=p_popis_e+'≈†t√≠tok';
 
     p_text_b:=NavestNaText(Navest[False]);
     p_text_c:=NavestNaText(Navest[True]);
 
     if t_rucny_zaver then
     begin
-      p_text_d:='¡no';
+      p_text_d:='√Åno';
       p_cervena_d:=True;
     end
     else if t_apn then
@@ -1283,22 +1283,22 @@ implementation
 
   procedure TNavestidloHlavne.VypisNudzovyPovelPrivolavacka(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
   begin
-    p_popis_a:='(A) N·zov';
+    p_popis_a:='(A) N√°zov';
     p_text_a:=Nazov[True,False];
 
-    p_popis_b:='(B) N·vesù';
+    p_popis_b:='(B) N√°ves≈•';
     p_text_b:=NavestNaText(Navest[False]);
     if not (Navest[False] in [CN_STOJ,CN_NEZNAMA]) then p_cervena_b:=True;
 
-    p_popis_c:='(C) RuËn˝ z·ver';
+    p_popis_c:='(C) Ruƒçn√Ω z√°ver';
     if t_rucny_zaver then
     begin
-      p_text_c:='¡no';
+      p_text_c:='√Åno';
       p_cervena_c:=True;
     end
     else p_text_c:='Nie';
 
-    p_popis_d:='(D) ätÌtok';
+    p_popis_d:='(D) ≈†t√≠tok';
     p_text_d:=t_stitok;
     if t_stitok<>'' then p_cervena_d:=True;
   end;
@@ -1307,29 +1307,29 @@ implementation
 
   procedure TNavestidloHlavne.VypisNudzovyPovelAPN(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
   begin
-    p_popis_a:='(A) N·zov';
+    p_popis_a:='(A) N√°zov';
     p_text_a:=Nazov[True,False];
 
-    p_popis_b:='(B) N·vesù';
+    p_popis_b:='(B) N√°ves≈•';
     p_text_b:=NavestNaText(Navest[False]);
     if not (Navest[False] in [CN_STOJ,CN_NEZNAMA]) then p_cervena_b:=True;
 
-    p_popis_c:='(C) RuËn˝ z·ver';
+    p_popis_c:='(C) Ruƒçn√Ω z√°ver';
     if t_rucny_zaver then
     begin
-      p_text_c:='¡no';
+      p_text_c:='√Åno';
       p_cervena_c:=True;
     end
     else p_text_c:='Nie';
 
-    p_popis_d:='(D) ätÌtok';
+    p_popis_d:='(D) ≈†t√≠tok';
     p_text_d:=t_stitok;
     if t_stitok<>'' then p_cervena_d:=True;
 
     p_popis_e:='(E) APN';
     if t_apn then
     begin
-      p_text_e:='¡no';
+      p_text_e:='√Åno';
       p_cervena_e:=True;
     end
     else p_text_e:='Nie';    
@@ -1460,7 +1460,7 @@ implementation
   function TVyhybka.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'V˝hybka ';
+    if p_kodjednotky then Result:=Result+'V√Ωhybka ';
     Result:=Result+t_cislo;
   end;
 
@@ -1581,7 +1581,7 @@ implementation
 
   function TVyhybka.DajStav: string;
   begin
-    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' RuË. z·ver: '+BoolToStr(t_rucny_zaver,True);
+    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' Ruƒç. z√°ver: '+BoolToStr(t_rucny_zaver,True);
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1609,20 +1609,20 @@ implementation
   begin
     inherited;
     p_popis_b:=p_popis_b+'Poloha';
-    p_popis_c:=p_popis_c+'Z·ver';
-    p_popis_d:=p_popis_d+'ätÌtok';
-    p_popis_e:=p_popis_e+'V˝luka';
+    p_popis_c:=p_popis_c+'Z√°ver';
+    p_popis_d:=p_popis_d+'≈†t√≠tok';
+    p_popis_e:=p_popis_e+'V√Ωluka';
 
     p_text_b:=VyhybkaPoziciaNaText(t_poloha);
 
     if t_rucny_zaver then
     begin
-      p_text_c:='ruËn˝';
+      p_text_c:='ruƒçn√Ω';
       p_cervena_c:=True;
     end
     else if JeVOdvrate(True) then
     begin
-      p_text_c:='odvrat jinÈ cesty';
+      p_text_c:='odvrat jin√© cesty';
       p_cervena_c:=True;    
     end
     else if not JeVolna(True) then
@@ -1630,7 +1630,7 @@ implementation
       p_text_c:='vlakovou/posunovou cestou';
       p_cervena_c:=True;
     end
-    else p_text_c:='bez z·veru';
+    else p_text_c:='bez z√°veru';
 
     p_text_d:=t_stitok;
     if t_stitok<>'' then p_cervena_d:=True;
@@ -1643,10 +1643,10 @@ implementation
 
   procedure TVyhybka.VypisNudzovyPovelZAV2(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
   begin
-    p_popis_a:='(A) N·zov';
+    p_popis_a:='(A) N√°zov';
     p_popis_b:='(B) Poloha';
-    p_popis_c:='(C) ätÌtok';
-    p_popis_d:='(E) V˝luka';
+    p_popis_c:='(C) ≈†t√≠tok';
+    p_popis_d:='(E) V√Ωluka';
     p_text_a:=Nazov[True,False];
     p_text_b:=VyhybkaPoziciaNaText(t_poloha);
 
@@ -1661,10 +1661,10 @@ implementation
 
   procedure TVyhybka.VypisNudzovyPovelReset(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean);
   begin
-    p_popis_a:='(A) N·zov';
+    p_popis_a:='(A) N√°zov';
     p_popis_b:='(B) Poloha';
-    p_popis_c:='(C) ätÌtok';
-    p_popis_d:='(E) V˝luka';
+    p_popis_c:='(C) ≈†t√≠tok';
+    p_popis_d:='(E) V√Ωluka';
     p_text_a:=Nazov[True,False];
     p_text_b:=VyhybkaPoziciaNaText(t_poloha);
 
@@ -1749,10 +1749,10 @@ implementation
 
   function TVyhybkaDohlad.DajStav: string;
   begin
-    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' RuË. z·ver: '+BoolToStr(t_rucny_zaver,True);
+    Result:='Poloha: '+VyhybkaPoziciaNaText(t_poloha)+' Ruƒç. z√°ver: '+BoolToStr(t_rucny_zaver,True);
 
-    if not t_dohlad_vypnuty then Result:=Result+' Doh. rovno: '+BoolToStr(t_dohlad_rovno_stav,True)+' Doh. odboË: '+BoolToStr(t_dohlad_odbocka_stav,True)
-    else Result:=Result+' Doh. rovno: vyraden˝ Doh. odboË: vyraden˝';
+    if not t_dohlad_vypnuty then Result:=Result+' Doh. rovno: '+BoolToStr(t_dohlad_rovno_stav,True)+' Doh. odboƒç: '+BoolToStr(t_dohlad_odbocka_stav,True)
+    else Result:=Result+' Doh. rovno: vyraden√Ω Doh. odboƒç: vyraden√Ω';
   end;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -1768,11 +1768,11 @@ implementation
 
   procedure TVyhybkaDohlad.VypisNudzovyPovelDOH(out p_popis_a: string; out p_popis_b: string; out p_popis_c: string; out p_popis_d: string; out p_popis_e: string; out p_text_a: string; out p_text_b: string; out p_text_c: string; out p_text_d: string; out p_text_e: string; out p_cervena_a: Boolean; out p_cervena_b: Boolean; out p_cervena_c: Boolean; out p_cervena_d: Boolean; out p_cervena_e: Boolean);
   begin
-    p_popis_a:='(A) N·zov';
+    p_popis_a:='(A) N√°zov';
     p_popis_b:='(B) Poloha';
-    p_popis_c:='(C) ätÌtok';
-    p_popis_d:='(E) V˝luka';
-    p_popis_e:='(F) Dohæad';  
+    p_popis_c:='(C) ≈†t√≠tok';
+    p_popis_d:='(E) V√Ωluka';
+    p_popis_e:='(F) Dohƒæad';  
       
     p_text_a:=Nazov[True,False];
     p_text_b:=VyhybkaPoziciaNaText(t_poloha);
@@ -1785,12 +1785,12 @@ implementation
 
     if t_dohlad_vypnuty then
     begin
-      p_text_e:='Vyraden˝';
+      p_text_e:='Vyraden√Ω';
       p_cervena_e:=True;
     end
     else
     begin
-      p_text_e:='AktÌvny';
+      p_text_e:='Akt√≠vny';
       p_cervena_e:=False;    
     end;
   end;
@@ -1800,14 +1800,14 @@ implementation
   function NavestidloVchodoveFarbaNaText(p_hodnota: TNavestidloVchodoveFarba): string;
   begin
     case p_hodnota of
-      NVF_C: Result:='»';
-      NVF_HZ: Result:='Hé';
-      NVF_HZ_KMIT: Result:='Hé kmit';
+      NVF_C: Result:='ƒå';
+      NVF_HZ: Result:='H≈Ω';
+      NVF_HZ_KMIT: Result:='H≈Ω kmit';
       NVF_Z: Result:='Z';
       NVF_B_KMIT: Result:='B kmit';
-      NVF_DZ: Result:='Dé';
-      NVF_PREDV_HZ: Result:='pHé';
-      NVF_PREDV_HZ_KMIT: Result:='pHé kmit';
+      NVF_DZ: Result:='D≈Ω';
+      NVF_PREDV_HZ: Result:='pH≈Ω';
+      NVF_PREDV_HZ_KMIT: Result:='pH≈Ω kmit';
       NVF_PREDV_Z: Result:='pZ';
     end;
   end;
@@ -2047,7 +2047,7 @@ implementation
   function TNavestidloVchodove.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'N·v. vch. ';
+    if p_kodjednotky then Result:=Result+'N√°v. vch. ';
     Result:=Result+t_cislo;
   end;
 
@@ -2056,11 +2056,11 @@ implementation
   function NavestidloOdchodoveFarbaNaText(p_hodnota: TNavestidloOdchodoveFarba): string;
   begin
     case p_hodnota of
-      NOF_C: Result:='»';
+      NOF_C: Result:='ƒå';
       NOF_Z: Result:='Z';
       NOF_B: Result:='B';
       NOF_B_KMIT: Result:='B kmit';
-      NOF_DZ: Result:='Dé';
+      NOF_DZ: Result:='D≈Ω';
     end;
   end;
 
@@ -2121,7 +2121,7 @@ implementation
   function TNavestidloOdchodove.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'N·v. odch. ';
+    if p_kodjednotky then Result:=Result+'N√°v. odch. ';
     Result:=Result+t_cislo;
   end;
 
@@ -2420,7 +2420,7 @@ implementation
   function TNavestidloZriadovacie.DajNazov(p_kodjednotky, p_dopravna: Boolean): string;
   begin
     if p_dopravna then Result:=Dopravna.Skratka+' ' else Result:='';
-    if p_kodjednotky then Result:=Result+'N·v. zr. ';
+    if p_kodjednotky then Result:=Result+'N√°v. zr. ';
     Result:=Result+t_cislo;
   end;
 
@@ -2557,17 +2557,17 @@ implementation
   begin
     inherited;
 
-    p_popis_b:=p_popis_b+'N·vesù';
+    p_popis_b:=p_popis_b+'N√°ves≈•';
     p_popis_c:=p_popis_c+'Svieti';
-    p_popis_d:=p_popis_d+'RuËn˝ z·ver';
-    p_popis_e:=p_popis_e+'ätÌtok';
+    p_popis_d:=p_popis_d+'Ruƒçn√Ω z√°ver';
+    p_popis_e:=p_popis_e+'≈†t√≠tok';
 
     p_text_b:=NavestNaText(Navest[False]);
     p_text_c:=NavestNaText(Navest[True]);
 
     if t_rucny_zaver then
     begin
-      p_text_d:='¡no';
+      p_text_d:='√Åno';
       p_cervena_d:=True;
     end
     else p_text_d:='Nie';

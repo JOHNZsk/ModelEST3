@@ -1,4 +1,4 @@
-unit ProgDialog;
+Ôªøunit ProgDialog;
 
 interface
 
@@ -100,7 +100,7 @@ begin
     t_akt_dispatch:=False;
     Enabled:=True;
     t_last_dispatch_adresa:=0;
-    Stav.Caption:='CHYBA: Nejde zÌskaù voæn˝ slot';
+    Stav.Caption:='CHYBA: Nejde z√≠ska≈• voƒæn√Ω slot';
     Stav.Refresh;
   end;
 end;
@@ -113,7 +113,7 @@ begin
   t_akt_dispatch:=False;
   Enabled:=True;  
   t_last_dispatch_adresa:=0;
-  Stav.Caption:='CHYBA: Nejde zadaù DISPATCH PUT';
+  Stav.Caption:='CHYBA: Nejde zada≈• DISPATCH PUT';
   Stav.Refresh;
 end;
 
@@ -131,7 +131,7 @@ begin
           t_akt_prog:=False;
           t_akt_prog_read:=False;
           Enabled:=True;
-          Stav.Caption:='CHYBA: Nejde programovaù';
+          Stav.Caption:='CHYBA: Nejde programova≈•';
           Stav.Refresh;
         end
         else if t_akt_adr then
@@ -139,7 +139,7 @@ begin
           t_akt_adr:=False;
           t_akt_adr_read:=False;
           Enabled:=True;
-          Stav.Caption:='CHYBA: Nejde programovaù CV '+IntToStr(t_akt_adr_cv);
+          Stav.Caption:='CHYBA: Nejde programova≈• CV '+IntToStr(t_akt_adr_cv);
           Stav.Refresh;
 
           t_akt_adr_cv:=0;
@@ -154,7 +154,7 @@ begin
           t_akt_prog:=False;
           t_akt_prog_read:=False;
           Enabled:=True;
-          Stav.Caption:='CHYBA: ProgramovacÌ slot obsaden˝';
+          Stav.Caption:='CHYBA: Programovac√≠ slot obsaden√Ω';
           Stav.Refresh;
         end
         else if t_akt_adr then
@@ -162,7 +162,7 @@ begin
           t_akt_adr:=False;
           t_akt_adr_read:=False;
           Enabled:=True;
-          Stav.Caption:='CHYBA: Slot pre CV '+IntToStr(t_akt_adr_cv)+' obsaden˝';
+          Stav.Caption:='CHYBA: Slot pre CV '+IntToStr(t_akt_adr_cv)+' obsaden√Ω';
           Stav.Refresh;
 
           t_akt_adr_cv:=0;
@@ -174,13 +174,13 @@ begin
       begin
         if t_akt_prog then
         begin
-          Stav.Caption:='PrijatÈ, Ëak· sa na odpoveÔ';
+          Stav.Caption:='Prijat√©, ƒçak√° sa na odpoveƒè';
           Stav.Refresh;
         end
         else if t_akt_adr then
         begin
-          if t_akt_adr_cv_read then Stav.Caption:='NaËÌtanie CV '+IntToStr(t_akt_adr_cv)+' prijatÈ, Ëak· sa na odpoveÔ'
-          else Stav.Caption:='Z·pis CV '+IntToStr(t_akt_adr_cv)+' prijat˝, Ëak· sa na odpoveÔ';
+          if t_akt_adr_cv_read then Stav.Caption:='Naƒç√≠tanie CV '+IntToStr(t_akt_adr_cv)+' prijat√©, ƒçak√° sa na odpoveƒè'
+          else Stav.Caption:='Z√°pis CV '+IntToStr(t_akt_adr_cv)+' prijat√Ω, ƒçak√° sa na odpoveƒè';
           Stav.Refresh;
         end;
       end;
@@ -193,13 +193,13 @@ begin
 
           if not t_akt_prog_read then
           begin
-            Stav.Caption:='PrijatÈ, nebude odpoveÔ';
+            Stav.Caption:='Prijat√©, nebude odpoveƒè';
             Stav.Refresh;
           end
           else
           begin
             t_akt_prog_read:=False;
-            Stav.Caption:='CHYBA: Nejde vyËÌtaù hodnotu';
+            Stav.Caption:='CHYBA: Nejde vyƒç√≠ta≈• hodnotu';
             Stav.Refresh;
           end;
         end
@@ -207,7 +207,7 @@ begin
         begin
           if not t_akt_adr_cv_read then
           begin
-            Stav.Caption:='CV '+IntToStr(t_akt_adr_cv)+' prijatÈ, nebude odpoveÔ';
+            Stav.Caption:='CV '+IntToStr(t_akt_adr_cv)+' prijat√©, nebude odpoveƒè';
             Stav.Refresh;
           end
           else
@@ -215,7 +215,7 @@ begin
             t_akt_adr:=False;
             t_akt_adr_read:=False;
             Enabled:=True;
-            Stav.Caption:='CHYBA: Nejde vyËÌtaù hodnotu CV '+IntToStr(t_akt_adr_cv);
+            Stav.Caption:='CHYBA: Nejde vyƒç√≠ta≈• hodnotu CV '+IntToStr(t_akt_adr_cv);
             Stav.Refresh;
 
             t_akt_adr_cv:=0;
@@ -231,7 +231,7 @@ begin
           t_akt_prog:=False;
           t_akt_prog_read:=False;
           Enabled:=True;          
-          Stav.Caption:='CHYBA: Nezn·ma odpoveÔ na prog. povel';
+          Stav.Caption:='CHYBA: Nezn√°ma odpoveƒè na prog. povel';
           Stav.Refresh;
         end
         else if t_akt_adr then
@@ -239,7 +239,7 @@ begin
           t_akt_adr:=False;
           t_akt_adr_read:=False;
           Enabled:=True;
-          Stav.Caption:='CHYBA: Nezn·ma odpoveÔ na prog. povel CV'+IntToStr(t_akt_adr_cv);
+          Stav.Caption:='CHYBA: Nezn√°ma odpoveƒè na prog. povel CV'+IntToStr(t_akt_adr_cv);
           Stav.Refresh;
 
           t_akt_adr_cv:=0;
@@ -281,7 +281,7 @@ begin
     begin
       t_last_dispatch_adresa:=0;
       Enabled:=True;      
-      Stav.Caption:='OK, pripravenÈ';
+      Stav.Caption:='OK, pripraven√©';
       Stav.Refresh;
     end;
   end;
@@ -297,34 +297,34 @@ begin
     begin
       if(p_stat and $01)<>0 then
       begin
-        Stav.Caption:='CHYBA: Bez odozvy, prog. koæaj pr·zdna?';
+        Stav.Caption:='CHYBA: Bez odozvy, prog. koƒæaj pr√°zdna?';
         Stav.Refresh;
       end
       else if(p_stat and $02)<>0 then
       begin
-        Stav.Caption:='CHYBA: Bez odpovede od dekodÈra';
+        Stav.Caption:='CHYBA: Bez odpovede od dekod√©ra';
         Stav.Refresh;
       end
       else if(p_stat and $04)<>0 then
       begin
-        Stav.Caption:='CHYBA: Nepodarilo sa overiù hodnotu';
+        Stav.Caption:='CHYBA: Nepodarilo sa overi≈• hodnotu';
         Stav.Refresh;
       end
       else if(p_stat and $08)<>0 then
       begin
-        Stav.Caption:='CHYBA: ZruöenÈ uûÌvateæom';
+        Stav.Caption:='CHYBA: Zru≈°en√© u≈æ√≠vateƒæom';
         Stav.Refresh;
       end
       else if(t_akt_prog_read) and ((p_cv=0) or (p_cv=CVAdresa.ValueInt)) then
       begin
         CVHodnota.ValueInt:=p_value;
 
-        Stav.Caption:='NaËÌtanÈ, pripravenÈ';
+        Stav.Caption:='Naƒç√≠tan√©, pripraven√©';
         Stav.Refresh;
       end
       else
       begin
-        Stav.Caption:='OK, pripravenÈ';
+        Stav.Caption:='OK, pripraven√©';
         Stav.Refresh;
       end;
 
@@ -339,7 +339,7 @@ begin
     begin
       if(p_stat and $01)<>0 then
       begin
-        Stav.Caption:='CHYBA: Bez odozvy, prog. koæaj pr·zdna?';
+        Stav.Caption:='CHYBA: Bez odozvy, prog. koƒæaj pr√°zdna?';
         Stav.Refresh;
 
         t_akt_adr:=False;
@@ -351,7 +351,7 @@ begin
       end
       else if(p_stat and $02)<>0 then
       begin
-        Stav.Caption:='CHYBA: Bez odpovede od dekodÈra';
+        Stav.Caption:='CHYBA: Bez odpovede od dekod√©ra';
         Stav.Refresh;
 
         t_akt_adr:=False;
@@ -363,7 +363,7 @@ begin
       end
       else if(p_stat and $04)<>0 then
       begin
-        Stav.Caption:='CHYBA: Nepodarilo sa overiù hodnotu';
+        Stav.Caption:='CHYBA: Nepodarilo sa overi≈• hodnotu';
         Stav.Refresh;
 
         t_akt_adr:=False;
@@ -375,7 +375,7 @@ begin
       end
       else if(p_stat and $08)<>0 then
       begin
-        Stav.Caption:='CHYBA: ZruöenÈ uûÌvateæom';
+        Stav.Caption:='CHYBA: Zru≈°en√© u≈æ√≠vateƒæom';
         Stav.Refresh;
 
         t_akt_adr:=False;
@@ -477,7 +477,7 @@ begin
           end;
         end;
 
-        Stav.Caption:='NaËÌtanÈ, pripravenÈ';
+        Stav.Caption:='Naƒç√≠tan√©, pripraven√©';
         Stav.Refresh;
       end
       else
@@ -529,7 +529,7 @@ begin
         end;
 
 
-        Stav.Caption:='OK, pripravenÈ';
+        Stav.Caption:='OK, pripraven√©';
         Stav.Refresh;
       end;
     end;
@@ -669,7 +669,7 @@ begin
       t_akt_prog_read:=True;
       //CPort.VydajPovelEFProgram(PROG_CMD_READ_DIR,0,0,CVAdresa.ValueInt,0);
       CPort.VydajPovelEDProgramTRK(True,CVAdresa.ValueInt,0);
-      Stav.Caption:='Povel pre naËÌtanie vydan˝';
+      Stav.Caption:='Povel pre naƒç√≠tanie vydan√Ω';
       Stav.Refresh;
     end;
   end
@@ -685,7 +685,7 @@ begin
         t_akt_prog_read:=True;
         //CPort.VydajPovelEFProgram(PROG_CMD_READ_POM,POMAdresa.ValueInt,0,CVAdresa.ValueInt,0);
         CPort.VydajPovelEDProgramPOM(True,POMAdresa.ValueInt,CVAdresa.ValueInt,0);
-        Stav.Caption:='Povel pre naËÌtanie vydan˝';
+        Stav.Caption:='Povel pre naƒç√≠tanie vydan√Ω';
         Stav.Refresh;
       end;
     end;
@@ -711,7 +711,7 @@ begin
         t_akt_prog_read:=False;
         //CPort.VydajPovelEFProgram(PROG_CMD_WRIT_DIR,0,0,CVAdresa.ValueInt,CVHodnota.ValueInt);
         CPort.VydajPovelEDProgramTRK(False,CVAdresa.ValueInt,CVHodnota.ValueInt);
-        Stav.Caption:='Povel pre z·pis vydan˝';
+        Stav.Caption:='Povel pre z√°pis vydan√Ω';
         Stav.Refresh;
       end;
     end;
@@ -730,7 +730,7 @@ begin
           t_akt_prog_read:=False;
           //CPort.VydajPovelEFProgram(PROG_CMD_WRIT_POM,POMAdresa.ValueInt,0,CVAdresa.ValueInt,CVHodnota.ValueInt);
           CPort.VydajPovelEDProgramPOM(False,POMAdresa.ValueInt,CVAdresa.ValueInt,CVHodnota.ValueInt);
-          Stav.Caption:='Povel pre z·pis vydan˝';
+          Stav.Caption:='Povel pre z√°pis vydan√Ω';
           Stav.Refresh;
         end;
       end;
@@ -751,7 +751,7 @@ begin
 
   t_potlacit_bity:=False;
 
-  Stav.Caption:='PripravenÈ';
+  Stav.Caption:='Pripraven√©';
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

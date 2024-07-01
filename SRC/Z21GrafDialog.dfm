@@ -7,10 +7,8 @@ object OKRightDlg: TOKRightDlg
   ClientWidth = 384
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object OKBtn: TButton
     Left = 300
     Top = 8

@@ -20,8 +20,9 @@ uses
     COMPort: string;
     Rychlost: integer;
     HWFlow: Boolean;
+    Programovanie: Boolean;
+    Z21: Boolean;
     Predvolene: Boolean;
-    
   end;
   
 type
@@ -37,10 +38,12 @@ type
     ListBox2: TListBox;
     Z21Povolit: TCheckBox;
     Panel4: TPanel;
+    ProgPovolit: TCheckBox;
     procedure CancelBtnClick(Sender: TObject);
     procedure OKBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure ListBox2Click(Sender: TObject);
   private
     { Private declarations }
     t_fullscreen: Boolean;
@@ -49,6 +52,8 @@ type
     t_reset_vyhybiek: Boolean;
     t_konfiguracie: TList<TOblastKonfiguracia>;
     t_pripojenia: TList<TPripojenieKonfiguracia>;
+    t_programovanie_implicitne: Boolean;
+    t_z21_implicitne: Boolean;
   public
     { Public declarations }
   end;
@@ -81,7 +86,8 @@ begin
   t_pripojenia:=TList<TPripojenieKonfiguracia>.Create;
 
   try
-    subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini');
+    if ParamCount>=1 then subor:=TIniFile.Create(ParamStr(1))
+    else subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini');
     try
       t_fullscreen:=subor.ReadBool('Main','Fullscreen',False);
       t_maximalizovat:=subor.ReadBool('Main','Maximalizovat',False);
@@ -89,7 +95,8 @@ begin
       t_reset_vyhybiek:=subor.ReadBool('Main','ResetVyhybiek',False);
       pocet_konf:=subor.ReadInteger('Main','Konfiguracie',0);
       pocet_prip:=subor.ReadInteger('Main','Pripojenia',0);
-      Z21Povolit.Checked:=subor.ReadBool('Main','Z21Implicitne',False);
+      t_z21_implicitne:=subor.ReadBool('Main','Z21Implicitne',False);
+      t_programovanie_implicitne:=subor.ReadBool('Main','ProgImplicitne',False);
 
       ListBox1.Items.BeginUpdate;
       try
@@ -123,10 +130,13 @@ begin
             prip.Rychlost:=subor.ReadInteger('Pripojenie'+IntToStr(i),'Rychlost',-1);
             prip.HWFlow:=subor.ReadBool('Pripojenie'+IntToStr(i),'HWFlow',False);
             prip.Predvolene:=subor.ReadBool('Pripojenie'+IntToStr(i),'Predvolene',False);
+            prip.Programovanie:=subor.ReadBool('Pripojenie'+IntToStr(i),'Programovanie',False);
+            prip.Z21:=subor.ReadBool('Pripojenie'+IntToStr(i),'Z21',False);
             
             t_pripojenia.Add(prip);
             ListBox2.AddItem(prip.Nazov,nil);
-            if prip.Predvolene then ListBox2.ItemIndex:=ListBox2.Count-1;        
+            if prip.Predvolene then ListBox2.ItemIndex:=ListBox2.Count-1;
+            ListBox2Click(ListBox2);
           end;
         end;      
       finally
@@ -149,6 +159,34 @@ begin
   t_pripojenia.Free;
 
   inherited;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm2.ListBox2Click(Sender: TObject);
+begin
+  if t_pripojenia[ListBox2.ItemIndex].Z21 then
+  begin
+    Z21Povolit.Enabled:=True;
+    Z21Povolit.Checked:=t_z21_implicitne;
+  end
+  else
+  begin
+    Z21Povolit.Enabled:=False;
+    Z21Povolit.Checked:=False;
+  end;
+
+  if t_pripojenia[ListBox2.ItemIndex].Programovanie then
+  begin
+    ProgPovolit.Enabled:=True;
+    ProgPovolit.Checked:=t_programovanie_implicitne;
+  end
+  else
+  begin
+    ProgPovolit.Enabled:=False;
+    ProgPovolit.Checked:=False;
+  end;
+
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -178,6 +216,12 @@ begin
         Form1.Z21Panel.Visible:=False;
         Form1.Z21M.Visible:=False;
         Form1.Z21M.ShortCut:=0;
+      end;
+
+      if not ProgPovolit.Checked then
+      begin
+        Form1.ProgramovanieadriesaFREDov1.Visible:=False;
+        Form1.ProgramovanieadriesaFREDov1.ShortCut:=0;
       end;
 
       Hide;

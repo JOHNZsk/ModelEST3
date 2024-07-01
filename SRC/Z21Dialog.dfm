@@ -7,14 +7,12 @@ object Z21Dlg: TZ21Dlg
   ClientWidth = 704
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   PopupMode = pmExplicit
   PopupParent = Form1.Owner
   Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Memo1: TMemo
     AlignWithMargins = True
     Left = 8
@@ -28,6 +26,8 @@ object Z21Dlg: TZ21Dlg
     Align = alClient
     ScrollBars = ssVertical
     TabOrder = 0
+    ExplicitWidth = 508
+    ExplicitHeight = 383
   end
   object Panel1: TPanel
     AlignWithMargins = True
@@ -44,6 +44,8 @@ object Z21Dlg: TZ21Dlg
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 1
+    ExplicitLeft = 524
+    ExplicitHeight = 383
     object PripojBtn: TButton
       AlignWithMargins = True
       Left = 0
@@ -160,7 +162,7 @@ object Z21Dlg: TZ21Dlg
     Enabled = False
     Interval = 100
     OnTimer = Timer1Timer
-    Left = 584
-    Top = 152
+    Left = 536
+    Top = 56
   end
 end

@@ -17,7 +17,8 @@ uses
   CPortThread in 'CPortThread.pas',
   Z21Dialog in 'Z21Dialog.pas' {Z21Dlg},
   Z21GrafDialog in 'Z21GrafDialog.pas' {OKRightDlg},
-  CasDialog in 'CasDialog.pas' {CasDlg};
+  CasDialog in 'CasDialog.pas' {CasDlg},
+  ProgDialog in 'ProgDialog.pas' {ProgDlg};
 
 {$R *.res}
 
@@ -35,5 +36,6 @@ begin
   Application.CreateForm(TZ21Dlg, Z21Dlg);
   Application.CreateForm(TOKRightDlg, OKRightDlg);
   Application.CreateForm(TCasDlg, CasDlg);
+  Application.CreateForm(TProgDlg, ProgDlg);
   Application.Run;
 end.

@@ -13,11 +13,9 @@ object Form2: TForm2
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     AlignWithMargins = True
@@ -34,6 +32,8 @@ object Form2: TForm2
     Caption = 'Panel1'
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 390
+    ExplicitHeight = 172
     object GroupBox1: TGroupBox
       AlignWithMargins = True
       Left = 6
@@ -47,6 +47,8 @@ object Form2: TForm2
       Caption = 'V'#253'ber konfigur'#225'cie'
       ParentBackground = False
       TabOrder = 0
+      ExplicitWidth = 378
+      ExplicitHeight = 163
       object ListBox1: TListBox
         AlignWithMargins = True
         Left = 7
@@ -60,6 +62,8 @@ object Form2: TForm2
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
+        ExplicitWidth = 364
+        ExplicitHeight = 141
       end
     end
   end
@@ -79,6 +83,8 @@ object Form2: TForm2
     ParentColor = True
     ShowCaption = False
     TabOrder = 1
+    ExplicitTop = 325
+    ExplicitWidth = 390
     object CancelBtn: TButton
       AlignWithMargins = True
       Left = 319
@@ -94,6 +100,7 @@ object Form2: TForm2
       Caption = 'Skon'#269'i'#357
       TabOrder = 0
       OnClick = CancelBtnClick
+      ExplicitLeft = 315
     end
     object OKBtn: TButton
       Left = 240
@@ -105,6 +112,7 @@ object Form2: TForm2
       Default = True
       TabOrder = 1
       OnClick = OKBtnClick
+      ExplicitLeft = 236
     end
     object Panel4: TPanel
       Left = 0
@@ -117,16 +125,13 @@ object Form2: TForm2
       ParentBackground = False
       ShowCaption = False
       TabOrder = 2
-      ExplicitLeft = 176
-      ExplicitTop = 8
-      ExplicitHeight = 41
       object Z21Povolit: TCheckBox
         Left = 0
         Top = 0
-        Width = 193
+        Width = 81
         Height = 25
         Align = alLeft
-        Caption = 'Povoli'#357' pripojenie k Z21'
+        Caption = 'Povoli'#357'  Z21'
         Checked = True
         Color = clBtnFace
         Font.Charset = DEFAULT_CHARSET
@@ -138,9 +143,15 @@ object Form2: TForm2
         ParentFont = False
         State = cbChecked
         TabOrder = 0
-        ExplicitLeft = -8
-        ExplicitTop = 1
-        ExplicitHeight = 23
+      end
+      object ProgPovolit: TCheckBox
+        Left = 81
+        Top = 0
+        Width = 104
+        Height = 25
+        Align = alLeft
+        Caption = 'Povoli'#357' progr.'
+        TabOrder = 1
       end
     end
   end
@@ -159,6 +170,8 @@ object Form2: TForm2
     Caption = 'Panel2'
     ParentBackground = False
     TabOrder = 2
+    ExplicitTop = 204
+    ExplicitWidth = 390
     object GroupBox2: TGroupBox
       AlignWithMargins = True
       Left = 6
@@ -172,6 +185,7 @@ object Form2: TForm2
       Caption = 'Sp'#244'sob pripojenia'
       ParentBackground = False
       TabOrder = 0
+      ExplicitWidth = 378
       object ListBox2: TListBox
         AlignWithMargins = True
         Left = 7
@@ -185,6 +199,8 @@ object Form2: TForm2
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
+        OnClick = ListBox2Click
+        ExplicitWidth = 364
       end
     end
   end

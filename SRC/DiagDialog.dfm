@@ -4,23 +4,21 @@ object DiagDlg: TDiagDlg
   BorderStyle = bsToolWindow
   Caption = 'Technologick'#253' monitor LocoNet'
   ClientHeight = 599
-  ClientWidth = 752
+  ClientWidth = 865
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -20
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 24
   object GroupBox1: TGroupBox
     AlignWithMargins = True
     Left = 329
     Top = 8
-    Width = 415
+    Width = 528
     Height = 583
     Margins.Left = 0
     Margins.Top = 8
@@ -29,17 +27,21 @@ object DiagDlg: TDiagDlg
     Align = alClient
     Caption = 'V'#253'pis komunikace'
     TabOrder = 0
+    ExplicitWidth = 407
+    ExplicitHeight = 571
     object Memo1: TMemo
       AlignWithMargins = True
       Left = 5
       Top = 29
-      Width = 405
+      Width = 518
       Height = 549
       Align = alClient
       Lines.Strings = (
         'Memo1')
       ScrollBars = ssVertical
       TabOrder = 0
+      ExplicitWidth = 397
+      ExplicitHeight = 537
     end
   end
   object Panel1: TPanel
@@ -57,6 +59,7 @@ object DiagDlg: TDiagDlg
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 1
+    ExplicitHeight = 571
     object GroupBox2: TGroupBox
       Left = 0
       Top = 65

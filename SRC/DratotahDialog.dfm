@@ -7,6 +7,7 @@
   ClientWidth = 722
   Color = clBtnFace
   ParentFont = True
+  PopupMode = pmAuto
   Position = poScreenCenter
   OnHide = FormHide
   OnShow = FormShow

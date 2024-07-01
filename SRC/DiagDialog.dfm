@@ -11,6 +11,7 @@ object DiagDlg: TDiagDlg
   Font.Height = -20
   Font.Name = 'Tahoma'
   Font.Style = []
+  PopupMode = pmAuto
   Position = poScreenCenter
   OnCreate = FormCreate
   TextHeight = 24

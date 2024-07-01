@@ -7,6 +7,7 @@ object ProgDlg: TProgDlg
   ClientWidth = 496
   Color = clBtnFace
   ParentFont = True
+  PopupMode = pmAuto
   Position = poScreenCenter
   OnCreate = FormCreate
   TextHeight = 15

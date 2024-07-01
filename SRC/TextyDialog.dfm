@@ -7,6 +7,7 @@ object TextyDlg: TTextyDlg
   ClientWidth = 545
   Color = clBtnFace
   ParentFont = True
+  PopupMode = pmAuto
   Position = poScreenCenter
   OnShow = FormShow
   TextHeight = 15

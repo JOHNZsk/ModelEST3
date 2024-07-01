@@ -76,7 +76,7 @@ end;
 
 procedure TForm2.FormCreate(Sender: TObject);
 var
-  subor: TIniFile;
+  subor: TMemIniFile;
   pocet_konf,pocet_prip: Integer;
   konf: TOblastKonfiguracia;
   prip: TPripojenieKonfiguracia;
@@ -86,8 +86,8 @@ begin
   t_pripojenia:=TList<TPripojenieKonfiguracia>.Create;
 
   try
-    if ParamCount>=1 then subor:=TIniFile.Create(ParamStr(1))
-    else subor:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini');
+    if ParamCount>=1 then subor:=TMemIniFile.Create(ParamStr(1),TEncoding.UTF8)
+    else subor:=TMemIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini',TEncoding.UTF8);
     try
       t_fullscreen:=subor.ReadBool('Main','Fullscreen',False);
       t_maximalizovat:=subor.ReadBool('Main','Maximalizovat',False);

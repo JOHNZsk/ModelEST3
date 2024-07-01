@@ -201,14 +201,14 @@ end;
 
 procedure TForm1.Diagnostika1Click(Sender: TObject);
 begin
-  if not DiagDlg.Visible then DiagDlg.Show;
+  DiagDlg.Show;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 procedure TForm1.Drtoah1Click(Sender: TObject);
 begin
-  if not DratotahDlg.Visible then DratotahDlg.Show;
+  DratotahDlg.Show;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -288,9 +288,11 @@ begin
   Close;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TForm1.Modelovas1Click(Sender: TObject);
 begin
-  if not CasDlg.Visible then CasDlg.Show
+  CasDlg.Show
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -702,6 +704,7 @@ begin
 
  ACanvas.Brush.Color := LStyles.GetStyleColor(ColorStates[(Sender as TMenuItem).Enabled]);
  ACanvas.Font.Color  := clRed;
+ ACanvas.Font.Style:=[fsBold];
 
  if Selected then
  begin
@@ -738,6 +741,7 @@ begin
 
  ACanvas.Brush.Color := LStyles.GetStyleColor(ColorStates[(Sender as TMenuItem).Enabled]);
  ACanvas.Font.Color  := LStyles.GetStyleFontColor(FontColorStates[(Sender as TMenuItem).Enabled]);
+ ACanvas.Font.Style:=[fsBold];
 
  if Selected then
  begin

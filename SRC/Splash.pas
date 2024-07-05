@@ -3,8 +3,18 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Generics.Collections;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Generics.Collections;
 
   type TOblastKonfiguracia=record
     Nazov: string;
@@ -65,7 +75,13 @@ implementation
 
 {$R *.dfm}
 
-uses GUI1, LogikaStavadlo, IniFiles, ComPort, UITypes, Z21Dialog;
+uses
+  System.IniFiles,
+  System.UITypes,
+  GUI1,
+  LogikaStavadlo,
+  ComPort,
+  Z21Dialog;
 
 procedure TForm2.CancelBtnClick(Sender: TObject);
 begin

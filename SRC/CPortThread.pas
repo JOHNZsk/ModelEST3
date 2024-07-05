@@ -3,7 +3,11 @@
 interface
 
 uses
-  System.Classes, SyncObjs, Generics.Collections, System.SysUtils, synaser;
+  System.Classes,
+  System.SyncObjs,
+  System.SysUtils,
+  Generics.Collections,
+  synaser;
 
 type
   TByteDynPoleW=class(TObject)
@@ -168,7 +172,7 @@ type
     t_simbuffer: TBytes;
 
     t_povely: TQueue<TByteDynPoleW>;
-    t_simulacia_dohladov: TDictionary<Integer,TCPortDohladVyhybky>;
+    //t_simulacia_dohladov: TDictionary<Integer,TCPortDohladVyhybky>;
 
     t_vlakno_vstup: TCriticalSection;
     t_vlakno_vystup: TCriticalSection;
@@ -717,7 +721,7 @@ begin
   adresa:=t_sprava[0]+((t_sprava[1] and $0F) shl 7);
   smer:=(t_sprava[1] and $20)<>0;
   stav:=(t_sprava[1] and $10)<>0;
-  test:=(t_sprava[1] and $30)<>0;
+  //test:=(t_sprava[1] and $30)<>0;
 
   //konverzia z formatu loconet na format digitrax
   adresa:=(adresa shl 1);

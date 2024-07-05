@@ -3,8 +3,16 @@
 interface
 
 uses
-  System.SysUtils, System.Classes, StavadloObjekty, Generics.Collections,
-  Graphics, ExtCtrls, Types, Cesta, GR32_Image, GR32;
+  System.SysUtils,
+  System.Classes,
+  System.Types,
+  Generics.Collections,
+  Vcl.Graphics,
+  Vcl.ExtCtrls,
+  GR32_Image,
+  GR32,
+  StavadloObjekty,
+  Cesta;
 
 type
   THitBox=record
@@ -95,6 +103,7 @@ type
     t_cas_posledny: TDateTime;
     t_cas_stoji: Boolean;
     t_cas_okno: Boolean;
+    t_cas_ulozit: Byte;
 
     function SkontrolujConfig: Boolean;
 
@@ -212,8 +221,18 @@ var
   LogikaES: TLogikaES;
 
 implementation
-  uses GUI1, DiagDialog, ComPort, IniFiles, Forms, LoadConfig, DratotahDialog,
-  DateUtils, Winapi.Windows, ipwxml, CasDialog;
+  uses
+    Winapi.Windows,
+    System.DateUtils,
+    System.IniFiles,
+    Vcl.Forms,
+    ipwxml,
+    GUI1,
+    DiagDialog,
+    ComPort,
+    LoadConfig,
+    DratotahDialog,
+    CasDialog;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -297,6 +316,8 @@ begin
   t_cas_posledny:=Now;
   t_cas_stoji:=True;
   t_cas_okno:=False;
+
+  t_cas_ulozit:=1;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -531,6 +552,12 @@ begin
     Form1.Cas.Caption:=text;
 
     if t_cas_okno then CasDlg.AktualizujCas(t_cas_typ,t_cas_hodnota,t_cas_rychlost,t_cas_stoji);
+
+    if(t_cas_typ<>TCA_REALNY) then
+    begin
+      if t_cas_ulozit=0 then UlozStitkyVyluky;
+      t_cas_ulozit:=(t_cas_ulozit+1) mod 10;
+    end;
   end;
 end;
 
@@ -2015,6 +2042,12 @@ begin
     ciel.Overwrite:=True;
     //ciel.WriteXMLDeclaration('1.0',True,False);
     ciel.StartElement('StitkyVyluky','');
+    ciel.PutAttr('syscas','',DateToISO8601(Now,True));
+    ciel.PutAttr('modcas','',DateToISO8601(t_cas_hodnota,True));
+    ciel.PutAttr('modcastyp','',IntToStr(Ord(t_cas_typ)));
+    ciel.PutAttr('modcasstoji','',BoolToStr(t_cas_stoji,True));
+    ciel.PutAttr('modcaszrychlenie','',IntToStr(t_cas_rychlost));
+
     try
       ciel.StartElement('Stitky','');
       try
@@ -2171,6 +2204,7 @@ begin
   t_cas_typ:=p_typ;
   t_cas_hodnota:=p_hodnota;
   t_cas_rychlost:=p_zrychlenie;
+  UlozStitkyVyluky;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2183,6 +2217,7 @@ begin
     ZCA_MINUTA: t_cas_hodnota:=RecodeMinute(t_cas_hodnota,(MinuteOf(t_cas_hodnota)+1) mod 60);
     ZCA_SEKUNDA: t_cas_hodnota:=RecodeSecond(t_cas_hodnota,30);
   end;
+  UlozStitkyVyluky;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2206,6 +2241,7 @@ begin
   end;
 
   if t_cas_hodnota<EncodeDate(2000,1,1) then t_cas_hodnota:=EncodeDate(2000,1,1);
+  UlozStitkyVyluky;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2213,6 +2249,7 @@ end;
 procedure TLogikaES.ZastavCas;
 begin
   t_cas_stoji:=True;
+  UlozStitkyVyluky;
   Timer1Timer(Timer1);
 end;
 
@@ -2222,6 +2259,7 @@ procedure TLogikaES.SpustiCas;
 begin
   t_cas_posledny:=Now;
   t_cas_stoji:=False;
+  UlozStitkyVyluky;
   Timer1Timer(Timer1);
 end;
 

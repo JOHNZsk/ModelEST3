@@ -1,7 +1,9 @@
 ﻿unit Cesta;
 
 interface
-  uses Generics.Collections, StavadloObjekty;
+  uses
+    Generics.Collections,
+    StavadloObjekty;
 
   type TCestaVyhybka=record
     Vyhybka: TVyhybka;
@@ -99,7 +101,9 @@ interface
 
 
 implementation
-  uses ComPort, LogikaStavadlo;
+  uses
+    ComPort,
+    LogikaStavadlo;
 
   function CestaZnakText(p_hodnota: string): TCestaZnak;
   begin

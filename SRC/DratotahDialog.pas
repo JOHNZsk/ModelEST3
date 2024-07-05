@@ -2,8 +2,17 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls;
+uses
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Vcl.ComCtrls;
 
 type
   TDratotahDlg = class(TForm)
@@ -29,7 +38,10 @@ var
   DratotahDlg: TDratotahDlg;
 
 implementation
-  uses LogikaStavadlo, StavadloObjekty, Generics.Collections;
+  uses
+    Generics.Collections,
+    LogikaStavadlo,
+    StavadloObjekty;
 
 {$R *.dfm}
 

@@ -2,9 +2,20 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, VclTee.TeeGDIPlus,
-  VCLTee.TeEngine, VCLTee.TeeProcs, VCLTee.Chart;
+uses
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  VclTee.TeeGDIPlus,
+  VCLTee.TeEngine,
+  VCLTee.TeeProcs,
+  VCLTee.Chart;
 
 type
   TOKRightDlg = class(TForm)

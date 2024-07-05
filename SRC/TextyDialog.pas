@@ -2,9 +2,18 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Winapi.Messages;
+uses
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Vcl.ComCtrls;
 Const
   USER_EDITLISTVIEW = WM_USER + 666;
 type
@@ -36,14 +45,20 @@ implementation
 {$R *.dfm}
 
 uses
-  CommCtrl, StavadloObjekty, LogikaStavadlo;
+  Winapi.CommCtrl,
+  StavadloObjekty,
+  LogikaStavadlo;
 const
   EDIT_COLUMN = 3; //Index of the column to Edit
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TTextyDlg.CancelBtnClick(Sender: TObject);
 begin
   Hide;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TTextyDlg.FormShow(Sender: TObject);
 Var
@@ -71,6 +86,8 @@ begin
     ListViewEditor.Visible:=False;
   end;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TTextyDlg.ListView1Click(Sender: TObject);
 var
@@ -117,6 +134,8 @@ begin
   LogikaES.UlozStitkyVyluky;
   Hide;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TTextyDlg.UserEditListView(var Message: TMessage);
 var

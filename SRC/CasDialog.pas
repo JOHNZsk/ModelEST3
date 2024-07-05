@@ -2,8 +2,17 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, LogikaStavadlo;
+uses
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  LogikaStavadlo;
 
 type
   TCasDlg = class(TForm)
@@ -74,7 +83,9 @@ var
   CasDlg: TCasDlg;
 
 implementation
-  uses DateUtils, GUI1;
+  uses
+    System.DateUtils,
+    GUI1;
 
 {$R *.dfm}
 

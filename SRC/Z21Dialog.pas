@@ -2,10 +2,22 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, ipwcore, ipwudpport,
-  IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdGlobal,
-  Generics.Collections;
+uses
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Generics.Collections,
+  IdBaseComponent,
+  IdComponent,
+  IdUDPBase,
+  IdUDPClient,
+  IdGlobal;
 
 type
   TPrudVystupnyHodnota=record
@@ -93,7 +105,9 @@ implementation
 
 {$R *.dfm}
 
-uses GUI1, ComPort;
+uses
+  GUI1,
+  ComPort;
 
 procedure TZ21Dlg.Pripoj;
 begin

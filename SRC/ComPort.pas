@@ -3,8 +3,11 @@
 interface
 
 uses
-  System.SysUtils, System.Classes,
-  Vcl.ExtCtrls, SyncObjs, CPortThread;
+  System.SysUtils,
+  System.Classes,
+  Vcl.ExtCtrls,
+  System.SyncObjs,
+  CPortThread;
 
 type
   TCPort = class(TDataModule)
@@ -60,8 +63,14 @@ var
   CPort: TCPort;
 
 implementation
-  uses DiagDialog, Types, MMSystem, LogikaStavadlo, Forms, Generics.Collections,
-  ProgDialog;
+  uses
+    Winapi.MMSystem,
+    System.Types,
+    Vcl.Forms,
+    Generics.Collections,
+    DiagDialog,
+    LogikaStavadlo,
+    ProgDialog;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 

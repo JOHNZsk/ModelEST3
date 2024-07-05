@@ -1,7 +1,10 @@
 ﻿unit StavadloObjekty;
 
 interface
-  uses Graphics, GR32, Generics.Collections;
+  uses
+    Vcl.Graphics,
+    Generics.Collections,
+    GR32;
 
   type TZaver=(ZVR_NENI,ZVR_RUCNY,ZVR_PREDBEZNY,ZVR_PRESAH,ZVR_POSUNOVA,ZVR_VLAKOVA);
 
@@ -445,7 +448,13 @@ interface
  end;
 
 implementation
-  uses DateUtils, SysUtils, Types, GR32_Polygons, GR32_Backends, LogikaStavadlo;
+  uses
+    System.DateUtils,
+    System.SysUtils,
+    System.Types,
+    GR32_Polygons,
+    GR32_Backends,
+    LogikaStavadlo;
 
   function ZaverText(p_hodnota: TZaver): string;
   begin

@@ -1,7 +1,11 @@
 ﻿unit LoadConfig;
 
 interface
-  uses ipwXml, LogikaStavadlo, StavadloObjekty, Cesta;
+  uses
+    ipwXml,
+    LogikaStavadlo,
+    StavadloObjekty,
+    Cesta;
 
   type TConfigLoader=class(TObject)
     private
@@ -65,7 +69,12 @@ interface
   end;
 
 implementation
-  uses SysUtils, Forms, GUI1, Types;
+  uses
+    System.SysUtils,
+    System.DateUtils,
+    System.Types,
+    Vcl.Forms,
+    GUI1;
 
   constructor TConfigLoader.Create(p_nazov,p_stitky: string);
   begin
@@ -419,7 +428,7 @@ implementation
     end;
 
     if(x_zac>=0) and (y_zac>=0) and (cjednotky>0) then
-    begin      
+    begin
       text:=TText.Create(x_zac,y_zac,htext,velkost,nastred,napravo,cjednotky,p_dopravna);
       p_ciel.PridajObjekt(text);
       Result:=True;
@@ -1596,6 +1605,38 @@ implementation
           begin
             parser.XPath:='/StitkyVyluky/APNky';
             Result:=NacitajAPNky(parser,p_ciel);
+          end;
+
+          //obnovenie datumu a casu
+
+          try
+            parser.XPath:='/StitkyVyluky';
+
+            var v_cas_typ: TCasTyp:=TCasTyp(StrToIntDef(parser.GetAttr('modcastyp'),0));
+
+            if(v_cas_typ=TCA_ZRYCHLENY) then
+            begin
+              var v_syscas:=ISO8601ToDate(parser.GetAttr('syscas'),True);
+              var v_modcas:=ISO8601ToDate(parser.GetAttr('modcas'),True);
+              var v_modcas_zrychlenie:=StrToIntDef(parser.GetAttr('modcaszrychlenie'),1);
+
+              var v_rozdiel:=SecondsBetween(Now,v_syscas);
+
+              if(v_rozdiel<3600) then
+              begin
+                LogikaES.NastavCas(v_cas_typ,IncSecond(v_modcas,v_rozdiel*v_modcas_zrychlenie),v_modcas_zrychlenie);
+
+                if not StrToBoolDef(parser.GetAttr('modcasstoji'),True) then LogikaES.SpustiCas;
+              end
+              else LogikaES.NastavCas(TCA_REALNY,Now,1);
+            end
+            else if(v_cas_typ=TCA_LOCONET) then
+            begin
+            //bude doplnene
+            end
+            else LogikaES.NastavCas(TCA_REALNY,Now,1);
+          except
+            LogikaES.NastavCas(TCA_REALNY,Now,1);
           end;
         end
         else Result:=Chyba('V konfiguraci chybí výchozí prvek XML');

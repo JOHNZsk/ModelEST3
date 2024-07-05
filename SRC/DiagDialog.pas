@@ -2,9 +2,18 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, ComPort,
-  Vcl.AppEvnts;
+uses
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Vcl.AppEvnts,
+  ComPort;
 
 type
   TDiagDlg = class(TForm)
@@ -52,7 +61,8 @@ var
   DiagDlg: TDiagDlg;
 
 implementation
-  uses GUI1;
+  uses
+    GUI1;
 
 {$R *.dfm}
 

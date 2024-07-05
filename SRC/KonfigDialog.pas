@@ -2,9 +2,21 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Dialogs,
-  Xml.xmldom, Xml.XMLIntf, Xml.Win.msxmldom, Xml.XMLDoc;
+uses
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Vcl.Dialogs,
+  Xml.xmldom,
+  Xml.XMLIntf,
+  Xml.Win.msxmldom,
+  Xml.XMLDoc;
 
 type
   TKonfigDlg = class(TForm)
@@ -31,7 +43,8 @@ var
   KonfigDlg: TKonfigDlg;
 
 implementation
-uses System.RegularExpressions;
+uses
+  System.RegularExpressions;
 
 {$R *.dfm}
 
@@ -40,11 +53,15 @@ begin
   Close;
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+
 procedure TKonfigDlg.OKBtnClick(Sender: TObject);
 begin
   if OtocPohladR.Checked then OtocitPohlad
   else if PrehodHitBox.Checked then PrehoditHitBox;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 function OtocAtribut(p_text: string; p_atribut: string; p_odpocet: Integer): string;
 var
@@ -62,6 +79,8 @@ begin
     Result:=StringReplace(Result,p_atribut+'=A"'+IntToStr(i)+'"',p_atribut+'="'+IntToStr(p_odpocet-i)+'"',[rfReplaceAll,rfIgnoreCase]);
   end;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TKonfigDlg.OtocitPohlad;
 var
@@ -90,6 +109,8 @@ begin
     konf.Free;
   end;
 end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 procedure TKonfigDlg.PrehoditHitBox;
 var

@@ -3,10 +3,22 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, GR32, StavadloObjekty,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Menus,
-  Vcl.ExtCtrls, GR32_Image, Vcl.AppEvnts;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  StavadloObjekty,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.Menus,
+  Vcl.ExtCtrls,
+  Vcl.AppEvnts,
+  GR32,
+  GR32_Image;
 
 type
   TForm1 = class(TForm)
@@ -144,9 +156,20 @@ implementation
 
 {$R *.dfm}
 
-uses ComPort, DiagDialog, LogikaStavadlo, DratotahDialog, DateUtils,
-Generics.Collections, TextyDialog, Splash, KonfigDialog, Z21Dialog, CasDialog,
-ProgDialog, Vcl.Themes;
+uses
+  System.DateUtils,
+  Generics.Collections,
+  Vcl.Themes,
+  ComPort,
+  DiagDialog,
+  LogikaStavadlo,
+  DratotahDialog,
+  TextyDialog,
+  Splash,
+  KonfigDialog,
+  Z21Dialog,
+  CasDialog,
+  ProgDialog;
 
 procedure TForm1.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
 begin

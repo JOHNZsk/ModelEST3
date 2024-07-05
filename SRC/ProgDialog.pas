@@ -2,8 +2,18 @@
 
 interface
 
-uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.NumberBox, CPortThread;
+uses
+  Winapi.Windows,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Vcl.NumberBox,
+  CPortThread;
 
 type
   TProgDlg = class(TForm)
@@ -88,7 +98,8 @@ var
   ProgDlg: TProgDlg;
 
 implementation
-  uses ComPort;
+  uses
+    ComPort;
 
 {$R *.dfm}
   

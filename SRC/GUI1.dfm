@@ -322,19 +322,20 @@ object Form1: TForm1
     StyleElements = []
     ExplicitWidth = 809
     ExplicitHeight = 315
-    object PaintBox1: TPaintBox32
+    object PaintBox1: TSkPaintBox
       Left = 9
       Top = 9
       Width = 795
       Height = 298
       Align = alClient
-      TabOrder = 0
+      OnMouseLeave = PaintBox1MouseLeave
       OnMouseMove = PaintBox1MouseMove
       OnMouseUp = PaintBox1MouseUp
-      OnMouseLeave = PaintBox1MouseLeave
-      OnPaintBuffer = PaintBox1Paint
-      ExplicitWidth = 791
-      ExplicitHeight = 297
+      OnDraw = PaintBox1Draw
+      ExplicitLeft = 488
+      ExplicitTop = 88
+      ExplicitWidth = 50
+      ExplicitHeight = 50
     end
   end
   object Z21Panel: TPanel

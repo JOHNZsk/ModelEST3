@@ -19,7 +19,7 @@ uses
   Vcl.ExtCtrls,
   Vcl.AppEvnts,
   Skia,
-  Skia.Vcl, GR32, GR32_Image;
+  Skia.Vcl;
 
 type
   TForm1 = class(TForm)
@@ -38,7 +38,6 @@ type
     Panel2: TPanel;
     PanelRizik: TPanel;
     PanelPoruch: TPanel;
-    PaintBox1: TPaintBox32;
     Cas: TLabel;
     Panel3: TPanel;
     PopupMenu1: TPopupMenu;
@@ -104,8 +103,8 @@ type
     APN2: TMenuItem;
     PaintBoxPoruchy: TSkPaintBox;
     PaintBoxRizika: TSkPaintBox;
+    PaintBox1: TSkPaintBox;
     procedure Diagnostika1Click(Sender: TObject);
-    procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure Koniec1Click(Sender: TObject);
@@ -136,8 +135,8 @@ type
     procedure STAV1DrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect; Selected: Boolean);
     procedure STOJ1DrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect; Selected: Boolean);
     procedure PaintBoxPoruchyDraw(ASender: TObject; const ACanvas: ISkCanvas; const ADest: TRectF; const AOpacity: Single);
-    procedure PaintBoxRizikaDraw(ASender: TObject; const ACanvas: ISkCanvas;
-      const ADest: TRectF; const AOpacity: Single);
+    procedure PaintBoxRizikaDraw(ASender: TObject; const ACanvas: ISkCanvas; const ADest: TRectF; const AOpacity: Single);
+    procedure PaintBox1Draw(ASender: TObject; const ACanvas: ISkCanvas; const ADest: TRectF; const AOpacity: Single);
   private
     { Private declarations }
     t_maximalizovat: Boolean;
@@ -365,31 +364,45 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-procedure VykresliHitBox(p_ciel: TBitmap32; p_hitbox: THitBox; p_posun: Boolean);
+procedure VykresliHitBox(p_ciel: ISkSurface; p_dest: TRectF; p_hitbox: THitBox; p_posun: Boolean);
 var
-  x_zac,y_zac,x_kon,y_kon: Integer;
-  farba: TColor32;
+  x_zac,y_zac,x_kon,y_kon: Single;
+  farba: ISKPaint;
 begin
-  x_zac:=(p_hitbox.Poloha.Left*p_ciel.Width) div LogikaES.SirkaPlanu;
-  y_zac:=(p_hitbox.Poloha.Top*p_ciel.Height) div LogikaES.VyskaPlanu;
-  x_kon:=(p_hitbox.Poloha.Right*p_ciel.Width) div LogikaES.SirkaPlanu;
-  y_kon:=(p_hitbox.Poloha.Bottom*p_ciel.Height) div LogikaES.VyskaPlanu;
+  x_zac:=(p_hitbox.Poloha.Left*p_dest.Width)/LogikaES.SirkaPlanu;
+  y_zac:=(p_hitbox.Poloha.Top*p_dest.Height)/LogikaES.VyskaPlanu;
+  x_kon:=(p_hitbox.Poloha.Right*p_dest.Width)/LogikaES.SirkaPlanu;
+  y_kon:=(p_hitbox.Poloha.Bottom*p_dest.Height)/LogikaES.VyskaPlanu;
 
-  if p_posun then farba:=clWhite32
-  else farba:=clLime32;
+  farba:=TSKPaint.Create;
 
-  p_ciel.FrameRectS(x_zac,y_zac,x_kon,y_kon,farba);
-  p_ciel.FrameRectS(x_zac+1,y_zac+1,x_kon-1,y_kon-1,farba);
+  if p_posun then farba.Color:=TAlphaColors.White
+  else farba.Color:=TAlphaColors.Lime;
+
+  farba.StrokeWidth:=2;
+  farba.Style:=TSkPaintStyle.Stroke;
+
+  p_ciel.Canvas.DrawRect(RectF(x_zac,y_zac,x_kon,y_kon),farba);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-procedure TForm1.PaintBox1Paint(Sender: TObject);
+procedure TForm1.PaintBox1Draw(ASender: TObject; const ACanvas: ISkCanvas; const ADest: TRectF; const AOpacity: Single);
 var
   objekt: TStavadloObjekt;
   volba,volba_pred: TPair<TStavadloObjekt,Boolean>;
-  bitmap: TBitmap32;
+  bitmap: ISkSurface;
+  farba_pozadie: ISkPaint;
+  farba_relief: ISkPaint;
 begin
+  farba_pozadie:=TSkPaint.Create;
+  farba_pozadie.Color:=TAlphaColors.Black;
+
+  farba_relief:=TSkPaint.Create;
+  farba_relief.Color:=TAlphaColors.Gray;
+  farba_relief.AntiAlias:=True;
+  farba_relief.StrokeCap:=TSkStrokeCap.Round;
+
   if LogikaES.NudzovyPovel then
   begin
     if (SecondOf(Now) mod 2)=0 then PanelOkraj.Color:=clRed
@@ -397,30 +410,26 @@ begin
   end
   else PanelOkraj.Color:=clBlack;
 
-  bitmap:=TBitmap32.Create;
-  try
-    bitmap.SetSizeFrom(PaintBox1);
+  bitmap:=TSkSurface.MakeRaster(Ceil(ADest.Width),Ceil(ADest.Height));
 
-    bitmap.FillRect(0,0,bitmap.Width,bitmap.Height,clBlack32);
-    for objekt in LogikaES.DajObjekty do objekt.Vykresli(bitmap,0,bitmap.Width,0,bitmap.Height);
+  bitmap.Canvas.Clear(TAlphaColors.Black);
+  for objekt in LogikaES.DajObjekty do if not (objekt is TNavestidlo) then objekt.Vykresli(bitmap,ADest,farba_pozadie,farba_relief);
+  for objekt in LogikaES.DajObjekty do if (objekt is TNavestidlo) then objekt.Vykresli(bitmap,ADest,farba_pozadie,farba_relief);
 
-    volba_pred.Key:=nil;
-    volba_pred.Value:=False;
+  volba_pred.Key:=nil;
+  volba_pred.Value:=False;
 
-    for volba in LogikaES.DajVolby do
+  for volba in LogikaES.DajVolby do
+  begin
+    if volba.Key<>volba_pred.Key then
     begin
-      if volba.Key<>volba_pred.Key then
-      begin
-        VykresliHitBox(bitmap,LogikaES.DajHitBox(volba.Key),volba.Value);
-        volba_pred.Key:=volba.Key;
-        volba_pred.Value:=volba.Value;
-      end;
+      VykresliHitBox(bitmap,ADest,LogikaES.DajHitBox(volba.Key),volba.Value);
+      volba_pred.Key:=volba.Key;
+      volba_pred.Value:=volba.Value;
     end;
-
-    PaintBox1.Buffer.Draw(0,0,bitmap);
-  finally
-    bitmap.Free;
   end;
+
+  bitmap.Draw(ACanvas,0,0);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

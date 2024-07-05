@@ -9,8 +9,6 @@ uses
   Generics.Collections,
   Vcl.Graphics,
   Vcl.ExtCtrls,
-  GR32_Image,
-  GR32,
   StavadloObjekty,
   Cesta;
 
@@ -521,7 +519,7 @@ end;
 
 procedure TLogikaES.Timer1Timer(Sender: TObject);
 begin
-  Form1.PaintBox1.Invalidate;
+  Form1.PaintBox1.Redraw;
   Form1.PaintBoxPoruchy.Redraw;
 
   if t_cas_typ=TCA_REALNY then
@@ -727,7 +725,7 @@ begin
   end;
 
   AktualizujPanely;
-  Form1.PaintBox1.Invalidate;
+  Form1.PaintBox1.Redraw;
   if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
@@ -897,7 +895,7 @@ begin
     else if(vysledok=nil) or (vysledok=t_menu_objekt) then t_menu_objekt:=nil;
   end;
 
-  Form1.PaintBox1.Invalidate;
+  Form1.PaintBox1.Redraw;
   AktualizujPanely;
   if t_volat_dratotah then DratotahDlg.Obnov;
 end;
@@ -949,7 +947,7 @@ begin
     if (objekt is TNavestidlo) and ((objekt as TNavestidlo).ObsahujeAdresu(p_adresa)) then (objekt as TNavestidlo).NastavPolohu(p_adresa,p_smer);
   end;
 
-  Form1.PaintBox1.Invalidate;
+  Form1.PaintBox1.Redraw;
   if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
@@ -963,7 +961,7 @@ begin
 
   if t_dohlady.TryGetValue(p_adresa,objekt) then (objekt as TVyhybkaDohlad).NastavDohlad(p_adresa,p_stav);
 
-  Form1.PaintBox1.Invalidate;
+  Form1.PaintBox1.Redraw;
   if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 
@@ -979,7 +977,7 @@ begin
     if (objekt is TNavestidlo) and ((objekt as TNavestidlo).ObsahujeAdresu(p_adresa)) then (objekt as TNavestidlo).NastavPolohu(p_adresa,p_smer);
   end;
 
-  Form1.PaintBox1.Invalidate;
+  Form1.PaintBox1.Redraw;
   if t_volat_dratotah then DratotahDlg.Obnov;
 end;
 

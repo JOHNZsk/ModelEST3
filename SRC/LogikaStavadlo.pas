@@ -522,7 +522,7 @@ end;
 procedure TLogikaES.Timer1Timer(Sender: TObject);
 begin
   Form1.PaintBox1.Invalidate;
-  Form1.PaintBoxPoruchy.Invalidate;
+  Form1.PaintBoxPoruchy.Redraw;
 
   if t_cas_typ=TCA_REALNY then
   begin
@@ -932,8 +932,9 @@ begin
   end;
 
   Form1.VJednotka.Caption:=text;
-  Form1.PaintBoxPoruchy.Invalidate;
-  Form1.PaintBoxRizika.Invalidate;
+
+  Form1.PaintBoxPoruchy.Redraw;
+  Form1.PaintBoxRizika.Redraw;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1201,7 +1202,7 @@ end;
 procedure TLogikaES.VytvorPoruchu(p_cas: TDateTime; p_dopravna: TDopravna; p_text: string);
 begin
   t_poruchy.Add(Porucha(p_cas,p_dopravna,p_text));
-  Form1.PaintBoxPoruchy.Invalidate;
+  Form1.PaintBoxPoruchy.Redraw;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1243,7 +1244,7 @@ procedure TLogikaES.ZhodNudzovyPovel;
 begin
   t_je_nudzovy_povel:=False;
   VytvorPoruchu(Now,t_nudzovy_povel_dopravna,'Nesprávne heslo');
-  Form1.PaintBoxRizika.Invalidate;
+  Form1.PaintBoxRizika.Redraw;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1295,7 +1296,7 @@ begin
   end;
 
   t_je_nudzovy_povel:=False;
-  Form1.PaintBoxRizika.Invalidate;
+  Form1.PaintBoxRizika.Redraw;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1305,7 +1306,7 @@ begin
   if t_poruchy.Count>0 then
   begin
     t_poruchy.Delete(0);
-    Form1.PaintBoxPoruchy.Invalidate;
+    Form1.PaintBoxPoruchy.Redraw;
   end;
 end;
 
@@ -1335,7 +1336,7 @@ begin
         if t_nudzovy_povel_sekvencia='' then
         begin
           t_nudzovy_povel_sekvencia:='A';
-          Form1.PaintBoxRizika.Invalidate;
+          Form1.PaintBoxRizika.Redraw;
         end
         else ZhodNudzovyPovel;
       end;
@@ -1347,7 +1348,7 @@ begin
         if t_nudzovy_povel_sekvencia='A' then
         begin
           t_nudzovy_povel_sekvencia:='AS';
-          Form1.PaintBoxRizika.Invalidate;
+          Form1.PaintBoxRizika.Redraw;
         end
         else ZhodNudzovyPovel;
       end;
@@ -1359,7 +1360,7 @@ begin
         if t_nudzovy_povel_sekvencia='AS' then
         begin
           t_nudzovy_povel_sekvencia:='ASD';
-          Form1.PaintBoxRizika.Invalidate;
+          Form1.PaintBoxRizika.Redraw;
         end
         else ZhodNudzovyPovel;
       end;
@@ -1371,7 +1372,7 @@ begin
         if t_nudzovy_povel_sekvencia='ASD' then
         begin
           t_nudzovy_povel_sekvencia:='ASDF';
-          Form1.PaintBoxRizika.Invalidate;
+          Form1.PaintBoxRizika.Redraw;
         end
         else ZhodNudzovyPovel;
       end;
@@ -1381,7 +1382,7 @@ begin
       if t_je_nudzovy_povel then
       begin
         t_je_nudzovy_povel:=False;
-        Form1.PaintBoxRizika.Invalidate;
+        Form1.PaintBoxRizika.Redraw;
       end
       else if t_je_stitok or t_je_vyluka then ZrusStitokVyluku;
     end;
@@ -1593,7 +1594,7 @@ begin
   t_nudzovy_povel_potvrd_typ:=p_potvrd_typ;
   t_nudzovy_povel_sekvencia:='';
 
-  Form1.PaintBoxRizika.Invalidate;
+  Form1.PaintBoxRizika.Redraw;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

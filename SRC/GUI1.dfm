@@ -192,15 +192,17 @@ object Form1: TForm1
       ShowCaption = False
       TabOrder = 0
       ExplicitWidth = 704
-      object PaintBoxRizika: TPaintBox32
+      object PaintBoxRizika: TSkPaintBox
         Left = 0
         Top = 0
         Width = 708
         Height = 133
         Align = alClient
-        TabOrder = 0
-        OnPaintBuffer = PaintBoxRizikaPaintBuffer
-        ExplicitWidth = 704
+        OnDraw = PaintBoxRizikaDraw
+        ExplicitLeft = 512
+        ExplicitTop = 56
+        ExplicitWidth = 50
+        ExplicitHeight = 50
       end
     end
     object PanelPoruch: TPanel
@@ -216,15 +218,16 @@ object Form1: TForm1
       ShowCaption = False
       TabOrder = 1
       ExplicitLeft = 704
-      object PaintBoxPoruchy: TPaintBox32
+      object PaintBoxPoruchy: TSkPaintBox
         Left = 0
         Top = 0
         Width = 300
         Height = 133
         Align = alClient
-        TabOrder = 0
         OnClick = PaintBoxPoruchyClick
-        OnPaintBuffer = PaintBoxPoruchyPaintBuffer
+        OnDraw = PaintBoxPoruchyDraw
+        ExplicitLeft = 6
+        ExplicitWidth = 294
       end
     end
   end

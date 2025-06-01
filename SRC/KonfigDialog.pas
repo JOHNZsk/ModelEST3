@@ -16,7 +16,7 @@ uses
   Xml.xmldom,
   Xml.XMLIntf,
   Xml.Win.msxmldom,
-  Xml.XMLDoc;
+  Xml.XMLDoc, ipwcore, ipwtypes, ipwxml;
 
 type
   TKonfigDlg = class(TForm)
@@ -26,10 +26,11 @@ type
     FileOpenDialog1: TFileOpenDialog;
     Edit1: TEdit;
     Button1: TButton;
-    XML: TXMLDocument;
     PrehodHitBox: TRadioButton;
+    ipwXML1: TipwXML;
     procedure CancelBtnClick(Sender: TObject);
     procedure OKBtnClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -48,6 +49,14 @@ uses
 
 {$R *.dfm}
 
+procedure TKonfigDlg.Button1Click(Sender: TObject);
+begin
+
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+
 procedure TKonfigDlg.CancelBtnClick(Sender: TObject);
 begin
   Close;
@@ -57,8 +66,8 @@ end;
 
 procedure TKonfigDlg.OKBtnClick(Sender: TObject);
 begin
-  if OtocPohladR.Checked then OtocitPohlad
-  else if PrehodHitBox.Checked then PrehoditHitBox;
+  OtocitPohlad;
+  PrehoditHitBox;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -93,15 +102,15 @@ begin
     text:=konf.Text;
 
     text:=OtocAtribut(text,'xzac',110);
-    text:=OtocAtribut(text,'yzac',70);
+    text:=OtocAtribut(text,'yzac',80);
     text:=OtocAtribut(text,'xkon',110);
-    text:=OtocAtribut(text,'ykon',70);
+    text:=OtocAtribut(text,'ykon',80);
     text:=OtocAtribut(text,'xhrot',110);
-    text:=OtocAtribut(text,'yhrot',70);
+    text:=OtocAtribut(text,'yhrot',80);
     text:=OtocAtribut(text,'xrovno',110);
-    text:=OtocAtribut(text,'yrovno',70);
+    text:=OtocAtribut(text,'yrovno',80);
     text:=OtocAtribut(text,'xodboc',110);
-    text:=OtocAtribut(text,'yodboc',70);
+    text:=OtocAtribut(text,'yodboc',80);
 
     konf.Text:=text;
     konf.SaveToFile(Edit1.Text+'a');
@@ -119,14 +128,14 @@ var
 begin
   konf:=TStringList.Create;
   try
-    konf.LoadFromFile(Edit1.Text);
+    konf.LoadFromFile(Edit1.Text+'a');
     text:=konf.Text;
 
     text:=TRegEx.Replace(text,'<HitBox xzac="([0-9]*)" xkon="([0-9]*)" yzac="([0-9]*)" ykon="([0-9]*)"','<HitBox xzac="\2" xkon="\1" yzac="\4" ykon="\3"');
 
 
     konf.Text:=text;
-    konf.SaveToFile(Edit1.Text+'c');
+    konf.SaveToFile(Edit1.Text+'b');
   finally
     konf.Free;
   end;

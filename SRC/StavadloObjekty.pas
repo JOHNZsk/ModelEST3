@@ -5,8 +5,7 @@ interface
     System.Types,
     Vcl.Graphics,
     Generics.Collections,
-    Skia,
-    Skia.Vcl;
+    Skia;
 
   type TZaver=(ZVR_NENI,ZVR_RUCNY,ZVR_PREDBEZNY,ZVR_PRESAH,ZVR_POSUNOVA,ZVR_VLAKOVA);
 
@@ -1031,7 +1030,6 @@ implementation
   var
     zac_x,zac_y,kon_x,kon_y: SIngle;
     farba,farba_pozadie: ISkPaint;
-    hrubka: Integer;
     hb: THitBox;
   begin
     if (t_stitok<>'') or (t_vyluka<>'') then

@@ -97,13 +97,16 @@ var
   konf: TOblastKonfiguracia;
   prip: TPripojenieKonfiguracia;
   i: Integer;
+  nazov: string;
 begin
   t_konfiguracie:=TList<TOblastKonfiguracia>.Create;
   t_pripojenia:=TList<TPripojenieKonfiguracia>.Create;
 
   try
-    if ParamCount>=1 then subor:=TMemIniFile.Create(ParamStr(1),TEncoding.UTF8)
-    else subor:=TMemIniFile.Create(ExtractFilePath(Application.ExeName)+'conf.ini',TEncoding.UTF8);
+    if ParamCount>=1 then nazov:=ParamStr(1)
+    else nazov:=ExtractFilePath(Application.ExeName)+'conf.ini';
+
+    subor:=TMemIniFile.Create(nazov,TEncoding.UTF8);
     try
       t_fullscreen:=subor.ReadBool('Main','Fullscreen',False);
       t_maximalizovat:=subor.ReadBool('Main','Maximalizovat',False);
@@ -162,7 +165,7 @@ begin
       subor.Free;
     end;
   except
-    MessageDlg('Nepodarilo sa načítať systémovú konfiguráciu',mtError,[mbOK],0);
+    MessageDlg('Nepodarilo sa načítať systémovú konfiguráciu: '+nazov,mtError,[mbOK],0);
     Close;
   end;
 end;
@@ -181,7 +184,7 @@ end;
 
 procedure TForm2.ListBox2Click(Sender: TObject);
 begin
-  if t_pripojenia[ListBox2.ItemIndex].Z21 then
+  if (ListBox2.ItemIndex>=0) and t_pripojenia[ListBox2.ItemIndex].Z21 then
   begin
     Z21Povolit.Enabled:=True;
     Z21Povolit.Checked:=t_z21_implicitne;
@@ -192,7 +195,7 @@ begin
     Z21Povolit.Checked:=False;
   end;
 
-  if t_pripojenia[ListBox2.ItemIndex].Programovanie then
+  if (ListBox2.ItemIndex>=0) and t_pripojenia[ListBox2.ItemIndex].Programovanie then
   begin
     ProgPovolit.Enabled:=True;
     ProgPovolit.Checked:=t_programovanie_implicitne;

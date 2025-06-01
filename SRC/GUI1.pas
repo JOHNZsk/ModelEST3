@@ -19,7 +19,7 @@ uses
   Vcl.ExtCtrls,
   Vcl.AppEvnts,
   Skia,
-  Skia.Vcl;
+  Vcl.Skia;
 
 type
   TForm1 = class(TForm)

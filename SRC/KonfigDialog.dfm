@@ -42,20 +42,21 @@ object KonfigDlg: TKonfigDlg
   object Edit1: TEdit
     Left = 16
     Top = 80
-    Width = 121
+    Width = 265
     Height = 23
     TabOrder = 3
     Text = 
-      'c:\Users\kandrik\Documents\Embarcadero\Studio\Projects\MES3git\S' +
-      'RC\planspr.xml'
+      'c:\Users\kandr-jan\Documents\Embarcadero\Studio\Projects\MES3-co' +
+      'nfig\planLRop.xml'
   end
   object Button1: TButton
-    Left = 143
-    Top = 78
+    Left = 301
+    Top = 79
     Width = 75
     Height = 25
     Caption = 'Button1'
     TabOrder = 4
+    OnClick = Button1Click
   end
   object PrehodHitBox: TRadioButton
     Left = 8
@@ -72,9 +73,8 @@ object KonfigDlg: TKonfigDlg
     Left = 232
     Top = 96
   end
-  object XML: TXMLDocument
-    Left = 312
-    Top = 96
-    DOMVendorDesc = 'MSXML'
+  object ipwXML1: TipwXML
+    Left = 232
+    Top = 8
   end
 end

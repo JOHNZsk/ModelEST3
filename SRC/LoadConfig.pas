@@ -74,7 +74,8 @@ implementation
     System.DateUtils,
     System.Types,
     Vcl.Forms,
-    GUI1;
+    GUI1,
+    ComPort;
 
   constructor TConfigLoader.Create(p_nazov,p_stitky: string);
   begin
@@ -337,6 +338,7 @@ implementation
     if(x_hrot>=0) and (y_hrot>=0) and (x_rovno>=0) and (y_rovno>=0) and (x_odboc>=0) and (y_odboc>=0) and (cislo<>'???') and (cjednotky>0) and (k_hrot<>nil) and (k_rovno<>nil) and (k_odboc<>nil) and (d_rovno>=0) and (d_odboc>=0) and (d_reset>=0) then
     begin
       vyhybka:=TVyhybkaDohlad.Create(d_rovno,d_odboc,d_reset,x_hrot,y_hrot,x_rovno,y_rovno,x_odboc,y_odboc,cislo,adresa,otocit,k_hrot,k_rovno,k_odboc,cjednotky,p_dopravna);
+      CPort.PridajDohladVyhybky(adresa,d_rovno,d_odboc);
       p_ciel.PridajObjekt(vyhybka);
       Result:=True;
     end

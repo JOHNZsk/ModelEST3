@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'modelK'
-  ClientHeight = 530
-  ClientWidth = 1008
+  ClientHeight = 529
+  ClientWidth = 1004
   Color = clBlack
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object Form1: TForm1
   object HorPanel: TPanel
     Left = 0
     Top = 0
-    Width = 1008
+    Width = 1004
     Height = 40
     Align = alTop
     BevelOuter = bvNone
@@ -28,7 +28,6 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 1004
     object Panel1: TPanel
       Left = 0
       Top = 0
@@ -46,7 +45,7 @@ object Form1: TForm1
         Left = 3
         Top = 3
         Width = 86
-        Height = 34
+        Height = 19
         Align = alLeft
         Caption = 'VJednotka'
         Color = clBlack
@@ -57,7 +56,6 @@ object Form1: TForm1
         Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
-        ExplicitHeight = 19
       end
     end
     object Panel3: TPanel
@@ -76,8 +74,8 @@ object Form1: TForm1
       object Cas: TLabel
         Left = 0
         Top = 0
-        Width = 210
-        Height = 40
+        Width = 186
+        Height = 24
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -96,8 +94,6 @@ object Form1: TForm1
         Layout = tlCenter
         OnClick = CasClick
         OnDblClick = CasDblClick
-        ExplicitWidth = 186
-        ExplicitHeight = 24
       end
     end
     object Panel4: TPanel
@@ -169,16 +165,14 @@ object Form1: TForm1
   end
   object Panel2: TPanel
     Left = 0
-    Top = 397
-    Width = 1008
+    Top = 396
+    Width = 1004
     Height = 133
     Align = alBottom
     BevelOuter = bvNone
     Caption = 'Panel2'
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 396
-    ExplicitWidth = 1004
     object PanelRizik: TPanel
       Left = 0
       Top = 0
@@ -233,8 +227,8 @@ object Form1: TForm1
   end
   object Panel5: TPanel
     Left = 0
-    Top = 356
-    Width = 1008
+    Top = 355
+    Width = 1004
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
@@ -243,8 +237,6 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 2
-    ExplicitTop = 355
-    ExplicitWidth = 1004
     object PanelSV: TPanel
       Left = 0
       Top = 0
@@ -263,7 +255,7 @@ object Form1: TForm1
         Left = 5
         Top = 5
         Width = 84
-        Height = 31
+        Height = 30
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -276,7 +268,6 @@ object Form1: TForm1
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitHeight = 30
       end
       object StitokVyluka: TEdit
         AlignWithMargins = True
@@ -306,8 +297,8 @@ object Form1: TForm1
   object PanelOkraj: TPanel
     Left = 0
     Top = 40
-    Width = 813
-    Height = 316
+    Width = 809
+    Height = 315
     Align = alClient
     BevelOuter = bvNone
     Caption = 'PanelOkraj'
@@ -320,8 +311,6 @@ object Form1: TForm1
     ShowCaption = False
     TabOrder = 3
     StyleElements = []
-    ExplicitWidth = 809
-    ExplicitHeight = 315
     object PaintBox1: TSkPaintBox
       Left = 9
       Top = 9
@@ -340,10 +329,10 @@ object Form1: TForm1
   end
   object Z21Panel: TPanel
     AlignWithMargins = True
-    Left = 816
+    Left = 812
     Top = 43
     Width = 189
-    Height = 310
+    Height = 309
     Align = alRight
     BevelOuter = bvNone
     Caption = 'Z21Panel'
@@ -351,13 +340,11 @@ object Form1: TForm1
     ParentBackground = False
     ShowCaption = False
     TabOrder = 4
-    ExplicitLeft = 812
-    ExplicitHeight = 309
     object Z21TeplotaVnitrni: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 176
-      Width = 183
+      Width = 100
       Height = 16
       Align = alTop
       Caption = 'Vn'#250'torn'#225' teplota:'
@@ -367,13 +354,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 100
     end
     object Z21ProudZpetny: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 88
-      Width = 183
+      Width = 78
       Height = 16
       Align = alTop
       Caption = 'Sp'#228'tn'#253' pr'#250'd: '
@@ -383,13 +369,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 78
     end
     object Z21NapetiVnejsi: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 132
-      Width = 183
+      Width = 107
       Height = 16
       Align = alTop
       Caption = 'Nap'#225'jacie nap'#228'tie:'
@@ -399,13 +384,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 107
     end
     object Z21NapetiVnitrni: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 154
-      Width = 183
+      Width = 130
       Height = 16
       Align = alTop
       Caption = 'Nap'#228'tie v ko'#318'ajniciach:'
@@ -415,13 +399,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 130
     end
     object Z21ProudVstup: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 66
-      Width = 183
+      Width = 84
       Height = 16
       Align = alTop
       Caption = 'Vstupn'#253' pr'#250'd: '
@@ -431,13 +414,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 84
     end
     object Z21Stav: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 39
-      Width = 183
+      Width = 181
       Height = 21
       Align = alTop
       Alignment = taCenter
@@ -448,13 +430,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitWidth = 181
     end
     object Z21Vystraha: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 198
-      Width = 183
+      Width = 162
       Height = 17
       Align = alTop
       Alignment = taCenter
@@ -465,13 +446,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitWidth = 162
     end
     object Z21ProgramKolejProud: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 110
-      Width = 183
+      Width = 123
       Height = 16
       Align = alTop
       Caption = 'Programovacia ko'#318'aj:'
@@ -481,13 +461,12 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 123
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 183
+      Width = 162
       Height = 30
       Align = alTop
       Alignment = taCenter
@@ -498,7 +477,6 @@ object Form1: TForm1
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitWidth = 162
     end
     object ZrusStopBtn: TButton
       Left = 0

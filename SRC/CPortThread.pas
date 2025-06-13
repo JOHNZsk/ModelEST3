@@ -172,7 +172,7 @@ type
     t_simbuffer: TBytes;
 
     t_povely: TQueue<TByteDynPoleW>;
-    //t_simulacia_dohladov: TDictionary<Integer,TCPortDohladVyhybky>;
+    t_simulacia_dohladov: TDictionary<Integer,TCPortDohladVyhybky>;
 
     t_vlakno_vstup: TCriticalSection;
     t_vlakno_vystup: TCriticalSection;
@@ -217,6 +217,7 @@ type
     procedure PridajPovel(p_povel: TBytes);
 
     function DajVystup(p_list: TList<TCPortZprava>; p_vystup_debug: TList<string>): Boolean;
+    procedure PridajDohladVyhybky(p_adresa: Integer; p_dohlad_plus: Integer; p_dohlad_minus: Integer);
 
     procedure CakajNaPripojenie;
   end;
@@ -352,6 +353,8 @@ begin
   t_vystup:=TList<TCPortZprava>.Create;
   t_vystup_debug:=TList<string>.Create;
 
+  t_simulacia_dohladov:=TDictionary<Integer,TCPortDohladVyhybky>.Create;
+
   SetLength(t_simbuffer,0);
 end;
 
@@ -370,6 +373,8 @@ begin
   t_vlakno_vstup.Free;
   t_vlakno_vystup.Free;
   t_vlakno_system.Free;
+
+  t_simulacia_dohladov.Free;
 
   inherited;
 end;
@@ -488,10 +493,12 @@ end;
 procedure TCPortThread.NasimulujB2(p_povel: TByteDynPoleW);
 var
   v_pole: array[0..3] of Byte;
+  v_adresa,v_adresa_1,v_adresa_2: Integer;
+  v_dohlad: TCPortDohladVyhybky;
 begin
   v_pole[0]:=$B2;
   v_pole[1]:=p_povel.Pole[0] and $7F;
-  v_pole[2]:=0;
+  v_pole[2]:=(p_povel.Pole[1] and $7F);
   v_pole[3]:=$FF xor v_pole[0] xor v_pole[1] xor v_pole[2];
 
   SetLength(t_simbuffer,Length(t_simbuffer)+4);
@@ -499,6 +506,44 @@ begin
   t_simbuffer[Length(t_simbuffer)-3]:=v_pole[1];
   t_simbuffer[Length(t_simbuffer)-2]:=v_pole[2];
   t_simbuffer[Length(t_simbuffer)-1]:=v_pole[3];
+
+  v_adresa:=p_povel.Pole[0]+((p_povel.Pole[1] and $0F) shl 7)+1;
+
+  if t_simulacia_dohladov.TryGetValue(v_adresa,v_dohlad) then
+  begin
+    if(p_povel.Pole[1] and $10)<>0 then
+    begin
+      v_adresa_1:=v_dohlad.DohladMinus;
+      v_adresa_2:=v_dohlad.DohladPlus;
+    end
+    else
+    begin
+      v_adresa_1:=v_dohlad.DohladPlus;
+      v_adresa_2:=v_dohlad.DohladMinus;
+    end;
+
+    v_pole[0]:=$B2;
+    v_pole[1]:=(v_adresa_1 shr 1) and $7F;
+    v_pole[2]:=(p_povel.Pole[1] and $7F);
+    v_pole[3]:=$FF xor v_pole[0] xor v_pole[1] xor v_pole[2];
+
+    SetLength(t_simbuffer,Length(t_simbuffer)+4);
+    t_simbuffer[Length(t_simbuffer)-4]:=v_pole[0];
+    t_simbuffer[Length(t_simbuffer)-3]:=v_pole[1];
+    t_simbuffer[Length(t_simbuffer)-2]:=v_pole[2];
+    t_simbuffer[Length(t_simbuffer)-1]:=v_pole[3];
+
+    v_pole[0]:=$B2;
+    v_pole[1]:=p_povel.Pole[0] and $7F;
+    v_pole[2]:=(p_povel.Pole[1] and $7F);
+    v_pole[3]:=$FF xor v_pole[0] xor v_pole[1] xor v_pole[2];
+
+    SetLength(t_simbuffer,Length(t_simbuffer)+4);
+    t_simbuffer[Length(t_simbuffer)-4]:=v_pole[0];
+    t_simbuffer[Length(t_simbuffer)-3]:=v_pole[1];
+    t_simbuffer[Length(t_simbuffer)-2]:=v_pole[2];
+    t_simbuffer[Length(t_simbuffer)-1]:=v_pole[3];
+  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1071,6 +1116,18 @@ begin
       end;
     end;
   end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TCPortThread.PridajDohladVyhybky(p_adresa: Integer; p_dohlad_plus: Integer; p_dohlad_minus: Integer);
+var
+  v_dohlad: TCPortDohladVyhybky;
+begin
+  v_dohlad.DohladPlus:=p_dohlad_plus;
+  v_dohlad.DohladMinus:=p_dohlad_minus;
+
+  t_simulacia_dohladov.Add(p_adresa,v_dohlad);
 end;
 
 end.

@@ -7,7 +7,8 @@ uses
   System.Classes,
   Vcl.ExtCtrls,
   System.SyncObjs,
-  CPortThread;
+  CPortThread,
+  Generics.Collections;
 
 type
   TCPort = class(TDataModule)
@@ -21,6 +22,7 @@ type
     t_rychlost: Cardinal;
     t_hwflow: Boolean;
     t_simulacia: Boolean;
+    t_simulacia_dohladov: TDictionary<Integer,TCPortDohladVyhybky>;
 
     t_vlakno: TCPortThread;
 
@@ -53,7 +55,7 @@ type
 
 
     procedure NastavPort(p_port: INteger);
-
+    procedure PridajDohladVyhybky(p_adresa: Integer; p_dohlad_plus: Integer; p_dohlad_minus: Integer);
 
 
     procedure Pripoj;
@@ -67,7 +69,6 @@ implementation
     Winapi.MMSystem,
     System.Types,
     Vcl.Forms,
-    Generics.Collections,
     DiagDialog,
     LogikaStavadlo,
     ProgDialog;
@@ -90,6 +91,7 @@ begin
   t_rychlost:=115200;
   t_hwflow:=False;
   t_simulacia:=False;
+  t_simulacia_dohladov:=TDictionary<Integer,TCPortDohladVyhybky>.Create;
 
   t_vlakno:=nil;
 end;
@@ -103,13 +105,30 @@ begin
   t_hwflow:=p_hwflow;
   t_simulacia:=p_simulacia;
 
-  if t_vlakno<>nil then t_vlakno.Nastav(p_port,p_rychlost,p_hwflow,p_simulacia);
+  if t_vlakno<>nil then
+  begin
+    t_vlakno.Nastav(p_port,p_rychlost,p_hwflow,p_simulacia);
+    for var v_polozka in t_simulacia_dohladov do t_vlakno.PridajDohladVyhybky(v_polozka.Key,v_polozka.Value.DohladPlus,v_polozka.Value.DohladMinus);
+  end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TCPort.PridajDohladVyhybky(p_adresa: Integer; p_dohlad_plus: Integer; p_dohlad_minus: Integer);
+var
+  v_dohlad: TCPortDohladVyhybky;
+begin
+  v_dohlad.DohladPlus:=p_dohlad_plus;
+  v_dohlad.DohladMinus:=p_dohlad_minus;
+
+  t_simulacia_dohladov.Add(p_adresa,v_dohlad);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 procedure TCPort.DataModuleDestroy(Sender: TObject);
 begin
+  t_simulacia_dohladov.Free;
   if t_vlakno<>nil then FreeAndNil(t_vlakno);
 end;
 

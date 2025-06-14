@@ -75,12 +75,17 @@ type
     t_akt_prog: Boolean;
     t_akt_prog_read: Boolean;
     t_potlacit_bity: Boolean;
+    t_akt_prog_cv_adresa: Word;
+    t_akt_prog_cv_hodnota: Byte;
 
     t_akt_adr: Boolean;
     t_akt_adr_read: Boolean;
     t_akt_adr_cv: Word;
+    t_akt_adr_hodnota: Byte;
     t_akt_adr_cv_read: Boolean;
     t_akt_adr_cv17: Word;
+
+    t_akt_pokus: Integer;
 
 
   public
@@ -154,8 +159,10 @@ begin
           Stav.Refresh;
 
           t_akt_adr_cv:=0;
+          t_akt_adr_hodnota:=0;
           t_akt_adr_cv_read:=False;
           t_akt_adr_cv17:=0;
+          t_akt_pokus:=0;
         end;
       end;
       EFB4_BUSY:
@@ -177,8 +184,10 @@ begin
           Stav.Refresh;
 
           t_akt_adr_cv:=0;
+          t_akt_adr_hodnota:=0;
           t_akt_adr_cv_read:=False;
           t_akt_adr_cv17:=0;
+          t_akt_pokus:=0;
         end;
       end;
       EFB4_ACCEPTED:
@@ -230,8 +239,10 @@ begin
             Stav.Refresh;
 
             t_akt_adr_cv:=0;
+            t_akt_adr_hodnota:=0;
             t_akt_adr_cv_read:=False;
             t_akt_adr_cv17:=0;
+            t_akt_pokus:=0;
           end;
         end;
       end
@@ -254,8 +265,10 @@ begin
           Stav.Refresh;
 
           t_akt_adr_cv:=0;
+          t_akt_adr_hodnota:=0;
           t_akt_adr_cv_read:=False;
           t_akt_adr_cv17:=0;
+          t_akt_pokus:=0;
         end;
       end;
     end;
@@ -281,7 +294,7 @@ begin
       t_last_dispatch_adresa:=t_akt_dispatch_adresa;
       t_akt_dispatch_adresa:=0;
       t_akt_dispatch:=False;
-      Enabled:=True;      
+      Enabled:=True;
       Stav.Caption:='Dispatch OK - pripoj FREDa';
       Stav.Refresh;
     end;
@@ -291,8 +304,8 @@ begin
     if(p_slot>0) then
     begin
       t_last_dispatch_adresa:=0;
-      Enabled:=True;      
-      Stav.Caption:='OK, pripravené';
+      Enabled:=True;
+      Stav.Caption:='Adresa predaná do FREDa';
       Stav.Refresh;
     end;
   end;
@@ -308,34 +321,52 @@ begin
     begin
       if(p_stat and $01)<>0 then
       begin
+        t_akt_pokus:=0;
         Stav.Caption:='CHYBA: Bez odozvy, prog. koľaj prázdna?';
         Stav.Refresh;
       end
       else if(p_stat and $02)<>0 then
       begin
-        Stav.Caption:='CHYBA: Bez odpovede od dekodéra';
-        Stav.Refresh;
+        Inc(t_akt_pokus);
+
+        if(t_akt_pokus<4) then
+        begin
+          Stav.Caption:='Bez odpovede od dekodéra, pokus '+IntToStr(t_akt_pokus+1);
+          Stav.Refresh;
+          sleep(t_akt_pokus*1000);
+          if RezimDirect.Checked then CPort.VydajPovelEDProgramTRK(t_akt_prog_read,t_akt_prog_cv_adresa,t_akt_prog_cv_hodnota)
+          else CPort.VydajPovelEDProgramPOM(t_akt_prog_read,p_pom_adresa,t_akt_prog_cv_adresa,t_akt_prog_cv_hodnota);
+        end
+        else
+        begin
+          t_akt_pokus:=0;
+          Stav.Caption:='CHYBA: Bez odpovede od dekodéra';
+          Stav.Refresh;
+        end;
       end
       else if(p_stat and $04)<>0 then
       begin
+        t_akt_pokus:=0;
         Stav.Caption:='CHYBA: Nepodarilo sa overiť hodnotu';
         Stav.Refresh;
       end
       else if(p_stat and $08)<>0 then
       begin
+        t_akt_pokus:=0;
         Stav.Caption:='CHYBA: Zrušené užívateľom';
         Stav.Refresh;
       end
       else if(t_akt_prog_read) and ((p_cv=0) or (p_cv=CVAdresa.ValueInt)) then
       begin
+        t_akt_pokus:=0;
         CVHodnota.ValueInt:=p_value;
 
-        Stav.Caption:='Načítané, pripravené';
+        Stav.Caption:='CV načítané';
         Stav.Refresh;
       end
       else
       begin
-        Stav.Caption:='OK, pripravené';
+        Stav.Caption:='Hotovo';
         Stav.Refresh;
       end;
 
@@ -356,21 +387,38 @@ begin
         t_akt_adr:=False;
         t_akt_adr_read:=False;
         t_akt_adr_cv:=0;
+        t_akt_adr_hodnota:=0;
         t_akt_adr_cv_read:=False;
         t_akt_adr_cv17:=0;
+        t_akt_pokus:=0;
         Enabled:=True;
       end
       else if(p_stat and $02)<>0 then
       begin
-        Stav.Caption:='CHYBA: Bez odpovede od dekodéra';
-        Stav.Refresh;
+        Inc(t_akt_pokus);
 
-        t_akt_adr:=False;
-        t_akt_adr_read:=False;
-        t_akt_adr_cv:=0;
-        t_akt_adr_cv_read:=False;
-        t_akt_adr_cv17:=0;
-        Enabled:=True;
+        if(t_akt_pokus)<5 then
+        begin
+          Stav.Caption:='Bez odpovede od dekodéra, pokus '+IntToStr(t_akt_pokus+1);
+          Stav.Refresh;
+          sleep(t_akt_pokus*1000);
+
+          CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota);
+        end
+        else
+        begin
+          Stav.Caption:='CHYBA: Bez odpovede od dekodéra';
+          Stav.Refresh;
+
+          t_akt_adr:=False;
+          t_akt_adr_read:=False;
+          t_akt_adr_cv:=0;
+          t_akt_adr_hodnota:=0;
+          t_akt_adr_cv_read:=False;
+          t_akt_adr_cv17:=0;
+          t_akt_pokus:=0;
+          Enabled:=True;
+        end;
       end
       else if(p_stat and $04)<>0 then
       begin
@@ -380,8 +428,10 @@ begin
         t_akt_adr:=False;
         t_akt_adr_read:=False;
         t_akt_adr_cv:=0;
+        t_akt_adr_hodnota:=0;
         t_akt_adr_cv_read:=False;
         t_akt_adr_cv17:=0;
+        t_akt_pokus:=0;
         Enabled:=True;
       end
       else if(p_stat and $08)<>0 then
@@ -392,12 +442,16 @@ begin
         t_akt_adr:=False;
         t_akt_adr_read:=False;
         t_akt_adr_cv:=0;
+        t_akt_adr_hodnota:=0;
         t_akt_adr_cv_read:=False;
         t_akt_adr_cv17:=0;
+        t_akt_pokus:=0;
         Enabled:=True;
       end
       else if(t_akt_adr_cv_read) and ((p_cv=0) or (p_cv=t_akt_adr_cv)) then
       begin
+        t_akt_pokus:=0;
+
         if t_akt_adr_read then
         begin
           if t_akt_adr_cv=29 then
@@ -405,15 +459,19 @@ begin
             if(p_value and $20)<>0 then
             begin
               AdresaDlha.Checked:=True;
-
               t_akt_adr_cv:=17;
+              t_akt_adr_hodnota:=0;
+              Stav.Caption:='Dlhá adresa, načítanie CV17';
+              Stav.Refresh;
               CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,0);
             end
             else
             begin
               AdresaKratka.Checked:=True;
-
               t_akt_adr_cv:=1;
+              t_akt_adr_hodnota:=0;
+              Stav.Caption:='Krátka adresa, načítanie CV1';
+              Stav.Refresh;
               CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,0);
             end;
           end
@@ -425,16 +483,22 @@ begin
             t_akt_adr:=False;
             t_akt_adr_read:=False;
             t_akt_adr_cv:=0;
+            t_akt_adr_hodnota:=0;
             t_akt_adr_cv_read:=False;
             t_akt_adr_cv17:=0;
             Enabled:=True;
             ActiveControl:=AdresaHodnota;
+
+            Stav.Caption:='Načítanie hotové';
+            Stav.Refresh;
           end
           else if t_akt_adr_cv=17 then
           begin
             t_akt_adr_cv17:=p_value;
-
             t_akt_adr_cv:=18;
+            t_akt_adr_hodnota:=0;
+            Stav.Caption:='Dlhá adresa, načítanie CV18';
+            Stav.Refresh;
             CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,0);
           end
           else if t_akt_adr_cv=18 then
@@ -446,9 +510,18 @@ begin
             t_akt_adr_read:=False;
             t_akt_adr_cv:=0;
             t_akt_adr_cv_read:=False;
+            t_akt_adr_hodnota:=0;
             t_akt_adr_cv17:=0;
             Enabled:=True;
             ActiveControl:=AdresaHodnota;
+
+            Stav.Caption:='Načítanie hotové';
+            Stav.Refresh;
+          end
+          else
+          begin
+            Stav.Caption:='OK, pripravené';
+            Stav.Refresh;
           end;
         end
         else
@@ -460,14 +533,20 @@ begin
               if (p_value and $20)=0 then
               begin
                 t_akt_adr_cv:=29;
+                t_akt_adr_hodnota:=p_value or $20;
                 t_akt_adr_cv_read:=False;
-                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,p_value or $20)
+                Stav.Caption:='Zmena CV29 na dlhú adresu';
+                Stav.Refresh;
+                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota)
               end
               else
               begin
                 t_akt_adr_cv:=17;
+                t_akt_adr_hodnota:=((AdresaHodnota.ValueInt shr 8) or $C0) and $FF;
                 t_akt_adr_cv_read:=False;
-                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,((AdresaHodnota.ValueInt shr 8) or $C0) and $FF);
+                Stav.Caption:='Zápis do CV17';
+                Stav.Refresh;
+                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota);
               end;
             end
             else
@@ -475,24 +554,34 @@ begin
               if (p_value and $20)<>0 then
               begin
                 t_akt_adr_cv:=29;
+                t_akt_adr_hodnota:=p_value and $DF;
                 t_akt_adr_cv_read:=False;
-                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,p_value and $EF);
+                Stav.Caption:='Zmena CV29 na krátku adresu';
+                Stav.Refresh;
+                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota);
               end
               else
               begin
                 t_akt_adr_cv:=1;
+                t_akt_adr_hodnota:=AdresaHodnota.ValueInt and $FF;
                 t_akt_adr_cv_read:=False;
-                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,AdresaHodnota.ValueInt and $FF);
+                Stav.Caption:='Zápis do CV1';
+                Stav.Refresh;
+                CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota);
               end;
             end;
+          end
+          else
+          begin
+            Stav.Caption:='OK, pripravené';
+            Stav.Refresh;
           end;
         end;
-
-        Stav.Caption:='Načítané, pripravené';
-        Stav.Refresh;
       end
       else
       begin
+        t_akt_pokus:=0;
+
         if not t_akt_adr_read then
         begin
           if t_akt_adr_cv=29 then
@@ -500,14 +589,20 @@ begin
             if AdresaDlha.Checked then
             begin
               t_akt_adr_cv:=17;
+              t_akt_adr_hodnota:=((AdresaHodnota.ValueInt shr 8) or $C0) and $FF;
               t_akt_adr_cv_read:=False;
-              CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,((AdresaHodnota.ValueInt shr 8) or $C0) and $FF);
+              Stav.Caption:='Zápis do CV17';
+              Stav.Refresh;
+              CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota);
             end
             else
             begin
               t_akt_adr_cv:=1;
+              t_akt_adr_hodnota:=AdresaHodnota.ValueInt and $FF;
               t_akt_adr_cv_read:=False;
-              CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,AdresaHodnota.ValueInt and $FF);
+              Stav.Caption:='Zápis do CV1';
+              Stav.Refresh;
+              CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota);
             end;
           end
           else if t_akt_adr_cv=1 then
@@ -516,15 +611,21 @@ begin
             t_akt_adr:=False;
             t_akt_adr_read:=False;
             t_akt_adr_cv:=0;
+            t_akt_adr_hodnota:=0;
             t_akt_adr_cv_read:=False;
             t_akt_adr_cv17:=0;
             Enabled:=True;
             ActiveControl:=AdresaHodnota;
+            Stav.Caption:='Zápis krátkej adresy dokončený';
+            Stav.Refresh;
           end
           else if t_akt_adr_cv=17 then
           begin
             t_akt_adr_cv:=18;
-            CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,AdresaHodnota.ValueInt and $FF);
+            t_akt_adr_hodnota:=AdresaHodnota.ValueInt and $FF;
+            Stav.Caption:='Zápis do CV18';
+            Stav.Refresh;
+            CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,t_akt_adr_hodnota);
           end
           else if t_akt_adr_cv=18 then
           begin
@@ -532,18 +633,37 @@ begin
             t_akt_adr:=False;
             t_akt_adr_read:=False;
             t_akt_adr_cv:=0;
+            t_akt_adr_hodnota:=0;
             t_akt_adr_cv_read:=False;
             t_akt_adr_cv17:=0;
             Enabled:=True;
             ActiveControl:=AdresaHodnota;
+            Stav.Caption:='Zápis dlhej adresy dokončený';
+            Stav.Refresh;
+          end
+          else
+          begin
+            Stav.Caption:='OK, pripravené';
+            Stav.Refresh;
           end;
+        end
+        else
+        begin
+          Stav.Caption:='Zápis krátkej adresy dokončený';
+          Stav.Refresh;
         end;
-
-
-        Stav.Caption:='OK, pripravené';
-        Stav.Refresh;
       end;
+    end
+    else
+    begin
+      Stav.Caption:='OK, pripravené';
+      Stav.Refresh;
     end;
+  end
+  else
+  begin
+    Stav.Caption:='OK, pripravené';
+    Stav.Refresh;
   end;
 end;
 
@@ -556,6 +676,7 @@ begin
   t_akt_adr:=True;
   t_akt_adr_read:=True;
   t_akt_adr_cv:=29;
+  t_akt_adr_hodnota:=0;
   t_akt_adr_cv_read:=True;
 
   CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,0);
@@ -570,6 +691,7 @@ begin
   t_akt_adr:=True;
   t_akt_adr_read:=False;
   t_akt_adr_cv:=29;
+  t_akt_adr_hodnota:=0;
   t_akt_adr_cv_read:=True;
 
   CPort.VydajPovelEDProgramTRK(t_akt_adr_cv_read,t_akt_adr_cv,0);
@@ -678,8 +800,11 @@ begin
     
       t_akt_prog:=True;
       t_akt_prog_read:=True;
+      t_akt_prog_cv_adresa:=CVAdresa.ValueInt;
+      t_akt_prog_cv_hodnota:=0;
+      t_akt_pokus:=0;
       //CPort.VydajPovelEFProgram(PROG_CMD_READ_DIR,0,0,CVAdresa.ValueInt,0);
-      CPort.VydajPovelEDProgramTRK(True,CVAdresa.ValueInt,0);
+      CPort.VydajPovelEDProgramTRK(True,t_akt_prog_cv_adresa,t_akt_prog_cv_hodnota);
       Stav.Caption:='Povel pre načítanie vydaný';
       Stav.Refresh;
     end;
@@ -694,8 +819,11 @@ begin
       
         t_akt_prog:=True;
         t_akt_prog_read:=True;
+        t_akt_prog_cv_adresa:=CVAdresa.ValueInt;
+        t_akt_prog_cv_hodnota:=0;
+        t_akt_pokus:=0;
         //CPort.VydajPovelEFProgram(PROG_CMD_READ_POM,POMAdresa.ValueInt,0,CVAdresa.ValueInt,0);
-        CPort.VydajPovelEDProgramPOM(True,POMAdresa.ValueInt,CVAdresa.ValueInt,0);
+        CPort.VydajPovelEDProgramPOM(True,POMAdresa.ValueInt,t_akt_prog_cv_adresa,0);
         Stav.Caption:='Povel pre načítanie vydaný';
         Stav.Refresh;
       end;
@@ -721,7 +849,10 @@ begin
         t_akt_prog:=True;
         t_akt_prog_read:=False;
         //CPort.VydajPovelEFProgram(PROG_CMD_WRIT_DIR,0,0,CVAdresa.ValueInt,CVHodnota.ValueInt);
-        CPort.VydajPovelEDProgramTRK(False,CVAdresa.ValueInt,CVHodnota.ValueInt);
+        t_akt_prog_cv_adresa:=CVAdresa.ValueInt;
+        t_akt_prog_cv_hodnota:=CVHodnota.ValueInt;
+        t_akt_pokus:=0;
+        CPort.VydajPovelEDProgramTRK(False,t_akt_prog_cv_adresa,t_akt_prog_cv_hodnota);
         Stav.Caption:='Povel pre zápis vydaný';
         Stav.Refresh;
       end;
@@ -739,8 +870,10 @@ begin
 
           t_akt_prog:=True;
           t_akt_prog_read:=False;
+          t_akt_prog_cv_adresa:=CVAdresa.ValueInt;
+          t_akt_prog_cv_hodnota:=CVHodnota.ValueInt;
           //CPort.VydajPovelEFProgram(PROG_CMD_WRIT_POM,POMAdresa.ValueInt,0,CVAdresa.ValueInt,CVHodnota.ValueInt);
-          CPort.VydajPovelEDProgramPOM(False,POMAdresa.ValueInt,CVAdresa.ValueInt,CVHodnota.ValueInt);
+          CPort.VydajPovelEDProgramPOM(False,POMAdresa.ValueInt,t_akt_prog_cv_adresa,t_akt_prog_cv_hodnota);
           Stav.Caption:='Povel pre zápis vydaný';
           Stav.Refresh;
         end;
@@ -759,6 +892,15 @@ begin
 
   t_akt_prog:=False;
   t_akt_prog_read:=False;
+  t_akt_prog_cv_adresa:=0;
+  t_akt_prog_cv_hodnota:=0;
+
+  t_akt_adr:=False;
+  t_akt_adr_read:=False;
+  t_akt_adr_cv:=0;
+  t_akt_adr_hodnota:=0;
+  t_akt_adr_cv_read:=False;
+  t_akt_adr_cv17:=0;
 
   t_potlacit_bity:=False;
 
